@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - EduClick</title>
+    <link rel="stylesheet" href="/css/Inicio.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <img src="/IMG_yesid/icono.png" alt="Logo EduClick" />
+            </div>
+
+            <h2>Bienvenido a tu aventura de Aprendizaje</h2>
+            <p>Explora. Aprende. Descubre.</p>
+
+            <form asp-action="Login" method="post">
+                <div class="campo">
+                    <span class="icono">📧</span>
+                    <input type="email" id="email" name="Email" placeholder="Correo electrónico" required />
+                </div>
+
+                <div class="campo">
+                    <span class="icono">🔒</span>
+                    <input type="password" id="password" name="Password" placeholder="Contraseña" required />
+                </div>
+
+                <div class="remember">
+                    <input type="checkbox" id="remember" />
+                    <label for="remember">Recordarme</label>
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+            </form>
+
+            <!-- Botón para login con Google -->
+            <a class="btn-google" asp-controller="Account" asp-action="GoogleLogin">
+                Continuar con Google
+            </a>
+
+            <div class="extra-options">
+                <a asp-action="ForgotPassword">¿Olvidaste tu contraseña?</a>
+                <span> | </span>
+                <a asp-action="Register">Crear cuenta nueva</a>
+            </div>
+
+            <a asp-action="Index" asp-controller="Home" class="btn-volver">>> Volver a Inicio</a>
+        </div>
+    </div>
+</body>
+</html>
+
