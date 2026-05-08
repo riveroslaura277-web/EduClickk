@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Roles";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Roles</title>
+    <link rel="stylesheet" href="~/css/roles.css" />
+</head>
+
+<body>
+
+    <a asp-controller="Home" asp-action="Index" class="btn-volver">
+        Volver al inicio
+    </a>
+
+    <div class="contenedor-roles">
+
+        <img src="~/imagenes/fondoRoles.png" alt="fondo" class="fondo" />
+
+        <a href="/Home/Admin">
+            <img src="~/imagenes/rector.png" class="rol rector" />
+        </a>
+
+        <a href="/Home/Docente">
+            <img src="~/imagenes/profesor.png" class="rol docente" />
+        </a>
+
+        <a href="/Home/Estudiante">
+            <img src="~/imagenes/alumno.png" class="rol estudiante" />
+        </a>
+
+        <a href="/Home/Usuario">
+            <img src="~/imagenes/acudiente.png" class="rol acudiente" />
+        </a>
+
+        <img src="~/imagenes/niños1.png" class="nino">
+        <img src="~/imagenes/tituloRoles.png" class="titulo" />
+        <img src="~/imagenes/tigre1.png" class="tigre">
+
+    </div>
+
+</body>
+</html>
