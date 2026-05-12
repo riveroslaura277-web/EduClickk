@@ -1,0 +1,60 @@
+﻿body {
+    background-image: url('/imagenes/imagenes_yulieth/fondo_docente.png');
+    background-size: cover; /* cubre toda la pantalla */
+    background-repeat: no-repeat; /* no se repite */
+    background-attachment: fixed; /* se queda fijo al hacer scroll */
+    background-position: center; /* centrado */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Contenedor principal */
+.panel-docente {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Menú lateral */
+.menu-lateral {
+    width: 220px;
+    background-color: rgba(30, 58, 138, 0.9); /* azul profundo con transparencia */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Botones del menú */
+.btn-menu {
+    background: transparent;
+    color: #F4F6F8;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    padding: 12px 10px;
+    text-align: left;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .btn-menu:hover {
+        background-color: #2563EB; /* azul eléctrico */
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    }
+
+    .btn-menu.activo {
+        background-color: #2563EB;
+        color: #fff;
+        font-weight: 600;
+    }
+
+/* Contenido principal */
+.contenido {
+    flex: 1;
+    padding: 30px;
+    color: #fff; /* texto blanco para contraste */
+}
