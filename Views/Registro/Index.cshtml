@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
 @{
     ViewData["Title"] = "Registro";
 }
@@ -9,7 +8,19 @@
 
 <div class="registro">
     <h2>¡REGISTRATE!</h2>
-    <p>Crea tu cuenta y comienza esta gran aventura.</p>
+    <p>Crea tu cuenta y comienza esta gran aventura.</p>   
+@if (ViewBag.Error != null)
+{
+        <div class="error-box">
+            @ViewBag.Error
+        </div>
+}
+@if (ViewBag.Mensaje != null)
+{
+        <div class="success-box">
+            @ViewBag.Mensaje
+        </div>
+}
 
 
 <form asp-controller="Registro" asp-action="Registrar" method="post">
