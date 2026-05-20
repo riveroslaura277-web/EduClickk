@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Panel del Rector";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="rector-container">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="~/IMG_RECTOR/icono1.png" alt="Logo EduClick" />
+        </div>
+        <link rel="stylesheet" href="/css/Rector.css" asp-append-version="true" />
+         
+        <ul class="menu">
+            <li><button>Panel de Control</button></li>
+            <li><button>Gestión de Usuarios</button></li>
+            <li><button>Reportes Académicos</button></li>
+            <li><button>Gestión Institucional</button></li>
+            <li><button>Noticias y Comunicados</button></li>
+            <li><button>Seguridad y Configuración</button></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="header">
+            <h1>Panel del Rector</h1>
+        </header>
+
+        <section class="summary">
+            <div class="card">Estudiantes<br><span>120</span></div>
+            <div class="card">Docentes<br><span>35</span></div>
+            <div class="card">Acudientes<br><span>58</span></div>
+            <div class="card">Reportes<br><span>9</span></div>
+        </section>
+
+        <section class="grid">
+            <div class="col-izquierda">
+                <div class="box usuarios">
+                    <h3>Gestión de Usuarios</h3>
+                    <div class="actions">
+                        <button>Crear Usuario</button>
+                        <button>Editar Usuario</button>
+                        <button>Eliminar Usuario</button>
+                    </div>
+                    <table>
+                        <tr><th>Nombre</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
+                        <tr><td>Laura</td><td>Docente</td><td>Activo</td><td>Editar</td></tr>
+                    </table>
+                </div>
+
+                <div class="box institucional">
+                    <h3>Gestión Institucional</h3>
+                    <button>Configurar Horarios</button>
+                    <button>Administrar Cursos</button>
+                </div>
+            </div>
+
+            <div class="col-derecha">
+                <div class="box reportes">
+                    <h3>Reportes Académicos</h3>
+                    <div class="grafico">[Gráfico de rendimiento académico]</div>
+                    <div class="subpanel">
+                        <button>Asistencia</button>
+                        <button>Calificaciones</button>
+                    </div>
+                </div>
+
+                <div class="box noticias">
+                    <h3>Avisos y Noticias</h3>
+                    <ul>
+                        <li>Circular Informativa</li>
+                        <li>Reunión de Padres</li>
+                        <li>Próximo Evento</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="box seguridad">
+                <h3>Seguridad del Sistema</h3>
+                <button>Gestionar Permisos</button>
+                <button>Configuración General</button>
+            </div>
+        </footer>
+    </main>
+</div>
