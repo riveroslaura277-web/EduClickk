@@ -5,7 +5,6 @@
 <div class="panel-docente">
     <link rel="stylesheet" href="/css/docentes.css" asp-append-version="true" />
 
-    
     <div class="menu-lateral">
         <button class="btn-menu activo">Inicio</button>
         <button class="btn-menu">Mis Clases</button>
@@ -19,7 +18,6 @@
         <button class="btn-menu">Alertas</button>
     </div>
 
-    <!-- Contenido principal -->
     <div class="contenido">
         <div class="bloque">
             <i class="fas fa-users icono"></i>
@@ -29,10 +27,214 @@
             <i class="fas fa-users icono"></i>
             <h3>92% Asistencia</h3>
         </div>
-    </div>
-    <section> class="bloque-notas"
-    <h2>📝Block de Notas</h2>
-    <textarea placeholder="Escribe tus observaciones aqui..."></textarea>
-    <button>Guardar Nota</button>
+
+        <section class="bloque-notas">
+            <h2>📝 Block de Notas</h2>
+            <textarea id="nota" placeholder="Escribe tus observaciones aqui..."></textarea>
+            <button onclick="guardarNota()">Guardar Nota</button>
+            <div id="resultado"></div>
         </section>
-        </div>
+
+        <section class="calendario">
+            <h2>📅 Calendario</h2>
+            <div id="calendar"></div>
+        </section>
+
+        <section class="bloque-notas">
+            <h2>Bloque de Notas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Asistencias</th>
+                        <th>Faltas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Maria Lopez</td><td>20</td><td>2</td></tr>
+                    <tr><td>Julian Paredes</td><td>15</td><td>4</td></tr>
+                    <tr><td>Lorena Cristancho</td><td>25</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="rendimiento">
+            <h2>Rendimiento Por Materias</h2>
+            <div class="materia">
+                <span>Matemáticas</span>
+                <div class="barra"><div class="progreso" data-nota="4.3">4.3</div></div>
+            </div>
+            <div class="materia">
+                <span>Ciencias</span>
+                <div class="barra"><div class="progreso" data-nota="3.5">3.5</div></div>
+            </div>
+            <div class="materia">
+                <span>Lengua</span>
+                <div class="barra"><div class="progreso" data-nota="2.8">2.8</div></div>
+            </div>
+        </section>
+
+        <section class="mensajes-recientes">
+            <h2>💬 Mensajes Recientes</h2>
+            <ul>
+                <li><strong>Martha Pérez - Mamá de Sofía:</strong> <span>Buenos días profesora, Sofía faltará mañana por cita médica.</span> <em>(Hace 11 horas)</em></li>
+                <li><strong>Jorge Ramírez - Papá de Luis:</strong> <span>¿Cuándo sale el boletín del segundo?</span> <em>(Hace 9 horas)</em></li>
+                <li><strong>Diana Gómez - Coordinadora:</strong> <span>Reunión docentes, la nota del quiz del mes.</span> <em>(Hace 5 horas)</em></li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+
+<script>
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            events: '/Docente/GetEventos'
+        });
+    });
+
+    document.querySelectorAll('.progreso').forEach(function(barra) {
+        let nota = parseFloat(barra.getAttribute('data-nota'));
+        let porcentaje = (nota / 5) * 100;
+        barra.style.width = porcentaje + "%";
+
+        if (nota >= 1.0 && nota <= 2.9) {
+            barra.style.background = "Red";
+        } else if (nota >= 3.0 && nota <= 3.9) {
+            barra.style.background = "Yellow";
+            barra.style.color = "Black";
+        } else if (nota >= 4.0 && nota <= 5.0) {
+            barra.style.background = "Green";
+        }
+    });
+
+    function guardarNota() {
+        const texto = document.getElementById("nota").value;
+        localStorage.setItem("notaGuardada", texto);
+        document.getElementById("resultado").innerText = "Guardado: " + texto;
+    }
+
+    window.onload = function() {
+        const nota = localStorage.getItem("notaGuardada");
+        if (nota) {
+            document.getElementById("nota").value = nota;
+            document.getElementById("resultado").innerText = "Guardado: " + nota;
+        }
+    }
+</script>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Planilla de Asistencias</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <section class="planilla-asistencias">
+        <h2>Registro Mensual de Asistencias</h2>
+
+        <!-- Tabla dinámica -->
+        <table id="tablaAsistencias">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <!-- Aquí se generan los días -->
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de estudiantes -->
+            </tbody>
+        </table>
+
+        <button class="guardar" onclick="guardarPlanilla()">💾 Guardar Planilla</button>
+        <button class="pdf" onclick="exportarPDF()">📄 Exportar PDF</button>
+        <button class="excel" onclick="exportarExcel()">📊 Exportar Excel</button>
+    </section>
+
+    <!-- Librerías necesarias -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", generarPlanilla);
+
+        function generarPlanilla() {
+          const hoy = new Date();
+          const mesActual = hoy.getMonth(); // 0 = enero
+          const añoActual = hoy.getFullYear();
+
+          const diasPorMes = [31,28,31,30,31,30,31,31,30,31,30,31];
+          // Ajuste para febrero en año bisiesto
+          if (mesActual === 1 && ((añoActual % 4 === 0 && añoActual % 100 !== 0) || añoActual % 400 === 0)) {
+            diasPorMes[1] = 29;
+          }
+
+          const diasSemana = ["Lun","Mar","Mié","Jue","Vie"];
+          const dias = diasPorMes[mesActual];
+
+          const tabla = document.getElementById("tablaAsistencias");
+          const thead = tabla.querySelector("thead tr");
+          const tbody = tabla.querySelector("tbody");
+
+          // limpiar cabecera y cuerpo
+          thead.innerHTML = "<th>Código</th><th>Nombre</th><th>Apellidos</th>";
+          tbody.innerHTML = "";
+
+          // generar cabecera con fecha y día
+          for (let d = 1; d <= dias; d++) {
+            const fecha = new Date(añoActual, mesActual, d);
+            const diaSemana = diasSemana[fecha.getDay()];
+            thead.innerHTML += `<th>${d}/${mesActual+1}/${añoActual}<br>${diaSemana}</th>`;
+          }
+
+          // ejemplo estudiantes (puedes añadir hasta 28)
+          const estudiantes = [
+            {codigo: 1, nombre: "María", apellidos: "López"},
+            {codigo: 2, nombre: "Julian", apellidos: "Paredes"},
+            {codigo: 3, nombre: "Lorena", apellidos: "Cristancho"}
+          ];
+
+          estudiantes.forEach(est => {
+            let fila = `<tr><td>${est.codigo}</td><td>${est.nombre}</td><td>${est.apellidos}</td>`;
+            for (let d = 1; d <= dias; d++) {
+              fila += `<td><input type="text" maxlength="2" placeholder="SI/C.E/S.E"></td>`;
+            }
+            fila += "</tr>";
+            tbody.innerHTML += fila;
+          });
+        }
+
+        // Guardar (ejemplo simple)
+        function guardarPlanilla() {
+          alert("Planilla guardada correctamente.");
+        }
+
+        // Exportar a PDF
+        function exportarPDF() {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF('l', 'pt', 'a4');
+          doc.html(document.querySelector("#tablaAsistencias"), {
+            callback: function (doc) {
+              doc.save("Planilla_Asistencias.pdf");
+            }
+          });
+        }
+
+        // Exportar a Excel
+        function exportarExcel() {
+          let tabla = document.getElementById("tablaAsistencias");
+          let wb = XLSX.utils.table_to_book(tabla, {sheet:"Asistencias"});
+          XLSX.writeFile(wb, "Planilla_Asistencias.xlsx");
+        }
+    </script>
+
+</body>
+</html>
