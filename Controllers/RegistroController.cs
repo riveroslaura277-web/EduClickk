@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using EduClick.Data;
 using EduClick.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EduClick.Controllers
 {
@@ -15,32 +14,26 @@ namespace EduClick.Controllers
             _context = context;
         }
 
-        // CREATE: Registro de usuario
+        // GET: Registro
         public IActionResult Index()
         {
             return View();
         }
 
+        // POST: Registrar usuario
         [HttpPost]
         public async Task<IActionResult> Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
-            if (Contrasena != ConfirmarContrasena)
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
-        {
+            // Validaciones
             if (Contrasena.Length < 6)
             {
                 ViewBag.Error = "La contraseña debe tener mínimo 6 caracteres";
                 return View("Index");
             }
-            else if (Contrasena != ConfirmarContrasena)
+
+            if (Contrasena != ConfirmarContrasena)
             {
                 ViewBag.Error = "Las contraseñas no coinciden";
-                return View("Index");
-            }
-
-            try
-            {
-                ViewBag.Error = "Las contraseñas no coinciden.";
                 return View("Index");
             }
 
@@ -50,25 +43,34 @@ namespace EduClick.Controllers
                 return View("Index");
             }
 
-            var usuario = new Usuarios
+            try
             {
-                Nombres = Nombres,
-                Apellidos = Apellidos,
-                Correo = Correo,
-                Contrasena = Contrasena,
-                Rol = Rol,
-                FechaRegistro = DateTime.Now
-            };
+                var usuario = new Usuarios
+                {
+                    Nombres = Nombres,
+                    Apellidos = Apellidos,
+                    Correo = Correo,
+                    Contrasena = Contrasena,
+                    Rol = Rol,
+                    FechaRegistro = DateTime.Now
+                };
 
-            _context.Usuarios.Add(usuario);
-            await _context.SaveChangesAsync();
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
 
-            ViewBag.Success = "Usuario registrado correctamente.";
-            return View("Index");
+                ViewBag.Success = "Usuario registrado correctamente.";
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = $"Error al registrar: {ex.Message}";
+                return View("Index");
+            }
         }
 
+        // LISTAR
         public async Task<IActionResult> Listar()
-        { 
+        {
             var usuarios = await _context.Usuarios.ToListAsync();
             return View(usuarios);
         }
@@ -78,31 +80,30 @@ namespace EduClick.Controllers
             var usuarios = await _context.Usuarios
                 .Where(u => u.Rol == "Estudiante" || u.Rol == "Acudiente")
                 .ToListAsync();
+
             return View("Listar", usuarios);
         }
-        // UPDATE: Editar usuario
-        // GET: Registro/Editar/correo
+
+        // GET: Editar
         public async Task<IActionResult> Editar(string correo)
         {
             if (string.IsNullOrEmpty(correo))
             {
-                return BadRequest(); // si no llega el correo en la ruta
-                ViewBag.Mensaje = "USUARIO REGISTRADO CORRECTAMENTE";
-                return View("Index");
+                return BadRequest();
             }
 
             var usuario = await _context.Usuarios
-                                        .FirstOrDefaultAsync(u => u.Correo == correo);
+                .FirstOrDefaultAsync(u => u.Correo == correo);
 
             if (usuario == null)
             {
-                return NotFound(); // si no existe el usuario con ese correo
+                return NotFound();
             }
 
-            return View(usuario); // devuelve la vista con el modelo encontrado
+            return View(usuario);
         }
 
-        // POST: Registro/Editar
+        // POST: Editar
         [HttpPost]
         public async Task<IActionResult> Editar(Usuarios usuario)
         {
@@ -120,7 +121,6 @@ namespace EduClick.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!_context.Usuarios.Any(u => u.Correo == usuario.Correo))
-                if (ex.Number == 2627) 
                 {
                     return NotFound();
                 }
@@ -131,19 +131,18 @@ namespace EduClick.Controllers
             }
         }
 
-
-        // DELETE: Eliminar usuario
+        // DELETE
         public async Task<IActionResult> Eliminar(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null) return NotFound();
+
+            if (usuario == null)
+                return NotFound();
 
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
+
             return RedirectToAction("Listar");
-                ViewBag.Error = $"Error al registrar: {ex.Message}";
-                return View("Index");
-            }
         }
     }
 }
