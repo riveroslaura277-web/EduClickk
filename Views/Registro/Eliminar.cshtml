@@ -1,0 +1,21 @@
+﻿@model EduClick.Models.Usuarios
+
+@{
+    Layout = null;
+}
+
+<h2>Eliminar Usuario</h2>
+
+<p>¿Estás seguro que deseas eliminar este usuario?</p>
+
+<ul>
+    <li><strong>Nombres:</strong> @Model.Nombres</li>
+    <li><strong>Apellidos:</strong> @Model.Apellidos</li>
+    <li><strong>Correo:</strong> @Model.Correo</li>
+    <li><strong>Rol:</strong> @Model.Rol</li>
+</ul>
+
+<form asp-action="Eliminar" method="post">
+    <button type="submit" class="btn-crear">Eliminar</button>
+    <a asp-action="Listar" class="btn-crear">Cancelar</a>
+</form>
