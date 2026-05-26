@@ -1,27 +1,56 @@
 ﻿@{
+    ViewData["Title"] = "Registro de Usuario";
+}
+@{
     Layout = null;
 }
 
-@{
-    ViewData["Title"] = "Registro";
-}
-<link rel="stylesheet" href="~/css/registro.css" />
+<head>
+    <link rel="stylesheet" href="~/css/registro.css" />
+</head>
 
 <div class="registro">
-    <h2>¡REGISTRATE!</h2>
+    <h2>¡REGÍSTRATE!</h2>
     <p>Crea tu cuenta y comienza esta gran aventura.</p>
 
+    <form asp-action="Registrar" method="post">
+        <div>
+            <label>Nombres:</label>
+            <input type="text" name="Nombres" required />
+        </div>
 
-<form asp-controller="Registro" asp-action="Registrar" method="post">
-    <input type="text" name="Nombres" placeholder="Nombres Completos" required />
-    <input type="text" name="Apellidos" placeholder="Apellidos Completos" required />
-    <input type="email" name="Correo" placeholder="Correo Electrónico" required />
-    <input type="password" name="Contrasena" placeholder="Crear Contraseña" required />
-    <input type="password" name="ConfirmarContrasena" placeholder="Confirmar Contraseña" required />
+        <div>
+            <label>Apellidos:</label>
+            <input type="text" name="Apellidos" required />
+        </div>
+
+        <div>
+            <label>Correo:</label>
+            <input type="email" name="Correo" required />
+        </div>
+
+        <div>
+            <label>Contraseña:</label>
+            <input type="password" name="Contrasena" required />
+        </div>
+
+        <div>
+            <label>Confirmar Contraseña:</label>
+            <input type="password" name="ConfirmarContrasena" required />
+        </div>
+
+        <div>
+            <label>Rol:</label>
+            <select name="Rol" required>
+                <option value="">Seleccione un rol</option>
+                <option value="Estudiante">Estudiante</option>
+                <option value="Acudiente">Acudiente</option>
+                <option value="Docente">Docente</option>
+                <option value="Rector">Rector</option>
+            </select>
+        </div>
 
         <button type="submit" class="btn-crear">Crear Cuenta</button>
         <a asp-controller="Home" asp-action="Index" class="btn-crear">Volver a Inicio</a>
-
-
-</form>
+    </form>
 </div>

@@ -58,3 +58,8 @@ form input {
     .btn-crear:hover {
         transform: scale(1.05);
     }
+
+td[style*="border:none;"] {
+    background: transparent;
+    padding: 6px;
+}
