@@ -25,6 +25,20 @@ namespace EduClick.Controllers
         public async Task<IActionResult> Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
             if (Contrasena != ConfirmarContrasena)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
+        {
+            if (Contrasena.Length < 6)
+            {
+                ViewBag.Error = "La contraseña debe tener mínimo 6 caracteres";
+                return View("Index");
+            }
+            else if (Contrasena != ConfirmarContrasena)
+            {
+                ViewBag.Error = "Las contraseñas no coinciden";
+                return View("Index");
+            }
+
+            try
             {
                 ViewBag.Error = "Las contraseñas no coinciden.";
                 return View("Index");
@@ -73,6 +87,8 @@ namespace EduClick.Controllers
             if (string.IsNullOrEmpty(correo))
             {
                 return BadRequest(); // si no llega el correo en la ruta
+                ViewBag.Mensaje = "USUARIO REGISTRADO CORRECTAMENTE";
+                return View("Index");
             }
 
             var usuario = await _context.Usuarios
@@ -104,6 +120,7 @@ namespace EduClick.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!_context.Usuarios.Any(u => u.Correo == usuario.Correo))
+                if (ex.Number == 2627) 
                 {
                     return NotFound();
                 }
@@ -124,6 +141,9 @@ namespace EduClick.Controllers
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
             return RedirectToAction("Listar");
+                ViewBag.Error = $"Error al registrar: {ex.Message}";
+                return View("Index");
+            }
         }
     }
 }
