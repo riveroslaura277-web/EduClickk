@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Registro";
+}
+<link rel="stylesheet" href="~/css/registro.css" />
+
+<div class="registro">
+    <h2>¡REGISTRATE!</h2>
+    <p>Crea tu cuenta y comienza esta gran aventura.</p>
+
+
+<form asp-controller="Registro" asp-action="Registrar" method="post">
+    <input type="text" name="Nombres" placeholder="Nombres Completos" required />
+    <input type="text" name="Apellidos" placeholder="Apellidos Completos" required />
+    <input type="email" name="Correo" placeholder="Correo Electrónico" required />
+    <input type="password" name="Contrasena" placeholder="Crear Contraseña" required />
+    <input type="password" name="ConfirmarContrasena" placeholder="Confirmar Contraseña" required />
+
+        <button type="submit" class="btn-crear">Crear Cuenta</button>
+        <a asp-controller="Home" asp-action="Index" class="btn-crear">Volver a Inicio</a>
+
+
+</form>
+</div>
