@@ -12,6 +12,20 @@
 <div class="registro">
     <h2>¡REGÍSTRATE!</h2>
     <p>Crea tu cuenta y comienza esta gran aventura.</p>
+    <h2>¡REGISTRATE!</h2>
+    <p>Crea tu cuenta y comienza esta gran aventura.</p>   
+@if (ViewBag.Error != null)
+{
+        <div class="error-box">
+            @ViewBag.Error
+        </div>
+}
+@if (ViewBag.Mensaje != null)
+{
+        <div class="success-box">
+            @ViewBag.Mensaje
+        </div>
+}
 
     <form asp-action="Registrar" method="post">
         <div>
