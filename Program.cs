@@ -1,7 +1,16 @@
+using EduClick.Data;
+using Microsoft.AspNetCore.Identity;
+using EduClick.Models;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<EduClickContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+// Configuración de Identity con tu modelo Usuarios
+
 
 var app = builder.Build();
 
