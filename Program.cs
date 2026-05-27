@@ -1,16 +1,14 @@
-using EduClick.Data;
-using Microsoft.AspNetCore.Identity;
 using EduClick.Models;
 using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// 👉 Aquí agregamos la conexión a SQL Server
+builder.Services.AddDbContext<ColegioContext>(options =>
+    options.UseSqlServer("Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddDbContext<EduClickContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
-// Configuración de Identity con tu modelo Usuarios
-
 
 var app = builder.Build();
 
@@ -18,7 +16,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
