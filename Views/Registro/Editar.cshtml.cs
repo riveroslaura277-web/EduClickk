@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EDUCLICK.Views.Registro
+namespace EduClick.Views.Registro
 {
-    public class IndexModel : PageModel
+    public class EditarModel : PageModel
     {
         public void OnGet()
         {

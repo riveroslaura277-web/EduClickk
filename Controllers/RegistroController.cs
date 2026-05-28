@@ -37,19 +37,19 @@ namespace P.EDUCLICK.Controllers
                     }
                 }
 
-             
+
                 return RedirectToAction("Index");
             }
             catch (SqlException ex)
             {
-               
+
                 if (ex.Number == 2627)
                 {
                     ViewBag.Error = "Este correo ya está registrado por otro usuario.";
                     return View("Index");
                 }
 
-              
+
                 ViewBag.Error = "Ocurrió un error al registrar el usuario.";
                 return View("Index");
             }
