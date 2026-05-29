@@ -6,76 +6,69 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+<video class="video-principal" autoplay muted loop>
+    <source src="@Url.Content("~/imagenes/video_principal.mp4")" type="video/mp4">
+    Tu navegador no soporta video.
+</video>
+
 <section class="main-container">
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+
     <header class="navbar">
+        <h2>EduClick</h2>
+        <p>Aprender es la aventura más emocionante</p>
 
-        <!-- LOGO -->
-        <div class="logo">
-
-            <img src="~/imagenes/icono.png" alt="EduClick Logo" />
-
-            <div class="logo-text">
-                <h2>EduClick</h2>
-                <p>Aprender es la aventura más emocionante</p>
-            </div>
-
-        </div>
-
-        <!-- MENU -->
+       
         <nav class="menu">
-
             <a href="#" class="active">
                 <i class="fa-solid fa-house"></i>
                 <span>Inicio</span>
             </a>
-
             <a href="#">
                 <i class="fa-solid fa-book-open"></i>
                 <span>Actividades</span>
             </a>
-
             <a href="#">
                 <i class="fa-solid fa-box"></i>
                 <span>Recursos</span>
             </a>
-
             <a href="#">
                 <i class="fa-solid fa-image"></i>
                 <span>Galería</span>
             </a>
-
             <a href="#">
                 <i class="fa-solid fa-envelope"></i>
                 <span>Contacto</span>
             </a>
-
         </nav>
 
         <!-- BOTONES -->
         <div class="actions">
 
+            <div class="menu-login">
+                <button class="btn login">
+                    <i class="fa-solid fa-user"></i> Iniciar sesión <i class="fa-solid fa-caret-down"></i>
+                </button>
             <a asp-controller="Usuario"
                asp-action="Inicio"
                class="btn login">
+ c92993177020f95f7f9702566506a31b25470f38
 
-                <i class="fa-solid fa-user"></i>
-                Iniciar sesión
-            </a>
-            
+                <div class="dropdown">
+                    <a asp-controller="Docente" asp-action="Index">Docente</a>
+                    <a asp-controller="Usuario" asp-action="LoginEstudiante">Estudiante</a>
+                    <a asp-controller="Usuario" asp-action="LoginAcudiente">Acudiente</a>
+                    <a asp-controller="Usuario" asp-action="LoginRector">Rector</a>
+                    <a asp-controller="Usuario" asp-action="LoginAdministrador">Administrador</a>
+                </div>
 
+            </div>
+
+
+            <!-- BOTÓN REGISTRO -->
             <a asp-controller="Registro"
                asp-action="Index"
                class="btn login">
-
-
-            <a asp-controller="Registro"
-               asp-action="Index"
-               class="btn login">
-
                 <i class="fa-solid fa-user"></i>
                 Registrarse
             </a>
@@ -84,133 +77,67 @@
 
     </header>
 
-    <!-- =========================
+  
          HERO
-    ========================== -->
+    
     <section class="hero">
-
         <div class="hero-content">
-
-            <!-- TEXTO -->
             <div class="hero-text">
-
                 <h1>
                     Explora, aprende <br />
                     y <span>diviértete</span>
                 </h1>
-
                 <p>
                     Descubre actividades interactivas,
                     recursos educativos y juegos
                     para aprender cada día.
                 </p>
-
                 <a href="#" class="start-btn">
                     ¡Comenzar aventura!
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- =========================
+
          CARDS
-    ========================== -->
+  
     <section class="cards">
-
-        <!-- MATEMÁTICAS -->
         <div class="card math">
-
             <img src="~/imagenes/iconoMate.png" alt="Matemáticas">
-
             <h3>Matemáticas</h3>
-
-            <p>
-                Aprende números, operaciones
-                y resuelve problemas jugando.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Aprende números, operaciones y resuelve problemas jugando.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
-        <!-- LECTURA -->
         <div class="card read">
-
             <img src="~/imagenes/iconoLectura.png" alt="Lectura">
-
             <h3>Lectura</h3>
-
-            <p>
-                Mejora tu comprensión
-                leyendo cuentos y textos.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Mejora tu comprensión leyendo cuentos y textos.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
-        <!-- CIENCIAS -->
         <div class="card science">
-
             <img src="~/imagenes/iconoSociales.png" alt="Ciencias">
-
             <h3>Ciencias</h3>
-
-            <p>
-                Descubre el mundo
-                que te rodea.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Descubre el mundo que te rodea.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
-        <!-- CREATIVIDAD -->
         <div class="card creative">
-
             <img src="~/imagenes/iconoArte.png" alt="Creatividad">
-
             <h3>Creatividad</h3>
-
-            <p>
-                Dibuja, pinta y crea
-                cosas increíbles.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Dibuja, pinta y crea cosas increíbles.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
-        <!-- RETOS -->
         <div class="card challenge">
-
             <img src="~/imagenes/iconoreto.png" alt="Retos">
-
             <h3>Retos</h3>
-
-            <p>
-                Pon a prueba lo que sabes
-                y gana medallas.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Pon a prueba lo que sabes y gana medallas.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
-
     </section>
 
 </section>
