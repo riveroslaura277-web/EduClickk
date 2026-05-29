@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using EduClick.Models;
@@ -8,15 +7,11 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using EduClick.Data;
-=======
-using Microsoft.Data.SqlClient;
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
 
 namespace P.EDUCLICK.Controllers
 {
     public class RegistroController : Controller
     {
-<<<<<<< HEAD
         // ✅ CORRECCIÓN 1: Cadena de conexión leída desde appsettings.json, no hardcodeada
         private readonly string _conexion;
 
@@ -30,43 +25,17 @@ namespace P.EDUCLICK.Controllers
         }
 
         // GET: Registro
-=======
-        private readonly string _conexion =
-            "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
-
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-<<<<<<< HEAD
         public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
             try
             {
                 if (Contrasena != ConfirmarContrasena)
-=======
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
-        {
-            // 🔴 VALIDAR CONTRASEÑAS
-            if (Contrasena != ConfirmarContrasena)
-            {
-                TempData["Mensaje"] = "❌ Las contraseñas no coinciden.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
-            }
-
-
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena)
-        {
- master
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
                 {
                     ViewBag.Error = "Las contraseñas no coinciden";
                     return View("Index");
@@ -75,7 +44,6 @@ namespace P.EDUCLICK.Controllers
                 // ✅ CORRECCIÓN 3: Contraseña hasheada con SHA256 antes de guardar
                 string contrasenaHash = HashearContrasena(Contrasena);
 
-<<<<<<< HEAD
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
@@ -84,25 +52,17 @@ namespace P.EDUCLICK.Controllers
                         (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro)
                         VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
 
-=======
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Nombres", Nombres);
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
-<<<<<<< HEAD
                         cmd.Parameters.AddWithValue("@Contrasena", contrasenaHash); // ✅ hash, no texto plano
                         cmd.Parameters.AddWithValue("@Rol", Rol);
-=======
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
-
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
                         cmd.ExecuteNonQuery();
                     }
                 }
 
-<<<<<<< HEAD
                 return RedirectToAction("Listar");
             }
             catch (Exception ex)
@@ -110,28 +70,6 @@ namespace P.EDUCLICK.Controllers
                 ViewBag.Error = "Error al registrar el usuario.";
                 // En producción: loggear ex.Message con ILogger, no mostrarlo al usuario
                 return View("Index");
-=======
-                // ✅ MENSAJE ÉXITO
-                TempData["Mensaje"] = "✅ Registro exitoso.";
-                TempData["Tipo"] = "success";
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                if (ex.Number == 2627)
-                {
-                    TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
-                    TempData["Tipo"] = "error";
-
-                    return RedirectToAction("Index");
-                }
-
-                TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
             }
         }
 
@@ -139,7 +77,6 @@ namespace P.EDUCLICK.Controllers
         {
             List<Usuarios> lista = new List<Usuarios>();
 
-<<<<<<< HEAD
             using (SqlConnection con = new SqlConnection(_conexion))
             {
                 con.Open();
@@ -191,42 +128,6 @@ namespace P.EDUCLICK.Controllers
             }
 
             return RedirectToAction("Listar");
-=======
-                    con.Open();
- master
-
-                    string query = @"INSERT INTO Usuarios 
-                                     (Nombres, Apellidos, Correo, Contrasena, FechaRegistro) 
-                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, GETDATE())";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-
-                return RedirectToAction("Index");
-            }
-            catch (SqlException ex)
-            {
-
-                if (ex.Number == 2627)
-                {
-                    ViewBag.Error = "Este correo ya está registrado por otro usuario.";
-                    return View("Index");
-                }
-
-
-                ViewBag.Error = "Ocurrió un error al registrar el usuario.";
-                return View("Index");
-            }
->>>>>>> 966d477ba3c7f1b39009b3447dd7a5315fabae56
         }
 
         [HttpPost]
