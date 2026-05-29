@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EduClick.Controllers
 {
@@ -6,7 +8,11 @@ namespace EduClick.Controllers
     {
         public IActionResult Inicio()
         {
-            return View();
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("GoogleCallback", "Account")
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
     }
 }

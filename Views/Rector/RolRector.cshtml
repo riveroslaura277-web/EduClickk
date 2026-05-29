@@ -1,86 +1,187 @@
 ﻿@{
-    ViewData["Title"] = "Panel del Rector";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Dashboard - Rector";
+    Layout = null;
 }
 
-<div class="rector-container">
-    <aside class="sidebar">
-        <div class="logo">
-            <img src="~/IMG_RECTOR/icono1.png" alt="Logo EduClick" />
-        </div>
-        <link rel="stylesheet" href="/css/Rector.css" asp-append-version="true" />
-         
-        <ul class="menu">
-            <li><button>Panel de Control</button></li>
-            <li><button>Gestión de Usuarios</button></li>
-            <li><button>Reportes Académicos</button></li>
-            <li><button>Gestión Institucional</button></li>
-            <li><button>Noticias y Comunicados</button></li>
-            <li><button>Seguridad y Configuración</button></li>
-        </ul>
-    </aside>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+<link rel="stylesheet" href="~/css/Rector.css" />
 
-    <main class="main-content">
-        <header class="header">
-            <h1>Panel del Rector</h1>
+<div class="dash">
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+        <div class="sb-logo">
+            <div class="ico"><i class="ti ti-school"></i></div>
+            <span>EduClick</span>
+        </div>
+        <div class="sb-profile">
+            <div class="sb-avatar">CM</div>
+            <div>
+                <div class="sb-name">Dr. Carlos Martínez</div>
+                <div class="sb-role">Rector</div>
+            </div>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-label">Principal</div>
+            <a href="@Url.Action("Dashboard","Rector")" class="nav-btn active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+            <a href="@Url.Action("Perfil","Cuenta")" class="nav-btn"><i class="ti ti-user"></i> Perfil</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-label">Gestión</div>
+            <a href="@Url.Action("Index","Usuarios")" class="nav-btn"><i class="ti ti-users"></i> Usuarios <span class="nav-badge">3</span></a>
+            <a href="@Url.Action("Index","Roles")" class="nav-btn"><i class="ti ti-key"></i> Roles</a>
+            <a href="@Url.Action("Index","Modulos")" class="nav-btn"><i class="ti ti-puzzle"></i> Módulos</a>
+        </div>
+
+        <div class="sb-section">
+            <div class="sb-label">Académico</div>
+            <a href="@Url.Action("Index","Estudiantes")" class="nav-btn"><i class="ti ti-backpack"></i> Estudiantes</a>
+            <a href="@Url.Action("Index","Cursos")" class="nav-btn"><i class="ti ti-books"></i> Cursos</a>
+            <a href="@Url.Action("Index","Materias")" class="nav-btn"><i class="ti ti-book"></i> Materias</a>
+            <a href="@Url.Action("Index","Notas")" class="nav-btn"><i class="ti ti-pencil"></i> Notas</a>
+            <a href="@Url.Action("Index","Periodos")" class="nav-btn"><i class="ti ti-calendar"></i> Periodos</a>
+            <a href="@Url.Action("Index","Boletines")" class="nav-btn"><i class="ti ti-file-description"></i> Boletines</a>
+        </div>
+
+        <div class="sb-footer">
+            <a href="@Url.Action("Logout","Account")" class="logout-btn"><i class="ti ti-logout"></i> Cerrar sesión</a>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-title">Dashboard</div>
+            <div class="topbar-right">
+                <div style="text-align:right">
+                    <div class="clock-time" id="ct">--:--:--</div>
+                    <div class="clock-date" id="cd">Cargando...</div>
+                </div>
+                <button class="tb-btn" title="Notificaciones"><i class="ti ti-bell"></i></button>
+                <button class="tb-btn" title="Configuración"><i class="ti ti-settings"></i></button>
+            </div>
         </header>
 
-        <section class="summary">
-            <div class="card">Estudiantes<br><span>120</span></div>
-            <div class="card">Docentes<br><span>35</span></div>
-            <div class="card">Acudientes<br><span>58</span></div>
-            <div class="card">Reportes<br><span>9</span></div>
-        </section>
+        <!-- CONTENT -->
+        <div class="content">
 
-        <section class="grid">
-            <div class="col-izquierda">
-                <div class="box usuarios">
-                    <h3>Gestión de Usuarios</h3>
-                    <div class="actions">
-                        <button>Crear Usuario</button>
-                        <button>Editar Usuario</button>
-                        <button>Eliminar Usuario</button>
+            <!-- STAT CARDS -->
+            <div class="stats-grid">
+                <a href="@Url.Action("Index","Estudiantes")" class="stat-card">
+                    <div class="stat-top"><div class="stat-icon g"><i class="ti ti-backpack"></i></div><div class="stat-label">Estudiantes</div></div>
+                    <div class="stat-value">@ViewBag.TotalEstudiantes</div>
+                    <div class="stat-change">↑ @ViewBag.NuevosEstudiantes este mes</div>
+                </a>
+                <a href="@Url.Action("Index","Docentes")" class="stat-card">
+                    <div class="stat-top"><div class="stat-icon b"><i class="ti ti-chalkboard"></i></div><div class="stat-label">Docentes</div></div>
+                    <div class="stat-value">@ViewBag.TotalDocentes</div>
+                    <div class="stat-change">↑ @ViewBag.NuevosDocentes este mes</div>
+                </a>
+                <a href="@Url.Action("Index","Acudientes")" class="stat-card">
+                    <div class="stat-top"><div class="stat-icon o"><i class="ti ti-users-group"></i></div><div class="stat-label">Acudientes</div></div>
+                    <div class="stat-value">@ViewBag.TotalAcudientes</div>
+                    <div class="stat-change">Activos</div>
+                </a>
+                <a href="@Url.Action("Index","Usuarios")" class="stat-card">
+                    <div class="stat-top"><div class="stat-icon p"><i class="ti ti-lock"></i></div><div class="stat-label">Usuarios</div></div>
+                    <div class="stat-value">@ViewBag.TotalUsuarios</div>
+                    <div class="stat-change pend">@ViewBag.UsuariosPendientes pendientes</div>
+                </a>
+            </div>
+
+            <!-- GRÁFICAS -->
+            <div class="row2">
+                <div class="panel">
+                    <div class="ph">
+                        <span class="pt">Rendimiento académico</span>
+                        <button class="pa" onclick="toggleChart()">Cambiar vista</button>
+                    </div>
+                    <div class="chart-wrap"><canvas id="cRend"></canvas></div>
+                </div>
+                <div class="panel">
+                    <div class="ph">
+                        <span class="pt">Distribución de notas</span>
+                        <a href="@Url.Action("Index","Notas")" class="pa">Ver detalle</a>
+                    </div>
+                    <div class="chart-wrap"><canvas id="cNotas"></canvas></div>
+                </div>
+            </div>
+
+            <!-- TABLA + NOTICIAS -->
+            <div class="row3">
+                <div class="panel">
+                    <div class="ph">
+                        <span class="pt">Cursos por período</span>
+                        <a href="@Url.Action("Index","Cursos")" class="pa">Ver todos</a>
                     </div>
                     <table>
-                        <tr><th>Nombre</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr>
-                        <tr><td>Laura</td><td>Docente</td><td>Activo</td><td>Editar</td></tr>
+                        <thead>
+                            <tr><th>Curso</th><th>Docente</th><th>Promedio</th><th>Estado</th></tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var curso in ViewBag.Cursos)
+                            {
+                                <tr>
+                                    <td>@curso.Nombre</td>
+                                    <td>@curso.Docente</td>
+                                    <td>@curso.Promedio.ToString("0.0")</td>
+                                    <td>
+                                        <span class="badge @(curso.Estado == "Activo" ? "bg" : curso.Estado == "Alerta" ? "bo" : "bb")">
+                                            @curso.Estado
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                     </table>
                 </div>
 
-                <div class="box institucional">
-                    <h3>Gestión Institucional</h3>
-                    <button>Configurar Horarios</button>
-                    <button>Administrar Cursos</button>
-                </div>
-            </div>
-
-            <div class="col-derecha">
-                <div class="box reportes">
-                    <h3>Reportes Académicos</h3>
-                    <div class="grafico">[Gráfico de rendimiento académico]</div>
-                    <div class="subpanel">
-                        <button>Asistencia</button>
-                        <button>Calificaciones</button>
+                <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                    <!-- NOTICIAS -->
+                    <div class="panel">
+                        <div class="ph">
+                            <span class="pt">Noticias del colegio</span>
+                            <a href="@Url.Action("Crear","Noticias")" class="pa">+ Nueva</a>
+                        </div>
+                        @foreach (var noticia in ViewBag.Noticias)
+                        {
+                            <div class="noticia">
+                                <div class="ndot"></div>
+                                <div>
+                                    <div class="ntxt">@noticia.Titulo</div>
+                                    <div class="nfecha">@noticia.Fecha.ToString("d 'de' MMMM", new System.Globalization.CultureInfo("es-CO"))</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- EVENTO -->
+                    <div class="panel">
+                        <div class="ph"><span class="pt">Próximo evento</span></div>
+                        @if (ViewBag.ProximoEvento != null)
+                        {
+                            <div class="evento">
+                                <div class="etit">@ViewBag.ProximoEvento.Titulo</div>
+                                <div class="edesc">@ViewBag.ProximoEvento.Descripcion</div>
+                                <span class="etag">@ViewBag.ProximoEvento.Fecha.ToString("d 'de' MMMM", new System.Globalization.CultureInfo("es-CO"))</span>
+                            </div>
+                        }
                     </div>
                 </div>
-
-                <div class="box noticias">
-                    <h3>Avisos y Noticias</h3>
-                    <ul>
-                        <li>Circular Informativa</li>
-                        <li>Reunión de Padres</li>
-                        <li>Próximo Evento</li>
-                    </ul>
-                </div>
             </div>
-        </section>
 
-        <footer class="footer">
-            <div class="box seguridad">
-                <h3>Seguridad del Sistema</h3>
-                <button>Gestionar Permisos</button>
-                <button>Configuración General</button>
-            </div>
-        </footer>
-    </main>
-</div>
+        </div><!-- /content -->
+    </div><!-- /main -->
+</div><!-- /dash -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="~/js/rector-dashboard.js"></script>
+<script>
+    const rendLabels   = @Html.Raw(ViewBag.RendLabelsJson);
+    const rendActual   = @Html.Raw(ViewBag.RendActualJson);
+    const rendAnterior = @Html.Raw(ViewBag.RendAnteriorJson);
+    const notasLabels  = @Html.Raw(ViewBag.NotasLabelsJson);
+    const notasData    = @Html.Raw(ViewBag.NotasDataJson);
+    initCharts(rendLabels, rendActual, rendAnterior, notasLabels, notasData);
+</script>
