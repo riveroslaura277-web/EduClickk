@@ -1,0 +1,84 @@
+﻿body {
+    margin: 0;
+    font-family: Arial;
+    background: #fdf6ec;
+}
+
+/* MENU IZQUIERDO */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: #cb997e;
+    padding-top: 20px;
+    z-index: 100;
+}
+
+    .sidebar h2 {
+        color: white;
+        text-align: center;
+    }
+
+    .sidebar a {
+        display: block;
+        color: purple;
+        text-decoration: none;
+        padding: 20px;
+        font-size: 20px;
+    }
+
+        .sidebar a:hover {
+            background: #4e78d6;
+        }
+
+/* TÍTULO */
+.contenido {
+    margin-left: 250px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 550;
+    padding: 20px 0 0 0;
+    font-family: 'Pacifico', cursive;
+}
+
+/* VIDEO FIJO */
+.video-player {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+/* GRID DE CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 320px);
+    gap: 30px;
+    margin-left: 280px; /* sidebar + pequeño margen */
+    margin-top: 40px;
+    padding-right: 300px; /* espacio para el video fijo */
+}
+
+.card {
+    background: white;
+    height: 180px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+    }
