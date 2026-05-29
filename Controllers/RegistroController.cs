@@ -1,16 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using EduClick.Models;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using EduClick.Data;
 
 namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly string _conexion =
-            "Server=DANNA\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
+        // ✅ CORRECCIÓN 1: Cadena de conexión leída desde appsettings.json, no hardcodeada
+        private readonly string _conexion;
 
+        // ✅ CORRECCIÓN 2: _context declarado correctamente (si lo necesitas para otras vistas)
+        private readonly EduClickContext _context;
+
+        public RegistroController(EduClickContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _conexion = configuration.GetConnectionString("Default")!;
+        }
+
+        // GET: Registro
         public IActionResult Index()
         {
             return View();
@@ -27,30 +41,35 @@ namespace EduClick.Controllers
                     return View("Index");
                 }
 
+                // ✅ CORRECCIÓN 3: Contraseña hasheada con SHA256 antes de guardar
+                string contrasenaHash = HashearContrasena(Contrasena);
+
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
 
                     string query = @"INSERT INTO Usuarios 
-                    (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro)
-                    VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
+                        (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro)
+                        VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Nombres", Nombres);
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Contrasena", contrasenaHash); // ✅ hash, no texto plano
                         cmd.Parameters.AddWithValue("@Rol", Rol);
                         cmd.ExecuteNonQuery();
                     }
                 }
-                return RedirectToAction("Listar");
 
+                return RedirectToAction("Listar");
             }
             catch (Exception ex)
             {
-                return Content(ex.Message);
+                ViewBag.Error = "Error al registrar el usuario.";
+                // En producción: loggear ex.Message con ILogger, no mostrarlo al usuario
+                return View("Index");
             }
         }
 
@@ -71,10 +90,10 @@ namespace EduClick.Controllers
                         lista.Add(new Usuarios
                         {
                             Id = Convert.ToInt32(dr["Id"]),
-                            Nombres = dr["Nombres"].ToString(),
-                            Apellidos = dr["Apellidos"].ToString(),
-                            Correo = dr["Correo"].ToString(),
-                            Rol = dr["Rol"].ToString()
+                            Nombres = dr["Nombres"].ToString()!,
+                            Apellidos = dr["Apellidos"].ToString()!,
+                            Correo = dr["Correo"].ToString()!,
+                            Rol = dr["Rol"].ToString()!
                         });
                     }
                 }
@@ -83,22 +102,36 @@ namespace EduClick.Controllers
             return View(lista);
         }
 
+        // ✅ CORRECCIÓN 4: Eliminar como POST para evitar borrados accidentales por GET
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Eliminar(int id)
         {
-            using (SqlConnection con = new SqlConnection(_conexion))
+            try
             {
-                con.Open();
-                string query = "DELETE FROM Usuarios WHERE Id=@Id";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlConnection con = new SqlConnection(_conexion))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    cmd.ExecuteNonQuery();
+                    con.Open();
+                    string query = "DELETE FROM Usuarios WHERE Id=@Id";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                // En producción: loggear con ILogger
+                TempData["Error"] = "No se pudo eliminar el usuario.";
+            }
+
             return RedirectToAction("Listar");
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditarInline(int Id, string Nombres, string Apellidos, string Correo, string Rol)
         {
             try
@@ -124,12 +157,21 @@ namespace EduClick.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
+
                 return Ok();
             }
             catch (Exception ex)
             {
-                return Content(ex.Message);
+                // En producción: loggear con ILogger
+                return StatusCode(500, "Error al actualizar el usuario.");
             }
+        }
+
+        // ✅ CORRECCIÓN 3 (helper): Método privado para hashear contraseñas
+        private static string HashearContrasena(string contrasena)
+        {
+            byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(contrasena));
+            return Convert.ToHexString(bytes).ToLower();
         }
     }
 }

@@ -31,13 +31,18 @@
 
     function guardarSeleccionada() {
         if (!filaActiva) return alert("Selecciona una fila primero");
+
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
         let datos = {
             Id: filaActiva.dataset.id,
             Nombres: filaActiva.cells[0].innerText,
             Apellidos: filaActiva.cells[1].innerText,
             Correo: filaActiva.cells[2].innerText,
-            Rol: filaActiva.cells[3].innerText
+            Rol: filaActiva.cells[3].innerText,
+            __RequestVerificationToken: token
         };
+
         fetch("/Registro/EditarInline", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -53,17 +58,36 @@
                 filaActiva.cells[1].style.background = "";
                 filaActiva.cells[2].style.background = "";
                 filaActiva.cells[3].style.background = "";
+            } else {
+                alert("❌ Error al guardar");
             }
         });
     }
 
     function eliminarSeleccionada() {
         if (!filaActiva) return alert("Selecciona una fila primero");
-        if (!confirm("¿Seguro que quieres eliminar este usuario?")) return;
+        if (!confirm("¿Seguro que deseas eliminar este usuario?")) return;
+
         let id = filaActiva.dataset.id;
-        window.location.href = "/Registro/Eliminar?id=" + id;
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch("/Registro/Eliminar", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ id: id, __RequestVerificationToken: token })
+        }).then(r => {
+            if (r.ok || r.redirected) {
+                filaActiva.remove();
+                filaActiva = null;
+                alert("✔ Usuario eliminado");
+            } else {
+                alert("❌ Error al eliminar");
+            }
+        });
     }
 </script>
+
+@Html.AntiForgeryToken()
 
 <table>
     <thead>

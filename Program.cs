@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 
 // DB Context
 builder.Services.AddDbContext<EduClickContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
