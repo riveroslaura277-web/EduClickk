@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<EduClickContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 // Configuración de Identity con tu modelo Usuarios
 
 

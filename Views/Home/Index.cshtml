@@ -13,12 +13,10 @@
 
 <section class="main-container">
 
-
     <header class="navbar">
         <h2>EduClick</h2>
         <p>Aprender es la aventura más emocionante</p>
 
-       
         <nav class="menu">
             <a href="#" class="active">
                 <i class="fa-solid fa-house"></i>
@@ -45,15 +43,11 @@
         <!-- BOTONES -->
         <div class="actions">
 
+            <!-- BOTÓN INICIAR SESIÓN CON DROPDOWN -->
             <div class="menu-login">
                 <button class="btn login">
                     <i class="fa-solid fa-user"></i> Iniciar sesión <i class="fa-solid fa-caret-down"></i>
                 </button>
-            <a asp-controller="Usuario"
-               asp-action="Inicio"
-               class="btn login">
- c92993177020f95f7f9702566506a31b25470f38
-
                 <div class="dropdown">
                     <a asp-controller="Docente" asp-action="Index">Docente</a>
                     <a asp-controller="Usuario" asp-action="LoginEstudiante">Estudiante</a>
@@ -61,9 +55,7 @@
                     <a asp-controller="Usuario" asp-action="LoginRector">Rector</a>
                     <a asp-controller="Usuario" asp-action="LoginAdministrador">Administrador</a>
                 </div>
-
             </div>
-
 
             <!-- BOTÓN REGISTRO -->
             <a asp-controller="Registro"
@@ -77,9 +69,7 @@
 
     </header>
 
-  
-         HERO
-    
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
@@ -100,9 +90,7 @@
         </div>
     </section>
 
-
-         CARDS
-  
+    <!-- CARDS -->
     <section class="cards">
         <div class="card math">
             <img src="~/imagenes/iconoMate.png" alt="Matemáticas">
