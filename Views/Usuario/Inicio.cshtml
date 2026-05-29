@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/Inicio.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Video de fondo -->
     <video class="video-sesion" autoplay muted loop>
         <source src="/imagenes/video_sesion.mp4" type="video/mp4" />
         Tu navegador no soporta video.
@@ -21,33 +20,26 @@
             <h2>INICIO DE SESIÓN</h2>
             <p>Explora, Aprende y Descubre.</p>
 
-            <form asp-action="Login" method="post">
+            <form asp-controller="Usuario" asp-action="Login" method="post">
+                <input type="hidden" name="rol" value="@ViewBag.RolSeleccionado" />
+
                 <div class="campo">
                     <span class="icono">📧</span>
-                    <input type="email" id="email" name="Email" placeholder="Correo electrónico" required />
+                    <input type="email" name="email" placeholder="Correo" required />
                 </div>
 
                 <div class="campo">
                     <span class="icono">🔒</span>
-                    <input type="password" id="password" name="Password" placeholder="Contraseña" required />
+                    <input type="password" name="password" placeholder="Contraseña" required />
                 </div>
 
-                <div class="remember">
-                    <input type="checkbox" id="remember" />
-                    <label for="remember">Recordarme</label>
-                </div>
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
 
-<<<<<<< HEAD
-                <button type="submit" class="btn-login">Iniciar sesión</button>
-            <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
-=======
-                <a asp-action="FondoRoles" asp-controller="Roles" class="btn-login">
-                      Iniciar seccion
-</a>
->>>>>>> c92993177020f95f7f9702566506a31b25470f38
+                <a asp-controller="Home" asp-action="Index" class="btn-volver">
+                    Volver al Inicio
+                </a>
             </form>
 
-            <!-- Botón para login con Google -->
             <a class="btn-google" asp-controller="Account" asp-action="GoogleLogin">
                 Continuar con Google
             </a>
@@ -57,7 +49,6 @@
                 <span> | </span>
                 <a asp-action="Register">Crear cuenta nueva</a>
             </div>
-
         </div>
     </div>
 </body>

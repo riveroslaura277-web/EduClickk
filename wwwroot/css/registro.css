@@ -1,147 +1,79 @@
-﻿body {
+﻿/* 1. Fondo: El video cubre todo */
+body {
     margin: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 0;
     height: 100vh;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
 }
 
-/* 🎥 Video de fondo */
 .video-fondo {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* mantiene nitidez */
-    z-index: -1; /* queda detrás del formulario */
+    object-fit: cover;
+    z-index: -1;
+    /* Esto le da un tono sutil y desenfocado al video */
+    filter: blur(5px) brightness(0.8);
 }
 
-/* 📝 Formulario centrado con efecto vidrio */
+/* 2. El Formulario: El efecto vidrio compacto */
 .registro {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: rgba(255, 215, 0, 0.25); /* dorado translúcido */
-    backdrop-filter: blur(10px); /* efecto vidrio */
-    border-radius: 25px;
-    box-shadow: 0 0 25px gold;
-    color: navy;
+    width: 350px; /* Tamaño pequeño y compacto */
+    padding: 30px;
+    background: rgba(255, 215, 0, 0.2); /* Fondo dorado transparente */
+    backdrop-filter: blur(15px); /* Efecto vidrio esmerilado */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     text-align: center;
-    padding: 40px;
+    color:white;
+   
 }
 
-    /* Título y texto */
-    .registro h2 {
-    color: #FFFF00;
-    -webkit-text-stroke: 1px #000000; /* contorno negro */
-        font-size: 32px;
-        text-shadow: 2px 2px 4px Gold;
-        margin-bottom: 10px;
+    /* 3. Inputs: Donde los nombres, rol, etc., se escriben DENTRO */
+    .registro input, .registro select {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        box-sizing: border-box; /* Importante para que quepan bien */
     }
 
-    .registro p {
-        color: black;
-        margin-bottom: 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+        /* Color del texto dentro del campo */
+        .registro input::placeholder {
+            color: rgba(255, 255, 255, 0.8);
+        }
 
-/* Campos del formulario */
-form input {
-    width: 90%;
-    padding: 12px;
-    margin: 10px auto;
-    border-radius: 10px;
-    border: 2px solid Orange;
-    font-size: 16px;
-    display: block;
-    background: rgba(255, 255, 255, 0.8);
-}
-
-/* Botones */
-.btn-crear {
-    background: linear-gradient(90deg, Orange, Gold, HotPink);
-    color: black;
-    font-weight: 700;
-    border: none;
-    border-radius: 15px;
-    padding: 18px 28px;
-    cursor: pointer;
-    box-shadow: 0 0 15px Yellow;
-    transition: transform 0.2s;
+.contenedor-botones {
+    display: flex;
+    justify-content: space-between; /* Espacio entre botones */
+    gap: 10px; /* Separación entre ellos */
     margin-top: 15px;
-    text-decoration: none;
-    display: inline-block;
 }
 
+/* Aseguramos que el botón y el enlace midan lo mismo */
+.btn-crear {
+    flex: 1; /* Esto hace que ambos ocupen el mismo ancho */
+    background: linear-gradient(90deg, #FF69B4, #FFD700);
+    color: black;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none; /* Quita el subrayado del enlace */
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
     .btn-crear:hover {
         transform: scale(1.05);
     }
-
-<<<<<<< HEAD
-/* 🔔 Mensaje emergente */
-.mensaje-popup {
-    background: linear-gradient(90deg, LimeGreen, Gold);
-    border-radius: 12px;
-    padding: 18px;
-    margin: 10px auto;
-    width: 85%;
-    text-align: center;
-    box-shadow: 0 0 12px rgba(0,0,0,0.2);
-    position: relative;
-    animation: aparecer 0.3s ease;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-    .mensaje-popup.success {
-        border: 2px solid LimeGreen;
-        color: LimeGreen;
-    }
-
-    .mensaje-popup .cerrar {
-        position: absolute;
-        top: 5px;
-        right: 10px;
-        cursor: pointer;
-        font-size: 18px;
-        font-weight: bold;
-        color: gray;
-    }
-
-@keyframes aparecer {
-    from {
-        transform: scale(0.7);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-=======
-td[style*="border:none;"] {
-    background: transparent;
-    padding: 6px;
-.error-box {
-    background-color: #ffdddd;
-    color: #d8000c;
-    border: 1px solid #d8000c;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.success-box {
-    background-color: #ddffdd;
-    color: #4F8A10;
-    border: 1px solid #4F8A10;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    font-weight: bold;
->>>>>>> c92993177020f95f7f9702566506a31b25470f38
-}

@@ -4,31 +4,50 @@ namespace EduClick.Controllers
 {
     public class UsuarioController : Controller
     {
+        // Eliminamos el _context temporalmente para que no busque la base de datos
+
         [HttpGet]
-        public IActionResult Inicio()
+        public IActionResult Login(string rol)
         {
-            return View();
+            ViewBag.RolSeleccionado = rol;
+            return View("Inicio");
         }
 
         [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        public IActionResult Login(string email, string password, string rol)
         {
-            // Validación básica: campos vacíos
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            // Validamos que los campos no estén vacíos
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 ModelState.AddModelError("", "Debes llenar todos los campos.");
-                return View("Inicio"); // vuelve a la vista de login
+                ViewBag.RolSeleccionado = rol;
+                return View("Inicio");
             }
 
-            // Validación de credenciales (ejemplo)
-            if (Email == "admin@correo.com" && Password == "1234")
+            // SIMULACIÓN: Aquí saltamos la BD. 
+            // Si el correo contiene algo, consideramos que es un usuario válido.
+            bool usuarioValido = true;
+
+            if (usuarioValido)
             {
-                // ✅ Si son correctos → redirige a Roles
-                return RedirectToAction("FondoRoles", "Roles");
+                // Redirigimos directamente según el rol
+                switch (rol)
+                {
+                    case "Docente":
+                        return RedirectToAction("Index", "Docente");
+                    case "Estudiante":
+                        return RedirectToAction("Index", "Estudiante");
+                    case "Rector":
+                        return RedirectToAction("Index", "Rector");
+                    case "Acudiente":
+                        return RedirectToAction("Index", "Acudiente");
+                    case "Administrador":
+                        return RedirectToAction("Index", "Administrador");
+                    default:
+                        return RedirectToAction("Index", "Home");
+                }
             }
 
-            // ❌ Si no coinciden → error
-            ModelState.AddModelError("", "Correo o contraseña incorrectos.");
             return View("Inicio");
         }
     }

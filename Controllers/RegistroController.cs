@@ -22,21 +22,10 @@ namespace EduClick.Controllers
 
         // POST: Registrar usuario
         [HttpPost]
-<<<<<<< HEAD
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
-        {
-            // 🔴 VALIDAR CONTRASEÑAS
-            if (Contrasena != ConfirmarContrasena)
-            {
-                TempData["Mensaje"] = "❌ Las contraseñas no coinciden.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
-=======
         public async Task<IActionResult> Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
             // Validaciones
-            if (Contrasena.Length < 6)
+            if (string.IsNullOrEmpty(Contrasena) || Contrasena.Length < 6)
             {
                 ViewBag.Error = "La contraseña debe tener mínimo 6 caracteres";
                 return View("Index");
@@ -52,7 +41,6 @@ namespace EduClick.Controllers
             {
                 ViewBag.Error = "Este rol solo puede ser creado por un administrador.";
                 return View("Index");
->>>>>>> c92993177020f95f7f9702566506a31b25470f38
             }
 
             try
@@ -70,47 +58,21 @@ namespace EduClick.Controllers
                 _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
 
-<<<<<<< HEAD
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                // ✅ MENSAJE ÉXITO
-                TempData["Mensaje"] = "✅ Registro exitoso.";
-                TempData["Tipo"] = "success";
-
-                return RedirectToAction("Index");
-=======
                 ViewBag.Success = "Usuario registrado correctamente.";
                 return View("Index");
->>>>>>> c92993177020f95f7f9702566506a31b25470f38
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
-                if (ex.Number == 2627)
+                // Verifica si el error es por correo duplicado (código de error SQL)
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("2627"))
                 {
-                    TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
-                    TempData["Tipo"] = "error";
-
-                    return RedirectToAction("Index");
+                    ViewBag.Error = "Este correo ya está registrado.";
                 }
-
-                TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
-=======
-                ViewBag.Error = $"Error al registrar: {ex.Message}";
+                else
+                {
+                    ViewBag.Error = $"Error al registrar: {ex.Message}";
+                }
                 return View("Index");
->>>>>>> c92993177020f95f7f9702566506a31b25470f38
             }
         }
 
