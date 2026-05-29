@@ -1,0 +1,63 @@
+﻿body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+th, td {
+    padding: 15px 20px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+th {
+    background: #cb997e;
+    color: white;
+    font-size: 18px;
+}
+
+tr:hover {
+    background: #fdf6ec;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-editar {
+    padding: 8px 16px;
+    background: #4e78d6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-guardar {
+    padding: 8px 16px;
+    background: #6a994e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-eliminar {
+    padding: 8px 16px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}

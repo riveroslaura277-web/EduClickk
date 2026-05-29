@@ -1,148 +1,135 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EduClick.Data;
+using Microsoft.Data.SqlClient;
 using EduClick.Models;
+using System;
+using System.Collections.Generic;
 
 namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly EduClickContext _context;
+        private readonly string _conexion =
+            "Server=DANNA\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        public RegistroController(EduClickContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Registro
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: Registrar usuario
         [HttpPost]
-        public async Task<IActionResult> Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
-            // Validaciones
-            if (Contrasena.Length < 6)
-            {
-                ViewBag.Error = "La contraseña debe tener mínimo 6 caracteres";
-                return View("Index");
-            }
-
-            if (Contrasena != ConfirmarContrasena)
-            {
-                ViewBag.Error = "Las contraseñas no coinciden";
-                return View("Index");
-            }
-
-            if (Rol == "Docente" || Rol == "Rector")
-            {
-                ViewBag.Error = "Este rol solo puede ser creado por un administrador.";
-                return View("Index");
-            }
-
             try
             {
-                var usuario = new Usuarios
+                if (Contrasena != ConfirmarContrasena)
                 {
-                    Nombres = Nombres,
-                    Apellidos = Apellidos,
-                    Correo = Correo,
-                    Contrasena = Contrasena,
-                    Rol = Rol,
-                    FechaRegistro = DateTime.Now
-                };
+                    ViewBag.Error = "Las contraseñas no coinciden";
+                    return View("Index");
+                }
 
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
+                using (SqlConnection con = new SqlConnection(_conexion))
+                {
+                    con.Open();
 
-                ViewBag.Success = "Usuario registrado correctamente.";
-                return View("Index");
+                    string query = @"INSERT INTO Usuarios 
+                    (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro)
+                    VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
+                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
+                        cmd.Parameters.AddWithValue("@Correo", Correo);
+                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return RedirectToAction("Listar");
+
             }
             catch (Exception ex)
             {
-                ViewBag.Error = $"Error al registrar: {ex.Message}";
-                return View("Index");
+                return Content(ex.Message);
             }
         }
 
-        // LISTAR
-        public async Task<IActionResult> Listar()
+        public IActionResult Listar()
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            return View(usuarios);
-        }
+            List<Usuarios> lista = new List<Usuarios>();
 
-        public async Task<IActionResult> ListarMisUsuarios()
-        {
-            var usuarios = await _context.Usuarios
-                .Where(u => u.Rol == "Estudiante" || u.Rol == "Acudiente")
-                .ToListAsync();
-
-            return View("Listar", usuarios);
-        }
-
-        // GET: Editar
-        public async Task<IActionResult> Editar(string correo)
-        {
-            if (string.IsNullOrEmpty(correo))
+            using (SqlConnection con = new SqlConnection(_conexion))
             {
-                return BadRequest();
+                con.Open();
+                string query = "SELECT Id, Nombres, Apellidos, Correo, Rol FROM Usuarios";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        lista.Add(new Usuarios
+                        {
+                            Id = Convert.ToInt32(dr["Id"]),
+                            Nombres = dr["Nombres"].ToString(),
+                            Apellidos = dr["Apellidos"].ToString(),
+                            Correo = dr["Correo"].ToString(),
+                            Rol = dr["Rol"].ToString()
+                        });
+                    }
+                }
             }
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Correo == correo);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
+            return View(lista);
         }
 
-        // POST: Editar
+        public IActionResult Eliminar(int id)
+        {
+            using (SqlConnection con = new SqlConnection(_conexion))
+            {
+                con.Open();
+                string query = "DELETE FROM Usuarios WHERE Id=@Id";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            return RedirectToAction("Listar");
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Editar(Usuarios usuario)
+        public IActionResult EditarInline(int Id, string Nombres, string Apellidos, string Correo, string Rol)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(usuario);
-            }
-
             try
             {
-                _context.Update(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Listar));
+                using (SqlConnection con = new SqlConnection(_conexion))
+                {
+                    con.Open();
+
+                    string query = @"UPDATE Usuarios 
+                             SET Nombres=@Nombres,
+                                 Apellidos=@Apellidos,
+                                 Correo=@Correo,
+                                 Rol=@Rol
+                             WHERE Id=@Id";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", Id);
+                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
+                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
+                        cmd.Parameters.AddWithValue("@Correo", Correo);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return Ok();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!_context.Usuarios.Any(u => u.Correo == usuario.Correo))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Content(ex.Message);
             }
-        }
-
-        // DELETE
-        public async Task<IActionResult> Eliminar(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-
-            if (usuario == null)
-                return NotFound();
-
-            _context.Usuarios.Remove(usuario);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Listar");
         }
     }
 }

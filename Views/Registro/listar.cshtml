@@ -2,44 +2,93 @@
 @{
     Layout = null;
 }
+<link rel="stylesheet" href="~/css/listar.css">
 
-<div style="display:flex; align-items:flex-start;">
-    <!-- 🔹 Tabla encerrada -->
-    <table border="1" style="width:100%; border-collapse:collapse;">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Contraseña</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var u in Model)
-            {
-                <tr>
-                    <td>@u.Id</td>
-                    <td>@u.Nombres</td>
-                    <td>@u.Apellidos</td>
-                    <td>@u.Correo</td>
-                    <td>@u.Rol</td>
-                    <td>********</td>
-                </tr>
+<script>
+    let filaActiva = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("tr[data-id]").forEach(fila => {
+            fila.addEventListener("click", () => {
+                document.querySelectorAll("tr[data-id]").forEach(f => f.style.background = "");
+                filaActiva = fila;
+                fila.style.background = "#fff9c4";
+            });
+        });
+    });
+
+    function editarSeleccionada() {
+        if (!filaActiva) return alert("Selecciona una fila primero");
+        filaActiva.cells[0].contentEditable = true;
+        filaActiva.cells[1].contentEditable = true;
+        filaActiva.cells[2].contentEditable = true;
+        filaActiva.cells[3].contentEditable = true;
+        filaActiva.cells[0].style.background = "#fffde7";
+        filaActiva.cells[1].style.background = "#fffde7";
+        filaActiva.cells[2].style.background = "#fffde7";
+        filaActiva.cells[3].style.background = "#fffde7";
+    }
+
+    function guardarSeleccionada() {
+        if (!filaActiva) return alert("Selecciona una fila primero");
+        let datos = {
+            Id: filaActiva.dataset.id,
+            Nombres: filaActiva.cells[0].innerText,
+            Apellidos: filaActiva.cells[1].innerText,
+            Correo: filaActiva.cells[2].innerText,
+            Rol: filaActiva.cells[3].innerText
+        };
+        fetch("/Registro/EditarInline", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(datos)
+        }).then(r => {
+            if (r.ok) {
+                alert("✔ Actualizado correctamente");
+                filaActiva.cells[0].contentEditable = false;
+                filaActiva.cells[1].contentEditable = false;
+                filaActiva.cells[2].contentEditable = false;
+                filaActiva.cells[3].contentEditable = false;
+                filaActiva.cells[0].style.background = "";
+                filaActiva.cells[1].style.background = "";
+                filaActiva.cells[2].style.background = "";
+                filaActiva.cells[3].style.background = "";
             }
-        </tbody>
-    </table>
+        });
+    }
 
-    <!-- 🔹 Botones fuera del borde -->
-    <div style="margin-left:15px;">
+    function eliminarSeleccionada() {
+        if (!filaActiva) return alert("Selecciona una fila primero");
+        if (!confirm("¿Seguro que quieres eliminar este usuario?")) return;
+        let id = filaActiva.dataset.id;
+        window.location.href = "/Registro/Eliminar?id=" + id;
+    }
+</script>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Rol</th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var u in Model)
         {
-            <div style="margin-bottom:8px;">
-                <a asp-action="Editar" asp-route-correo="@u.Correo" class="btn-crear">Editar</a>
-                <a asp-action="Eliminar" asp-route-correo="@u.Correo" class="btn-crear">Eliminar</a>
-            </div>
+            <tr data-id="@u.Id">
+                <td contenteditable="false">@u.Nombres</td>
+                <td contenteditable="false">@u.Apellidos</td>
+                <td contenteditable="false">@u.Correo</td>
+                <td contenteditable="false">@u.Rol</td>
+            </tr>
         }
-    </div>
-</div>
+    </tbody>
+</table>
 
+<div class="acciones">
+    <button class="btn-editar" onclick="editarSeleccionada()">✏️ Editar</button>
+    <button class="btn-guardar" onclick="guardarSeleccionada()">💾 Guardar</button>
+    <button class="btn-eliminar" onclick="eliminarSeleccionada()">🗑️ Eliminar</button>
+</div>
