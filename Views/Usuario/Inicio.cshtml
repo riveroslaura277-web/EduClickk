@@ -1,25 +1,25 @@
 ﻿@{
     Layout = null;
-}
-
-@{
     ViewData["Title"] = "Iniciar Sesión";
 }
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - EduClick</title>
     <link rel="stylesheet" href="/css/Inicio.css" asp-append-version="true" />
 </head>
 <body>
+    <!-- Video de fondo -->
+    <video class="video-sesion" autoplay muted loop>
+        <source src="/imagenes/video_sesion.mp4" type="video/mp4" />
+        Tu navegador no soporta video.
+    </video>
+
     <div class="login-container">
         <div class="login-box">
-            <div class="logo">
-                <img src="/IMG_yesid/icono.png" alt="Logo EduClick" />
-            </div>
-
-            <h2>Bienvenido a tu aventura de Aprendizaje</h2>
-            <p>Explora. Aprende. Descubre.</p>
+            <h2>INICIO DE SESIÓN</h2>
+            <p>Explora, Aprende y Descubre.</p>
 
             <form asp-action="Login" method="post">
                 <div class="campo">
@@ -38,6 +38,13 @@
                 </div>
 
                 <button type="submit" class="btn-login">Iniciar sesión</button>
+            <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
+
+                <a asp-controller="Roles" asp-action="fondoRoles" class="btn-login">Iniciar sesión</A>
+                <a asp-action="
+                <a asp-action="Register">Crear cuenta nueva</a>
+
+ master
             </form>
 
             <!-- Botón para login con Google -->
@@ -51,9 +58,7 @@
                 <a asp-action="Register">Crear cuenta nueva</a>
             </div>
 
-            <a asp-action="Index" asp-controller="Home" class="btn-volver">>> Volver a Inicio</a>
         </div>
     </div>
 </body>
 </html>
-
