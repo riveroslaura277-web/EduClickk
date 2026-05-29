@@ -1,27 +1,37 @@
 ﻿@{
     Layout = null;
-}
-
-@{
     ViewData["Title"] = "Registro";
 }
+
 <link rel="stylesheet" href="~/css/registro.css" />
 
+<!-- 🎥 Video de fondo -->
+<video class="video-fondo" autoplay muted loop>
+    <source src="~/imagenes/video_registrar.mp4" type="video/mp4">
+    Tu navegador no soporta video.
+</video>
+
+<!-- 📝 Formulario centrado sobre el video -->
 <div class="registro">
-    <h2>¡REGISTRATE!</h2>
+    <h2>¡REGÍSTRATE!</h2>
     <p>Crea tu cuenta y comienza esta gran aventura.</p>
 
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="mensaje-popup @(TempData["Tipo"])">
+            <span class="cerrar" onclick="this.parentElement.style.display='none'">✖</span>
+            <p>@TempData["Mensaje"]</p>
+        </div>
+    }
 
-<form asp-controller="Registro" asp-action="Registrar" method="post">
-    <input type="text" name="Nombres" placeholder="Nombres Completos" required />
-    <input type="text" name="Apellidos" placeholder="Apellidos Completos" required />
-    <input type="email" name="Correo" placeholder="Correo Electrónico" required />
-    <input type="password" name="Contrasena" placeholder="Crear Contraseña" required />
-    <input type="password" name="ConfirmarContrasena" placeholder="Confirmar Contraseña" required />
+    <form asp-controller="Registro" asp-action="Registrar" method="post">
+        <input type="text" name="Nombres" placeholder="Nombres Completos" required />
+        <input type="text" name="Apellidos" placeholder="Apellidos Completos" required />
+        <input type="email" name="Correo" placeholder="Correo Electrónico" required />
+        <input type="password" name="Contrasena" placeholder="Crear Contraseña" required />
+        <input type="password" name="ConfirmarContrasena" placeholder="Confirmar Contraseña" required />
 
         <button type="submit" class="btn-crear">Crear Cuenta</button>
         <a asp-controller="Home" asp-action="Index" class="btn-crear">Volver a Inicio</a>
-
-
-</form>
+    </form>
 </div>

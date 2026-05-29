@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<EduClick.Models.Nota>
+@{
     ViewData["Title"] = "Panel Docente";
 }
 
@@ -24,40 +25,65 @@
             <h3>120 Estudiantes Activos</h3>
         </div>
         <div class="bloque">
-            <i class="fas fa-users icono"></i>
+            <i class="fas fa-chart-line icono"></i>
             <h3>92% Asistencia</h3>
         </div>
 
+        <!-- Bloque de notas CRUD -->
         <section class="bloque-notas">
-            <h2>📝 Block de Notas</h2>
-            <textarea id="nota" placeholder="Escribe tus observaciones aqui..."></textarea>
-            <button onclick="guardarNota()">Guardar Nota</button>
-            <div id="resultado"></div>
-        </section>
+            <h2>📝 Bloque de Notas </h2>
 
-        <section class="calendario">
-            <h2>📅 Calendario</h2>
-            <div id="calendar"></div>
-        </section>
+            <div class="acciones-superior">
+                <a asp-action="Crear" class="btn-agregar" title="Agregar nueva nota">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
 
-        <section class="bloque-notas">
-            <h2>Bloque de Notas</h2>
-            <table>
+            <table class="tabla-notas">
                 <thead>
                     <tr>
-                        <th>Nombres</th>
+                        <th>Nombre</th>
                         <th>Asistencias</th>
                         <th>Faltas</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Maria Lopez</td><td>20</td><td>2</td></tr>
-                    <tr><td>Julian Paredes</td><td>15</td><td>4</td></tr>
-                    <tr><td>Lorena Cristancho</td><td>25</td><td>0</td></tr>
+                    @foreach (var nota in Model)
+                    {
+                        <tr>
+                            <form asp-action="Editar" method="post">
+                            <td>
+                                <input type="hidden" name="Id" value="@nota.Id" />
+                                <input type="text" name="Nombre" value="@nota.Nombre" />
+                            </td>
+                            <td>
+                                <input type="number" name="Asistencias" value="@nota.Asistencias" />
+                            </td>
+                            <td>
+                                <input type="number" name="Faltas" value="@nota.Faltas" />
+                            </td>
+                            <td class="acciones">
+                                <button type="submit" title="Guardar cambios">
+                                    <i class="fas fa-save"></i>
+                                </button>
+                            </td>
+                            </form>
+                            <td class="acciones">
+                                <form asp-action="Eliminar" method="post">
+                                    <input type="hidden" name="Id" value="@nota.Id" />
+                                    <button type="submit" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </section>
 
+        <!-- Bloque de rendimiento -->
         <section class="rendimiento">
             <h2>Rendimiento Por Materias</h2>
             <div class="materia">
@@ -74,6 +100,7 @@
             </div>
         </section>
 
+        <!-- Bloque de mensajes -->
         <section class="mensajes-recientes">
             <h2>💬 Mensajes Recientes</h2>
             <ul>
@@ -85,156 +112,4 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
-
-<script>
-    $(document).ready(function () {
-        $('#calendar').fullCalendar({
-            events: '/Docente/GetEventos'
-        });
-    });
-
-    document.querySelectorAll('.progreso').forEach(function(barra) {
-        let nota = parseFloat(barra.getAttribute('data-nota'));
-        let porcentaje = (nota / 5) * 100;
-        barra.style.width = porcentaje + "%";
-
-        if (nota >= 1.0 && nota <= 2.9) {
-            barra.style.background = "Red";
-        } else if (nota >= 3.0 && nota <= 3.9) {
-            barra.style.background = "Yellow";
-            barra.style.color = "Black";
-        } else if (nota >= 4.0 && nota <= 5.0) {
-            barra.style.background = "Green";
-        }
-    });
-
-    function guardarNota() {
-        const texto = document.getElementById("nota").value;
-        localStorage.setItem("notaGuardada", texto);
-        document.getElementById("resultado").innerText = "Guardado: " + texto;
-    }
-
-    window.onload = function() {
-        const nota = localStorage.getItem("notaGuardada");
-        if (nota) {
-            document.getElementById("nota").value = nota;
-            document.getElementById("resultado").innerText = "Guardado: " + nota;
-        }
-    }
-</script>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Planilla de Asistencias</title>
-    <link rel="stylesheet" href="estilos.css">
-</head>
-<body>
-
-    <section class="planilla-asistencias">
-        <h2>Registro Mensual de Asistencias</h2>
-
-        <!-- Tabla dinámica -->
-        <table id="tablaAsistencias">
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <!-- Aquí se generan los días -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filas de estudiantes -->
-            </tbody>
-        </table>
-
-        <button class="guardar" onclick="guardarPlanilla()">💾 Guardar Planilla</button>
-        <button class="pdf" onclick="exportarPDF()">📄 Exportar PDF</button>
-        <button class="excel" onclick="exportarExcel()">📊 Exportar Excel</button>
-    </section>
-
-    <!-- Librerías necesarias -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", generarPlanilla);
-
-        function generarPlanilla() {
-          const hoy = new Date();
-          const mesActual = hoy.getMonth(); // 0 = enero
-          const añoActual = hoy.getFullYear();
-
-          const diasPorMes = [31,28,31,30,31,30,31,31,30,31,30,31];
-          // Ajuste para febrero en año bisiesto
-          if (mesActual === 1 && ((añoActual % 4 === 0 && añoActual % 100 !== 0) || añoActual % 400 === 0)) {
-            diasPorMes[1] = 29;
-          }
-
-          const diasSemana = ["Lun","Mar","Mié","Jue","Vie"];
-          const dias = diasPorMes[mesActual];
-
-          const tabla = document.getElementById("tablaAsistencias");
-          const thead = tabla.querySelector("thead tr");
-          const tbody = tabla.querySelector("tbody");
-
-          // limpiar cabecera y cuerpo
-          thead.innerHTML = "<th>Código</th><th>Nombre</th><th>Apellidos</th>";
-          tbody.innerHTML = "";
-
-          // generar cabecera con fecha y día
-          for (let d = 1; d <= dias; d++) {
-            const fecha = new Date(añoActual, mesActual, d);
-            const diaSemana = diasSemana[fecha.getDay()];
-            thead.innerHTML += `<th>${d}/${mesActual+1}/${añoActual}<br>${diaSemana}</th>`;
-          }
-
-          // ejemplo estudiantes (puedes añadir hasta 28)
-          const estudiantes = [
-            {codigo: 1, nombre: "María", apellidos: "López"},
-            {codigo: 2, nombre: "Julian", apellidos: "Paredes"},
-            {codigo: 3, nombre: "Lorena", apellidos: "Cristancho"}
-          ];
-
-          estudiantes.forEach(est => {
-            let fila = `<tr><td>${est.codigo}</td><td>${est.nombre}</td><td>${est.apellidos}</td>`;
-            for (let d = 1; d <= dias; d++) {
-              fila += `<td><input type="text" maxlength="2" placeholder="SI/C.E/S.E"></td>`;
-            }
-            fila += "</tr>";
-            tbody.innerHTML += fila;
-          });
-        }
-
-        // Guardar (ejemplo simple)
-        function guardarPlanilla() {
-          alert("Planilla guardada correctamente.");
-        }
-
-        // Exportar a PDF
-        function exportarPDF() {
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF('l', 'pt', 'a4');
-          doc.html(document.querySelector("#tablaAsistencias"), {
-            callback: function (doc) {
-              doc.save("Planilla_Asistencias.pdf");
-            }
-          });
-        }
-
-        // Exportar a Excel
-        function exportarExcel() {
-          let tabla = document.getElementById("tablaAsistencias");
-          let wb = XLSX.utils.table_to_book(tabla, {sheet:"Asistencias"});
-          XLSX.writeFile(wb, "Planilla_Asistencias.xlsx");
-        }
-    </script>
-
-</body>
-</html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />

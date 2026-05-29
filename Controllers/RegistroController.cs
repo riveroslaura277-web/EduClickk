@@ -14,8 +14,17 @@ namespace P.EDUCLICK.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
         {
+            // 🔴 VALIDAR CONTRASEÑAS
+            if (Contrasena != ConfirmarContrasena)
+            {
+                TempData["Mensaje"] = "❌ Las contraseñas no coinciden.";
+                TempData["Tipo"] = "error";
+
+                return RedirectToAction("Index");
+            }
+
             try
             {
                 using (SqlConnection con = new SqlConnection(_conexion))
@@ -37,21 +46,26 @@ namespace P.EDUCLICK.Controllers
                     }
                 }
 
+                // ✅ MENSAJE ÉXITO
+                TempData["Mensaje"] = "✅ Registro exitoso.";
+                TempData["Tipo"] = "success";
 
                 return RedirectToAction("Index");
             }
             catch (SqlException ex)
             {
-
                 if (ex.Number == 2627)
                 {
-                    ViewBag.Error = "Este correo ya está registrado por otro usuario.";
-                    return View("Index");
+                    TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
+                    TempData["Tipo"] = "error";
+
+                    return RedirectToAction("Index");
                 }
 
+                TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
+                TempData["Tipo"] = "error";
 
-                ViewBag.Error = "Ocurrió un error al registrar el usuario.";
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
     }
