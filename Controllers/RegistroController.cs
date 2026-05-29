@@ -14,13 +14,79 @@ namespace P.EDUCLICK.Controllers
         }
 
         [HttpPost]
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
+        {
+            // 🔴 VALIDAR CONTRASEÑAS
+            if (Contrasena != ConfirmarContrasena)
+            {
+                TempData["Mensaje"] = "❌ Las contraseñas no coinciden.";
+                TempData["Tipo"] = "error";
+
+                return RedirectToAction("Index");
+            }
+
+
         public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena)
         {
+ master
             try
             {
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
+                    Nombres = Nombres,
+                    Apellidos = Apellidos,
+                    Correo = Correo,
+                    Contrasena = Contrasena,
+                    Rol = Rol,
+                    FechaRegistro = DateTime.Now
+                };
+
+                _context.Usuarios.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
+                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
+                        cmd.Parameters.AddWithValue("@Correo", Correo);
+                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                // ✅ MENSAJE ÉXITO
+                TempData["Mensaje"] = "✅ Registro exitoso.";
+                TempData["Tipo"] = "success";
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
+                    TempData["Tipo"] = "error";
+
+                    return RedirectToAction("Index");
+                }
+
+                TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
+                TempData["Tipo"] = "error";
+
+                return RedirectToAction("Index");
+            }
+        }
+
+        // LISTAR
+        public async Task<IActionResult> Listar()
+        {
+            var usuarios = await _context.Usuarios.ToListAsync();
+            return View(usuarios);
+        }
+
                     con.Open();
+ master
 
                     string query = @"INSERT INTO Usuarios 
                                      (Nombres, Apellidos, Correo, Contrasena, FechaRegistro) 
@@ -37,19 +103,19 @@ namespace P.EDUCLICK.Controllers
                     }
                 }
 
-             
+
                 return RedirectToAction("Index");
             }
             catch (SqlException ex)
             {
-               
+
                 if (ex.Number == 2627)
                 {
                     ViewBag.Error = "Este correo ya está registrado por otro usuario.";
                     return View("Index");
                 }
 
-              
+
                 ViewBag.Error = "Ocurrió un error al registrar el usuario.";
                 return View("Index");
             }

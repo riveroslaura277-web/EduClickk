@@ -1,208 +1,111 @@
 ﻿body {
-    font-family: 'Poppins', sans-serif;
-    background: url('/IMG_yesid/FONDO_INICIO1.png') no-repeat center center fixed;
-    background-size: cover;
     margin: 0;
-    color: #333;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: url('/imagenes/fondo_roles.jpg') center/* o tu video si lo prefieres */
 }
 
+/* Fondo desenfocado */
+.video-sesion {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: blur(6px) brightness(0.8); /* desenfoque y oscurecimiento suave */
+}
+
+/* Centrado del formulario */
 .login-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     height: 100vh;
-    padding-left: 80px;
 }
 
+/* Caja del formulario */
 .login-box {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.25); /* transparencia */
+    backdrop-filter: blur(12px);
     border-radius: 20px;
-    padding: 55px;
-    width: 650px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-    border: 3px solid transparent;
-    position: relative;
-    transition: all 0.4s ease;
+    padding: 45px;
+    width: 420px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
 }
 
-    .login-box::before {
-        content: "";
-        position: absolute;
-        top: -3px;
-        left: -3px;
-        right: -3px;
-        bottom: -3px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, #ff66b2, #42a5f5, #4caf50);
-        z-index: -1;
-        filter: blur(8px);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-    }
-
-    .login-box:hover::before {
-        opacity: 1;
-    }
-
-.logo img {
-    width: 180px;
-    margin-bottom: 25px;
-}
-
+/* Título y texto */
 h2 {
-    color: #2E7D32;
+    color: #FFFF00;
+    -webkit-text-stroke: 1px #000000; /* contorno negro */
+    font-weight: 700;
+    font-size: 28px;
     margin-bottom: 10px;
-    font-weight: 600;
-    font-size: 24px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    font-family:cursive;
 }
 
 p {
-    color: #555;
-    margin-bottom: 30px;
+    color:white;
     font-size: 16px;
-}
-
-.campo {
-    display: flex;
-    align-items: center;
     margin-bottom: 25px;
 }
 
-.icono {
-    margin-right: 12px;
-    font-size: 20px;
-}
-
+/* Campos del formulario */
 input {
-    flex: 1;
+    width: 100%;
     padding: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    margin-bottom: 18px;
+    border: none;
+    border-radius: 10px;
     font-size: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(90deg, #fff8e1, #ffe082);
+    box-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+    transition: all 0.3s ease;
 }
 
-    input:focus {
-        border-color: #ff66b2;
-        box-shadow: 0 0 8px rgba(255, 102, 178, 0.5);
-        outline: none;
-    }
+input:focus {
+    outline: none;
+    box-shadow: 0 0 12px rgba(255, 193, 7, 0.8);
+}
+
+/* Botones */
+.btn-login, .btn-volver {
+    display: inline-block;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
+    text-decoration: none;
+    color: #000;
+}
 
 .btn-login {
-    background: linear-gradient(135deg, #4caf50, #42a5f5);
-    color: white;
-    border: none;
-    padding: 16px;
-    width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    margin-bottom: 15px;
+    background: linear-gradient(135deg, #FFD600, #FF9100);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
 }
-
-    .btn-login:hover {
-        background: linear-gradient(135deg, #42a5f5, #4caf50);
-        box-shadow: 0 0 15px rgba(66, 165, 245, 0.6);
-        transform: translateY(-3px);
-    }
-
-/* Botón Google */
-.btn-google {
-    display: inline-block;
-    background-color: #DB4437; /* Rojo oficial de Google */
-    color: white;
-    border: none;
-    padding: 16px;
-    width: 100%;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    text-align: center;
-    text-decoration: none;
-    margin-bottom: 15px;
-    position: relative;
-}
-
-    .btn-google::before {
-        content: "🌐 "; /* Icono opcional, puedes reemplazarlo por el logo oficial */
-        font-size: 18px;
-        margin-right: 6px;
-    }
-
-    .btn-google:hover {
-        background-color: #C33D2E;
-        box-shadow: 0 0 15px rgba(219, 68, 55, 0.6);
-        transform: translateY(-3px);
-    }
-
-.extra-options {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 15px;
-}
-
-    .extra-options a {
-        color: #1976D2;
-        text-decoration: none;
-        margin: 0 5px;
-    }
-
-        .extra-options a:hover {
-            text-decoration: underline;
-        }
 
 .btn-volver {
-    display: inline-block;
-    margin-top: 30px;
-    padding: 14px 24px;
-    background: linear-gradient(135deg, #42a5f5, #4caf50);
-    color: white;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 30px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    font-size: 15px;
+    background: linear-gradient(135deg, #FF9100, #FFD600);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.5);
 }
 
-    .btn-volver:hover {
-        background: linear-gradient(135deg, #4caf50, #42a5f5);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-    }
+.btn-login:hover, .btn-volver:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 152, 0, 0.7);
+}
 
-    .btn-volver::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: rgba(255,255,255,0.3);
-        transform: skewX(-20deg);
-        transition: left 0.5s;
-    }
-
-    .btn-volver:hover::after {
-        left: 100%;
-    }
-
+/* Responsivo */
 @media (max-width: 768px) {
-    .login-container {
-        justify-content: center;
-        padding: 20px;
-    }
-
     .login-box {
-        width: 100%;
-        max-width: 450px;
-        padding: 50px;
+        width: 90%;
+        padding: 35px;
     }
 }
