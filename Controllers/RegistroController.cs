@@ -1,156 +1,73 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EduClick.Data;
-using EduClick.Models;
+using Microsoft.Data.SqlClient;
 
-namespace EduClick.Controllers
+namespace P.EDUCLICK.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly EduClickContext _context;
+        private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        public RegistroController(EduClickContext context)
-        {
-            _context = context;
-        }
-
-        // GET: Registro
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: Registrar usuario
         [HttpPost]
-        public async Task<IActionResult> Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
-            // Validaciones
-            if (string.IsNullOrEmpty(Contrasena) || Contrasena.Length < 6)
-            {
-                ViewBag.Error = "La contraseña debe tener mínimo 6 caracteres";
-                return View("Index");
-            }
-
+            // 1. Validaciones básicas
             if (Contrasena != ConfirmarContrasena)
             {
-                ViewBag.Error = "Las contraseñas no coinciden";
+                ViewBag.Error = "❌ Las contraseñas no coinciden.";
                 return View("Index");
             }
 
-            if (Rol == "Docente" || Rol == "Rector")
+            if (string.IsNullOrEmpty(Nombres) || string.IsNullOrEmpty(Correo))
             {
-                ViewBag.Error = "Este rol solo puede ser creado por un administrador.";
+                ViewBag.Error = "Todos los campos son obligatorios.";
                 return View("Index");
             }
 
             try
             {
-                var usuario = new Usuarios
+                using (SqlConnection con = new SqlConnection(_conexion))
                 {
-                    Nombres = Nombres,
-                    Apellidos = Apellidos,
-                    Correo = Correo,
-                    Contrasena = Contrasena,
-                    Rol = Rol,
-                    FechaRegistro = DateTime.Now
-                };
+                    con.Open();
 
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
+                    // Ajusta el INSERT según los nombres reales de tus columnas en SQL
+                    string query = @"INSERT INTO Usuarios (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro) 
+                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
 
-                ViewBag.Success = "Usuario registrado correctamente.";
-                return View("Index");
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
+                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
+                        cmd.Parameters.AddWithValue("@Correo", Correo);
+                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                // Éxito
+                TempData["Mensaje"] = "✅ Registro exitoso.";
+                TempData["Tipo"] = "success";
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                // Verifica si el error es por correo duplicado (código de error SQL)
-                if (ex.InnerException != null && ex.InnerException.Message.Contains("2627"))
+                // Error 2627 es el código de SQL para violación de llave única (correo duplicado)
+                if (ex.Number == 2627)
                 {
-                    ViewBag.Error = "Este correo ya está registrado.";
+                    ViewBag.Error = "⚠️ Este correo ya está registrado.";
                 }
                 else
                 {
-                    ViewBag.Error = $"Error al registrar: {ex.Message}";
+                    ViewBag.Error = "❌ Ocurrió un error al registrar: " + ex.Message;
                 }
                 return View("Index");
             }
-        }
-
-        // LISTAR
-        public async Task<IActionResult> Listar()
-        {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            return View(usuarios);
-        }
-
-        public async Task<IActionResult> ListarMisUsuarios()
-        {
-            var usuarios = await _context.Usuarios
-                .Where(u => u.Rol == "Estudiante" || u.Rol == "Acudiente")
-                .ToListAsync();
-
-            return View("Listar", usuarios);
-        }
-
-        // GET: Editar
-        public async Task<IActionResult> Editar(string correo)
-        {
-            if (string.IsNullOrEmpty(correo))
-            {
-                return BadRequest();
-            }
-
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Correo == correo);
-
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // POST: Editar
-        [HttpPost]
-        public async Task<IActionResult> Editar(Usuarios usuario)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(usuario);
-            }
-
-            try
-            {
-                _context.Update(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Listar));
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Usuarios.Any(u => u.Correo == usuario.Correo))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
-
-        // DELETE
-        public async Task<IActionResult> Eliminar(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-
-            if (usuario == null)
-                return NotFound();
-
-            _context.Usuarios.Remove(usuario);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Listar");
         }
     }
 }

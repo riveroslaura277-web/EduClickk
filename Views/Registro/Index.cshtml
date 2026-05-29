@@ -7,6 +7,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/registro.css" />
 </head>
 <body>
@@ -17,7 +18,19 @@
 
     <div class="registro">
         <h2>¡REGÍSTRATE!</h2>
-        <p>Crea tu cuenta y comienza esta aventura.</p>
+        <p>Crea tu cuenta y comienza esta gran aventura.</p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-box">@ViewBag.Error</div>
+        }
+        @if (TempData["Mensaje"] != null)
+        {
+            <div class="mensaje-popup @(TempData["Tipo"])">
+                <span class="cerrar" onclick="this.parentElement.style.display='none'">✖</span>
+                <p>@TempData["Mensaje"]</p>
+            </div>
+        }
 
         <form asp-controller="Registro" asp-action="Registrar" method="post">
             <input type="text" name="Nombres" placeholder="Nombres" required />
@@ -38,7 +51,6 @@
                 <button type="submit" class="btn-crear">Crear Cuenta</button>
                 <a asp-controller="Home" asp-action="Index" class="btn-crear">Volver a Inicio</a>
             </div>
-
         </form>
     </div>
 

@@ -1,5 +1,4 @@
 using EduClick.Data;
-using Microsoft.AspNetCore.Identity;
 using EduClick.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,8 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Configuración de la conexión a la base de datos
+// Asegúrate de que tu cadena de conexión en appsettings.json se llame "Default"
 builder.Services.AddDbContext<EduClickContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 var app = builder.Build();
 
@@ -18,7 +18,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
