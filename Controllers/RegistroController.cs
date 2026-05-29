@@ -5,8 +5,7 @@ namespace P.EDUCLICK.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly string _conexion =
-            "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public IActionResult Index()
         {
@@ -14,35 +13,30 @@ namespace P.EDUCLICK.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
-            // 🔴 VALIDAR CONTRASEÑAS
+            // 1. Validaciones básicas
             if (Contrasena != ConfirmarContrasena)
             {
-                TempData["Mensaje"] = "❌ Las contraseñas no coinciden.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
+                ViewBag.Error = "❌ Las contraseñas no coinciden.";
+                return View("Index");
             }
 
+            if (string.IsNullOrEmpty(Nombres) || string.IsNullOrEmpty(Correo))
+            {
+                ViewBag.Error = "Todos los campos son obligatorios.";
+                return View("Index");
+            }
 
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena)
-        {
- master
             try
             {
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
-                    Nombres = Nombres,
-                    Apellidos = Apellidos,
-                    Correo = Correo,
-                    Contrasena = Contrasena,
-                    Rol = Rol,
-                    FechaRegistro = DateTime.Now
-                };
+                    con.Open();
 
-                _context.Usuarios.Add(usuario);
-                await _context.SaveChangesAsync();
+                    // Ajusta el INSERT según los nombres reales de tus columnas en SQL
+                    string query = @"INSERT INTO Usuarios (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro) 
+                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -50,73 +44,28 @@ namespace P.EDUCLICK.Controllers
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
                         cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
 
                         cmd.ExecuteNonQuery();
                     }
                 }
 
-                // ✅ MENSAJE ÉXITO
+                // Éxito
                 TempData["Mensaje"] = "✅ Registro exitoso.";
                 TempData["Tipo"] = "success";
-
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                if (ex.Number == 2627)
-                {
-                    TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
-                    TempData["Tipo"] = "error";
-
-                    return RedirectToAction("Index");
-                }
-
-                TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
-                TempData["Tipo"] = "error";
-
-                return RedirectToAction("Index");
-            }
-        }
-
-        // LISTAR
-        public async Task<IActionResult> Listar()
-        {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            return View(usuarios);
-        }
-
-                    con.Open();
- master
-
-                    string query = @"INSERT INTO Usuarios 
-                                     (Nombres, Apellidos, Correo, Contrasena, FechaRegistro) 
-                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, GETDATE())";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-
                 return RedirectToAction("Index");
             }
             catch (SqlException ex)
             {
-
+                // Error 2627 es el código de SQL para violación de llave única (correo duplicado)
                 if (ex.Number == 2627)
                 {
-                    ViewBag.Error = "Este correo ya está registrado por otro usuario.";
-                    return View("Index");
+                    ViewBag.Error = "⚠️ Este correo ya está registrado.";
                 }
-
-
-                ViewBag.Error = "Ocurrió un error al registrar el usuario.";
+                else
+                {
+                    ViewBag.Error = "❌ Ocurrió un error al registrar: " + ex.Message;
+                }
                 return View("Index");
             }
         }
