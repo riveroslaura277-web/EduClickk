@@ -1,8 +1,11 @@
 ﻿body {
-    background:aliceblue;
     margin: 0;
     padding: 0;
+    background-color: lightgoldenrodyellow;
+    background-size: 400% 400%;
+    animation: moverFondo 15s ease infinite;
 }
+
 
 .panel-docente {
     display: flex;
@@ -12,7 +15,7 @@
 }
 
 .menu-lateral {
-    background-color:cornflowerblue;
+    background-color:khaki;
     width: 220px;
     display: flex;
     flex-direction: column;
@@ -22,7 +25,7 @@
 
 .btn-menu {
     background-color: transparent;
-    color: white;
+    color:black;
     border: none;
     padding: 12px;
     border-radius: 6px;
@@ -34,7 +37,7 @@
 }
 
     .btn-menu:hover {
-        background-color:aliceblue;
+        background-color: aliceblue;
         color: black;
     }
 
@@ -62,89 +65,77 @@
     margin-bottom: 10px;
 }
 
+/* Bloque de notas CRUD */
 .bloque-notas {
-    background-color:transparent;
+    background-color: transparent;
     border-radius: 8px;
     padding: 20px;
-    border: 1px solid Gray;
-    width: 400px;
+    border: 1px solid gray;
+    width: 100%;
     margin-bottom: 20px;
 }
 
     .bloque-notas h2 {
         text-align: center;
-        color: Blue;
+        color: blue;
         margin-bottom: 10px;
     }
 
-    .bloque-notas textarea {
-        width: 100%;
-        height: 80px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        padding: 10px;
-        resize: none;
-        
-    }
-
-    .bloque-notas button {
-        margin-top: 10px;
-        background-color: #0077b6;
-        color: white;
-        border: none;
-        padding: 10px 15px; 
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.3s;
-       
-    }
-
-        .bloque-notas button:hover {
-            background-color: #023e8a;
-        }
-
-    .bloque-notas table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 14px;
-        
-    }
-
-    .bloque-notas th, .bloque-notas td {
-        border: 1px solid Gray;
-        padding: 6px;
-        text-align: center;
-        
-    }
-
-    .bloque-notas th {
-        background: LightGray;
-        font-weight: bold;
-        
-    }
-
-.calendario {
-    background-color:transparent;
-    padding: 10px;
-    border: 1px solid Gray;
-    border-radius: 6px;
-    width: 300px;
-    font-size: 12px;
+.acciones-superior {
+    margin-bottom: 12px;
+    text-align: left;
 }
 
-.rendimiento {
+.btn-agregar {
+    font-size: 22px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+    .btn-agregar:hover {
+        color: #0056b3;
+    }
+
+.tabla-notas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    .tabla-notas th, .tabla-notas td {
+        border: 1px solid gray;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .tabla-notas th {
+        background: lightgray;
+        font-weight: bold;
+    }
+
+.acciones a {
+    margin: 0 6px;
+    color: #007bff;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+    .acciones a:hover {
+        color: #0056b3;
+    }
+
+/* Otros bloques */
+.calendario, .rendimiento, .mensajes-recientes {
     background-color: transparent;
     padding: 10px;
-    border: 1px solid Gray;
-    border-radius: 6px;
-    width: 400px;
+    border: 1px solid gray;
+    border-radius: 8px;
     margin-bottom: 20px;
 }
 
-    .rendimiento h2 {
+    .rendimiento h2, .mensajes-recientes h2 {
         text-align: center;
-        color: Blue;
+        color: blue;
         margin-bottom: 10px;
     }
 
@@ -159,23 +150,12 @@
     }
 
 .barra {
-    background: LightGray;
-}
-.mensajes-recientes {
-    background-color: transparent;
-    padding: 20px;
-    border: 1px solid Gray;
-    border-radius: 8px;
-    width: 400px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* sombra para efecto de cuadro */
+    background: lightgray;
 }
 
-    .mensajes-recientes h2 {
-        text-align: center;
-        color: Blue;
-        margin-bottom: 10px;
-    }
+.mensajes-recientes {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
 .planilla-asistencias {
     background: #ffffff;
@@ -186,11 +166,11 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.planilla-asistencias h2 {
-    color: #1e3a8a;
-    margin-bottom: 15px;
-    font-family: 'Poppins', sans-serif;
-}
+    .planilla-asistencias h2 {
+        color: #1e3a8a;
+        margin-bottom: 15px;
+        font-family: 'Poppins', sans-serif;
+    }
 
 table {
     width: 100%;
@@ -209,13 +189,6 @@ td {
     border: 1px solid #ddd;
     text-align: center;
     padding: 4px;
-}
-
-select {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 button {
