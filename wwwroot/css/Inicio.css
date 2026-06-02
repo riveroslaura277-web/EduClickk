@@ -88,7 +88,6 @@ input {
         box-shadow: 0 0 8px rgba(255, 102, 178, 0.5);
         outline: none;
     }
-
 .btn-login {
     background: linear-gradient(135deg, #4caf50, #42a5f5);
     color: white;
@@ -100,8 +99,12 @@ input {
     font-size: 16px;
     font-weight: 500;
     transition: all 0.3s ease;
-    margin-bottom: 15px;
+    margin-top: 20px;
+    text-align: center; /* 👈 centra el texto */
+    display: inline-block; /* 👈 mantiene el botón compacto */
+    text-decoration: none; /* 👈 quita el subrayado */
 }
+
 
     .btn-login:hover {
         background: linear-gradient(135deg, #42a5f5, #4caf50);
@@ -142,7 +145,7 @@ input {
 
 .extra-options {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 15px;
 }
 
