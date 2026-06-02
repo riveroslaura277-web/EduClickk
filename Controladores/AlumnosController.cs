@@ -2,7 +2,7 @@
 
 namespace EduClick.Controllers
 {
-    public class Alumnos : Controller
+    public class AlumnosController : Controller
     {
         public IActionResult Index()
         {
