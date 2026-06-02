@@ -61,22 +61,46 @@ body {
 }
 
     .menu a {
-        text-decoration: none;
-        color: #222;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-weight: 700;
-        transition: .3s;
+        transition: all 0.3s ease;
     }
 
-        .menu a i {
-            font-size: 24px;
-            margin-bottom: 5px;
+        /* Encoger */
+        .menu a:hover {
+            transform: scale(0.85);
         }
 
-        .menu a:hover {
-            transform: translateY(-4px);
+        /* Inicio */
+        .menu a.inicio:hover {
+            color: #00c853;
+            text-shadow: 0 0 15px #00c853;
+        }
+
+        /* Actividades */
+        .menu a.actividades:hover {
+            color: #ff9800;
+            text-shadow: 0 0 15px #ff9800;
+        }
+
+        /* Recursos */
+        .menu a.recursos:hover {
+            color: #2196f3;
+            text-shadow: 0 0 15px #2196f3;
+        }
+
+        /* Galería */
+        .menu a.galeria:hover {
+            color: #9c27b0;
+            text-shadow: 0 0 15px #9c27b0;
+        }
+
+        /* Contacto */
+        .menu a.contacto:hover {
+            color: #f44336;
+            text-shadow: 0 0 15px #f44336;
+        }
+
+        .menu a:hover i {
+            color: inherit;
         }
 
 .active {
@@ -90,15 +114,12 @@ body {
 }
 
 .btn {
-    padding: 14px 22px;
+    height: 55px;
+    padding: 0 25px;
     border-radius: 18px;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 8px;
-    transition: .3s;
+    justify-content: center;
 }
 
     .btn:hover {
@@ -106,11 +127,11 @@ body {
     }
 
 .login {
-    background: #1976d2;
+    background: #00c853;
 }
 
 .register {
-    background: #23b14d;
+    background: #ff9800;
 }
 
 /* HERO */
@@ -169,51 +190,6 @@ body {
 .hero-image img {
     width: 420px;
 }
-
-/* CARDS */
-.cards {
-    width: 95%;
-    margin: -40px auto 30px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-/* CARD */
-.card {
-    width: 220px;
-    background: rgba(255,255,255,.96);
-    border-radius: 28px;
-    padding: 25px 20px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,.15);
-    transition: .3s;
-}
-
-    .card:hover {
-        transform: translateY(-10px);
-    }
-
-    .card img {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        margin-bottom: 15px;
-    }
-
-    .card h3 {
-        font-size: 22px;
-        margin-bottom: 10px;
-    }
-
-    .card p {
-        font-size: 15px;
-        line-height: 24px;
-        color: #444;
-        margin-bottom: 20px;
-    }
-
 /* BOTONES CARDS */
 .btn-card {
     display: inline-block;
