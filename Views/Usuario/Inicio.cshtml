@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar Sesión";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - EduClick</title>
+    <link rel="stylesheet" href="/css/Inicio.css" asp-append-version="true" />
+</head>
+<body>
+    <video class="video-sesion" autoplay muted loop>
+        <source src="/imagenes/video_sesion.mp4" type="video/mp4" />
+        Tu navegador no soporta video.
+    </video>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>INICIO DE SESIÓN</h2>
+            <p>Explora, Aprende y Descubre.</p>
+
+            <form asp-controller="Usuario" asp-action="Login" method="post">
+                <input type="hidden" name="rol" value="@ViewBag.RolSeleccionado" />
+
+                <div class="campo">
+                    <span class="icono">📧</span>
+                    <input type="email" name="email" placeholder="Correo" required />
+                </div>
+
+                <div class="campo">
+                    <span class="icono">🔒</span>
+                    <input type="password" name="password" placeholder="Contraseña" required />
+                </div>
+
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
+
+<<<<<<< HEAD
+                <a asp-controller="Home" asp-action="Index" class="btn-volver">
+                    Volver al Inicio
+                </a>
+=======
+                <button type="submit" class="btn-login">Iniciar sesión</button>
+            <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
+
+                <a asp-controller="Roles" asp-action="fondoRoles" class="btn-login">Iniciar sesión</A>
+                <a asp-action="
+                <a asp-action="Register">Crear cuenta nueva</a>
+
+ master
+>>>>>>> 38175f93ae41581a402a96904ca1500d9022a011
+            </form>
+
+            <a class="btn-google" asp-controller="Account" asp-action="GoogleLogin">
+                Continuar con Google
+            </a>
+
+            <div class="extra-options">
+                <a asp-action="ForgotPassword">¿Olvidaste tu contraseña?</a>
+                <span> | </span>
+                <a asp-action="Register">Crear cuenta nueva</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
