@@ -9,8 +9,7 @@ namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly string _conexion;
-        private readonly EduClickContext _context;
+        private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public RegistroController(EduClickContext context, IConfiguration configuration)
         {
@@ -26,17 +25,18 @@ namespace EduClick.Controllers
 
         // REGISTRAR
         [HttpPost]
-        public IActionResult Registrar(
-            string Nombres,
-            string Apellidos,
-            string Correo,
-            string Contrasena,
-            string ConfirmarContrasena,
-            int IdRol)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
+            // 1. Validaciones básicas
             if (Contrasena != ConfirmarContrasena)
             {
-                ViewBag.Error = "Las contraseñas no coinciden.";
+                ViewBag.Error = "❌ Las contraseñas no coinciden.";
+                return View("Index");
+            }
+
+            if (string.IsNullOrEmpty(Nombres) || string.IsNullOrEmpty(Correo))
+            {
+                ViewBag.Error = "Todos los campos son obligatorios.";
                 return View("Index");
             }
 
@@ -48,136 +48,39 @@ namespace EduClick.Controllers
                 {
                     con.Open();
 
-                    string query = @"INSERT INTO Usuarios
-                                    (Nombres,Apellidos,Correo,Contrasena,IdRol,FechaRegistro)
-                                     VALUES
-                                    (@Nombres,@Apellidos,@Correo,@Contrasena,@IdRol,GETDATE())";
+                    // Ajusta el INSERT según los nombres reales de tus columnas en SQL
+                    string query = @"INSERT INTO Usuarios (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro) 
+                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Nombres", Nombres);
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", hash);
-                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
+                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
 
                         cmd.ExecuteNonQuery();
                     }
                 }
 
-                return RedirectToAction("Listar");
+                // Éxito
+                TempData["Mensaje"] = "✅ Registro exitoso.";
+                TempData["Tipo"] = "success";
+                return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (SqlException ex)
             {
-                ViewBag.Error = ex.Message;
+                // Error 2627 es el código de SQL para violación de llave única (correo duplicado)
+                if (ex.Number == 2627)
+                {
+                    ViewBag.Error = "⚠️ Este correo ya está registrado.";
+                }
+                else
+                {
+                    ViewBag.Error = "❌ Ocurrió un error al registrar: " + ex.Message;
+                }
                 return View("Index");
-            }
-        }
-
-        // LISTAR
-
-        public async Task<IActionResult> Listar()
-        {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            return View(usuarios);
-        }
-
-
-     
-
-    // EDITAR
-    [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditarInline(
-            int IdUsuario,
-            string Nombres,
-            string Apellidos,
-            string Correo,
-            int IdRol)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    string query = @"UPDATE Usuarios
-                                     SET Nombres=@Nombres,
-                                         Apellidos=@Apellidos,
-                                         Correo=@Correo,
-                                         IdRol=@IdRol
-                                     WHERE IdUsuario=@IdUsuario";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@IdUsuario", IdUsuario);
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EliminarVarios(List<int> ids)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    foreach (var id in ids)
-                    {
-                        string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Parameters.AddWithValue("@Id", id);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                }
-
-                return RedirectToAction("Listar");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        // ELIMINAR
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Eliminar(int id)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Id", id);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                return Ok();
             }
             catch (Exception ex)
             {
