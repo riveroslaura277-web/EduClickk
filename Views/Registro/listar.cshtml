@@ -1,118 +1,267 @@
 ﻿@model IEnumerable<EduClick.Models.Usuarios>
+
 @{
     Layout = null;
 }
-<link rel="stylesheet" href="~/css/listar.css">
+
+<link rel="stylesheet" href="~/css/listar.css" />
+
+@Html.AntiForgeryToken()
+
+
+
+
 
 <script>
     let filaActiva = null;
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", function () {
+
         document.querySelectorAll("tr[data-id]").forEach(fila => {
-            fila.addEventListener("click", () => {
-                document.querySelectorAll("tr[data-id]").forEach(f => f.style.background = "");
+
+            fila.addEventListener("click", function () {
+
+                document.querySelectorAll("tr[data-id]").forEach(f => {
+                    f.style.background = "";
+                });
+
                 filaActiva = fila;
                 fila.style.background = "#fff9c4";
             });
+
         });
+
     });
 
     function editarSeleccionada() {
-        if (!filaActiva) return alert("Selecciona una fila primero");
-        filaActiva.cells[0].contentEditable = true;
+
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
+
         filaActiva.cells[1].contentEditable = true;
         filaActiva.cells[2].contentEditable = true;
         filaActiva.cells[3].contentEditable = true;
-        filaActiva.cells[0].style.background = "#fffde7";
+
         filaActiva.cells[1].style.background = "#fffde7";
         filaActiva.cells[2].style.background = "#fffde7";
         filaActiva.cells[3].style.background = "#fffde7";
     }
 
     function guardarSeleccionada() {
-        if (!filaActiva) return alert("Selecciona una fila primero");
+
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
 
         let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
         let datos = {
-            Id: filaActiva.dataset.id,
-            Nombres: filaActiva.cells[0].innerText,
-            Apellidos: filaActiva.cells[1].innerText,
-            Correo: filaActiva.cells[2].innerText,
-            Rol: filaActiva.cells[3].innerText,
+            IdUsuario: filaActiva.dataset.id,
+            Nombres: filaActiva.cells[1].innerText.trim(),
+            Apellidos: filaActiva.cells[2].innerText.trim(),
+            Correo: filaActiva.cells[3].innerText.trim(),
+            IdRol: filaActiva.dataset.rol,
             __RequestVerificationToken: token
         };
 
         fetch("/Registro/EditarInline", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
             body: new URLSearchParams(datos)
-        }).then(r => {
+        })
+        .then(r => {
             if (r.ok) {
-                alert("✔ Actualizado correctamente");
-                filaActiva.cells[0].contentEditable = false;
+
                 filaActiva.cells[1].contentEditable = false;
                 filaActiva.cells[2].contentEditable = false;
                 filaActiva.cells[3].contentEditable = false;
-                filaActiva.cells[0].style.background = "";
+
                 filaActiva.cells[1].style.background = "";
                 filaActiva.cells[2].style.background = "";
                 filaActiva.cells[3].style.background = "";
-            } else {
-                alert("❌ Error al guardar");
-            }
-        });
+
+           
     }
 
-    function eliminarSeleccionada() {
-        if (!filaActiva) return alert("Selecciona una fila primero");
-        if (!confirm("¿Seguro que deseas eliminar este usuario?")) return;
 
-        let id = filaActiva.dataset.id;
+    function eliminarSeleccionada() {
+
+        let seleccionados = [];
+
+        document.querySelectorAll(".chkUsuario:checked").forEach(chk => {
+            seleccionados.push(chk.value);
+        });
+
         let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        // =========================
+        // 🔥 ELIMINAR VARIOS
+        // =========================
+        if (seleccionados.length > 1) {
+
+            if (!confirm("¿Eliminar usuarios seleccionados?"))
+                return;
+
+            let datos = new URLSearchParams();
+
+            seleccionados.forEach(id => {
+                datos.append("ids", id);
+            });
+
+            datos.append("__RequestVerificationToken", token);
+
+               fetch("/Registro/EliminarVarios", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: datos
+    })
+    .then(async r => {
+        if (r.ok) {
+            location.reload();
+        } else {
+            const error = await r.text();
+            console.log(error);
+            alert("❌ Error: " + error);
+        }
+    });
+
+            return;
+        }
+
+        // =========================
+        // 🔥 ELIMINAR 1 POR CHECKBOX
+        // =========================
+        if (seleccionados.length == 1) {
+
+            if (!confirm("¿Eliminar usuario?"))
+                return;
+
+            fetch("/Registro/Eliminar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    id: seleccionados[0],
+                    __RequestVerificationToken: token
+                })
+            })
+            .then(r => {
+                if (r.ok) location.reload();
+                else alert("❌ Error al eliminar");
+            });
+
+            return;
+        }
+
+        // =========================
+        // 🔥 ELIMINAR POR FILA
+        // =========================
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
+
+        if (!confirm("¿Eliminar usuario?"))
+            return;
 
         fetch("/Registro/Eliminar", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams({ id: id, __RequestVerificationToken: token })
-        }).then(r => {
-            if (r.ok || r.redirected) {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                id: filaActiva.dataset.id,
+                __RequestVerificationToken: token
+            })
+        })
+        .then(r => {
+            if (r.ok) {
                 filaActiva.remove();
                 filaActiva = null;
                 alert("✔ Usuario eliminado");
-            } else {
+            }
+            else {
                 alert("❌ Error al eliminar");
             }
         });
     }
 </script>
 
-@Html.AntiForgeryToken()
-
 <table>
     <thead>
         <tr>
+            <th>✔</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Correo</th>
             <th>Rol</th>
+            <th>Fecha Registro </th>
+
         </tr>
     </thead>
+
     <tbody>
         @foreach (var u in Model)
         {
-            <tr data-id="@u.Id">
-                <td contenteditable="false">@u.Nombres</td>
-                <td contenteditable="false">@u.Apellidos</td>
-                <td contenteditable="false">@u.Correo</td>
-                <td contenteditable="false">@u.Rol</td>
+            <tr data-id="@u.IdUsuario">
+                <td>
+                    <input type="checkbox" class="chkUsuario" value="@u.IdUsuario" />
+                </td>
+                <td>@u.Nombres</td>
+                <td>@u.Apellidos</td>
+                <td>@u.Correo</td>
+                 <td>
+                <select name="IdRol" class="form-select">
+                    <option value="4" selected="@(u.IdRol == 1)">Administrador</option>
+                    <option value="5" selected="@(u.IdRol == 2)">Rector</option>
+                    <option value="5" selected="@(u.IdRol == 3)">Docente</option>
+                    <option value="5" selected="@(u.IdRol == 4)">Acudiente</option>
+                    <option value="4" selected="@(u.IdRol == 5)">Estudiante</option>
+                    </select>
+                </td>
+                
+                <td>@u.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                         
+            
+
+                <td>
+                <button type="button" class="btn-editar" onclick="editarSeleccionada()">✏️ </button>
+                <button type="button" class="btn-guardar" onclick="guardarSeleccionada()">💾 </button>
+                <button type="button" class="btn-eliminar" onclick="eliminarSeleccionada()">🗑️ </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
+
+
 <div class="acciones">
-    <button class="btn-editar" onclick="editarSeleccionada()">✏️ Editar</button>
-    <button class="btn-guardar" onclick="guardarSeleccionada()">💾 Guardar</button>
-    <button class="btn-eliminar" onclick="eliminarSeleccionada()">🗑️ Eliminar</button>
+  
+        <a href="/Registro/Index" class="btn btn-primary"></a>
+
+    <form asp-action="Registrar" method="post" class="form-inline">
+        <input type="text" name="Nombres" placeholder="Nombres" required />
+        <input type="text" name="Apellidos" placeholder="Apellidos" required />
+        <input type="email" name="Correo" placeholder="Correo" required />
+        <input type="password" name="Contrasena" placeholder="Contraseña" required />
+        <input type="password" name="ConfirmarContrasena" placeholder="Confirmar" required />
+        <select name="IdRol">
+            <option value="1">Administrador</option>
+            <option value="2">Rector</option>
+            <option value="3">Docente</option>
+            <option value="5">Acudiente</option>
+            <option value="4">Estudiante</option>
+        </select>
+        <button type="submit">➕</button>
+    </form>
+  
 </div>

@@ -1,21 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
-using EduClick.Models;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using EduClick.Data;
 using System.Security.Cryptography;
 using System.Text;
-using EduClick.Data;
 
-namespace P.EDUCLICK.Controllers
+namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        // ✅ CORRECCIÓN 1: Cadena de conexión leída desde appsettings.json, no hardcodeada
         private readonly string _conexion;
-
-        // ✅ CORRECCIÓN 2: _context declarado correctamente (si lo necesitas para otras vistas)
         private readonly EduClickContext _context;
 
         public RegistroController(EduClickContext context, IConfiguration configuration)
@@ -24,41 +18,49 @@ namespace P.EDUCLICK.Controllers
             _conexion = configuration.GetConnectionString("Default")!;
         }
 
-        // GET: Registro
+        // GET
         public IActionResult Index()
         {
             return View();
         }
 
+        // REGISTRAR
         [HttpPost]
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
+        public IActionResult Registrar(
+            string Nombres,
+            string Apellidos,
+            string Correo,
+            string Contrasena,
+            string ConfirmarContrasena,
+            int IdRol)
         {
+            if (Contrasena != ConfirmarContrasena)
+            {
+                ViewBag.Error = "Las contraseñas no coinciden.";
+                return View("Index");
+            }
+
             try
             {
-                if (Contrasena != ConfirmarContrasena)
-                {
-                    ViewBag.Error = "Las contraseñas no coinciden";
-                    return View("Index");
-                }
-
-                // ✅ CORRECCIÓN 3: Contraseña hasheada con SHA256 antes de guardar
-                string contrasenaHash = HashearContrasena(Contrasena);
+                string hash = HashearContrasena(Contrasena);
 
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
 
-                    string query = @"INSERT INTO Usuarios 
-                        (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro)
-                        VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
+                    string query = @"INSERT INTO Usuarios
+                                    (Nombres,Apellidos,Correo,Contrasena,IdRol,FechaRegistro)
+                                     VALUES
+                                    (@Nombres,@Apellidos,@Correo,@Contrasena,@IdRol,GETDATE())";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Nombres", Nombres);
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", contrasenaHash); // ✅ hash, no texto plano
-                        cmd.Parameters.AddWithValue("@Rol", Rol);
+                        cmd.Parameters.AddWithValue("@Contrasena", hash);
+                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
+
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -67,42 +69,95 @@ namespace P.EDUCLICK.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = "Error al registrar el usuario.";
-                // En producción: loggear ex.Message con ILogger, no mostrarlo al usuario
+                ViewBag.Error = ex.Message;
                 return View("Index");
             }
         }
 
-        public IActionResult Listar()
+        // LISTAR
+
+        public async Task<IActionResult> Listar()
         {
-            List<Usuarios> lista = new List<Usuarios>();
-
-            using (SqlConnection con = new SqlConnection(_conexion))
-            {
-                con.Open();
-                string query = "SELECT Id, Nombres, Apellidos, Correo, Rol FROM Usuarios";
-
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                using (SqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        lista.Add(new Usuarios
-                        {
-                            Id = Convert.ToInt32(dr["Id"]),
-                            Nombres = dr["Nombres"].ToString()!,
-                            Apellidos = dr["Apellidos"].ToString()!,
-                            Correo = dr["Correo"].ToString()!,
-                            Rol = dr["Rol"].ToString()!
-                        });
-                    }
-                }
-            }
-
-            return View(lista);
+            var usuarios = await _context.Usuarios.ToListAsync();
+            return View(usuarios);
         }
 
-        // ✅ CORRECCIÓN 4: Eliminar como POST para evitar borrados accidentales por GET
+
+     
+
+    // EDITAR
+    [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditarInline(
+            int IdUsuario,
+            string Nombres,
+            string Apellidos,
+            string Correo,
+            int IdRol)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_conexion))
+                {
+                    con.Open();
+
+                    string query = @"UPDATE Usuarios
+                                     SET Nombres=@Nombres,
+                                         Apellidos=@Apellidos,
+                                         Correo=@Correo,
+                                         IdRol=@IdRol
+                                     WHERE IdUsuario=@IdUsuario";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
+                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
+                        cmd.Parameters.AddWithValue("@Correo", Correo);
+                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EliminarVarios(List<int> ids)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(_conexion))
+                {
+                    con.Open();
+
+                    foreach (var id in ids)
+                    {
+                        string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
+
+                        using (SqlCommand cmd = new SqlCommand(query, con))
+                        {
+                            cmd.Parameters.AddWithValue("@Id", id);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                return RedirectToAction("Listar");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        // ELIMINAR
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Eliminar(int id)
@@ -112,48 +167,12 @@ namespace P.EDUCLICK.Controllers
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
-                    string query = "DELETE FROM Usuarios WHERE Id=@Id";
+
+                    string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Id", id);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // En producción: loggear con ILogger
-                TempData["Error"] = "No se pudo eliminar el usuario.";
-            }
-
-            return RedirectToAction("Listar");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditarInline(int Id, string Nombres, string Apellidos, string Correo, string Rol)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    string query = @"UPDATE Usuarios 
-                             SET Nombres=@Nombres,
-                                 Apellidos=@Apellidos,
-                                 Correo=@Correo,
-                                 Rol=@Rol
-                             WHERE Id=@Id";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Id", Id);
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Rol", Rol);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -162,15 +181,17 @@ namespace P.EDUCLICK.Controllers
             }
             catch (Exception ex)
             {
-                // En producción: loggear con ILogger
-                return StatusCode(500, "Error al actualizar el usuario.");
+                return StatusCode(500, ex.Message);
             }
         }
 
-        // ✅ CORRECCIÓN 3 (helper): Método privado para hashear contraseñas
+
+        // HASH
         private static string HashearContrasena(string contrasena)
         {
-            byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(contrasena));
+            byte[] bytes = SHA256.HashData(
+                Encoding.UTF8.GetBytes(contrasena));
+
             return Convert.ToHexString(bytes).ToLower();
         }
     }
