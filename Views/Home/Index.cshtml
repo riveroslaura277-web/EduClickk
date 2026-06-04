@@ -2,15 +2,11 @@
     ViewData["Title"] = "EduClick";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-<video class="video-principal" autoplay muted loop>
-    <source src="@Url.Content("~/imagenes/video_principal.mp4")" type="video/mp4">
-    Tu navegador no soporta video.
-</video>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" asp-append-version="true"/>
 
 <section class="main-container">
 
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="logo">
             <img src="~/imagenes/icono.png" alt="EduClick Logo" />
@@ -21,18 +17,36 @@
         </div>
 
         <nav class="menu">
-            <a href="#" class="active"><i class="fa-solid fa-house"></i> <span>Inicio</span></a>
-            <a href="#"><i class="fa-solid fa-book-open"></i> <span>Actividades</span></a>
-            <a href="#"><i class="fa-solid fa-box"></i> <span>Recursos</span></a>
-            <a href="#"><i class="fa-solid fa-image"></i> <span>Galería</span></a>
-            <a href="#"><i class="fa-solid fa-envelope"></i> <span>Contacto</span></a>
+            <a asp-controller="Home" asp-action="Index" class="active">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+
+            <a asp-controller="Actividades" asp-action="Index">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Actividades</span>
+            </a>
+
+            <a asp-controller="Evidencias" asp-action="Index">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Evidencias</span>
+            </a>
+
+            <a asp-controller="Logros" asp-action="Index">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Logros</span>
+            </a>
         </nav>
 
         <div class="actions">
+
             <div class="menu-login">
                 <button class="btn login">
-                    <i class="fa-solid fa-user"></i> Iniciar sesión <i class="fa-solid fa-caret-down"></i>
+                    <i class="fa-solid fa-user"></i>
+                    Iniciar sesión
+                    <i class="fa-solid fa-caret-down"></i>
                 </button>
+
                 <div class="dropdown">
                     <a asp-controller="Usuario" asp-action="Login" asp-route-rol="Docente">Docente</a>
                     <a asp-controller="Usuario" asp-action="Login" asp-route-rol="Estudiante">Estudiante</a>
@@ -43,54 +57,73 @@
             </div>
 
             <a asp-controller="Registro" asp-action="Index" class="btn login">
-                <i class="fa-solid fa-user-plus"></i> Registrarse
+                <i class="fa-solid fa-user-plus"></i>
+                Registrarse
             </a>
+
         </div>
     </header>
 
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Explora, aprende <br /> y <span>diviértete</span></h1>
-                <p>Descubre actividades interactivas, recursos educativos y juegos para aprender cada día.</p>
+                <h1>
+                    Explora, aprende <br />
+                    y <span>diviértete</span>
+                </h1>
+
+                <p>
+                    Descubre actividades interactivas, recursos educativos
+                    y juegos para aprender cada día.
+                </p>
+
                 <a href="#" class="start-btn">
-                    ¡Comenzar aventura! <i class="fa-solid fa-arrow-right"></i>
+                    ¡Comenzar aventura!
+                    <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
         </div>
     </section>
 
+    <!-- TARJETAS -->
     <section class="cards">
+
         <div class="card math">
-            <img src="~/imagenes/iconoMate.png" alt="Matemáticas">
+            <img src="~/imagenes/iconoMate.png" alt="Matemáticas" />
             <h3>Matemáticas</h3>
             <p>Aprende números, operaciones y resuelve problemas jugando.</p>
             <a href="#" class="btn-card">Explorar →</a>
         </div>
+
         <div class="card read">
-            <img src="~/imagenes/iconoLectura.png" alt="Lectura">
+            <img src="~/imagenes/iconoLectura.png" alt="Lectura" />
             <h3>Lectura</h3>
             <p>Mejora tu comprensión leyendo cuentos y textos.</p>
             <a href="#" class="btn-card">Explorar →</a>
         </div>
+
         <div class="card science">
-            <img src="~/imagenes/iconoSociales.png" alt="Ciencias">
+            <img src="~/imagenes/iconoSociales.png" alt="Ciencias" />
             <h3>Ciencias</h3>
             <p>Descubre el mundo que te rodea.</p>
             <a href="#" class="btn-card">Explorar →</a>
         </div>
+
         <div class="card creative">
-            <img src="~/imagenes/iconoArte.png" alt="Creatividad">
+            <img src="~/imagenes/iconoArte.png" alt="Creatividad" />
             <h3>Creatividad</h3>
             <p>Dibuja, pinta y crea cosas increíbles.</p>
             <a href="#" class="btn-card">Explorar →</a>
         </div>
+
         <div class="card challenge">
-            <img src="~/imagenes/iconoreto.png" alt="Retos">
+            <img src="~/imagenes/iconoreto.png" alt="Retos" />
             <h3>Retos</h3>
             <p>Pon a prueba lo que sabes y gana medallas.</p>
             <a href="#" class="btn-card">Explorar →</a>
         </div>
+
     </section>
 
 </section>
