@@ -1,10 +1,9 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EduClick.Views.Registro
+namespace EduClick.Views.Administrador
 {
-    public class EliminarModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {

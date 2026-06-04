@@ -1,0 +1,38 @@
+﻿body {
+}
+
+.contenidoss {
+    margin-left: 250px;
+    padding: 30px;
+}
+
+    .contenidoss h1 {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+.cards1 {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card2 {
+    background: white;
+    width: 250px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+    .card2 a {
+        text-decoration: none;
+        background: #ddb892;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        display: inline-block;
+        margin-top: 10px;
+    }

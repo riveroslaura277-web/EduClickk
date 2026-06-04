@@ -15,8 +15,8 @@ builder.Services.AddDbContext<EduClickContext>(options =>
 var app = builder.Build();
 
 
+var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -28,6 +28,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// 🔥 IMPORTANTE (aunque no uses login todavía, déjalo correcto)
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

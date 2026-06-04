@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EduClick.Views.Registro
+namespace EduClick.Views.Administrador
 {
-    public class EditarModel : PageModel
+    public class admin1Model : PageModel
     {
         public void OnGet()
         {

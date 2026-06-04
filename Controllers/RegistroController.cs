@@ -1,17 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using EduClick.Data;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace P.EDUCLICK.Controllers
+namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
         private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
+        public RegistroController(EduClickContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _conexion = configuration.GetConnectionString("Default")!;
+        }
+
+        // GET
         public IActionResult Index()
         {
             return View();
         }
 
+        // REGISTRAR
         [HttpPost]
         public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
@@ -30,6 +42,8 @@ namespace P.EDUCLICK.Controllers
 
             try
             {
+                string hash = HashearContrasena(Contrasena);
+
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
@@ -68,6 +82,20 @@ namespace P.EDUCLICK.Controllers
                 }
                 return View("Index");
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        // HASH
+        private static string HashearContrasena(string contrasena)
+        {
+            byte[] bytes = SHA256.HashData(
+                Encoding.UTF8.GetBytes(contrasena));
+
+            return Convert.ToHexString(bytes).ToLower();
         }
     }
 }
