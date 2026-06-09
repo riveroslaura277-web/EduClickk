@@ -1,41 +1,73 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
+﻿using EduClick.Data;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EduClick.Controllers
 {
     public class UsuarioController : Controller
     {
+        private readonly EduClickContext _context;
+
+        public UsuarioController(EduClickContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
-        public IActionResult Inicio()
+        public IActionResult IniciarConGoogle(string rol)
         {
             var properties = new AuthenticationProperties
             {
-                RedirectUri = Url.Action("GoogleCallback", "Account")
+                RedirectUri = Url.Action("CallbackGoogle", "Usuario"),
+                Items = { { "rol", rol } }
             };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
-        [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        public async Task<IActionResult> CallbackGoogle()
         {
-            // Validación básica: campos vacíos
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            var result = await HttpContext.AuthenticateAsync(
+                GoogleDefaults.AuthenticationScheme);
+
+            if (!result.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            var email = result.Principal?.FindFirst(ClaimTypes.Email)?.Value;
+            string rolSeleccionado = "";
+            if (result.Properties?.Items.ContainsKey("rol") == true)
+                result.Properties.Items.TryGetValue("rol", out rolSeleccionado);
+            rolSeleccionado = rolSeleccionado ?? string.Empty;
+
+            var usuario = _context.Usuarios
+                .FirstOrDefault(u => u.Correo == email && u.Rol == rolSeleccionado);
+
+            if (usuario == null)
             {
-                ModelState.AddModelError("", "Debes llenar todos los campos.");
-                return View("Inicio"); // vuelve a la vista de login
+                TempData["Error"] = $"El correo {email ?? "desconocido"} no está registrado como {rolSeleccionado} en EduClick.";
+                return RedirectToAction("Index", "Home"); // ← faltaba este return
             }
 
-            // Validación de credenciales (ejemplo)
-            if (Email == "admin@correo.com" && Password == "1234")
-            {
-                // ✅ Si son correctos → redirige a Roles
-                return RedirectToAction("FondoRoles", "Roles");
-            }
+            // Guardar sesión
+            HttpContext.Session.SetString("UsuarioEmail", email ?? "");
+            HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
+            HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
 
-            // ❌ Si no coinciden → error
-            ModelState.AddModelError("", "Correo o contraseña incorrectos.");
-            return View("Inicio");
+            return rolSeleccionado switch
+            {
+                "Administrador" => RedirectToAction("LoginAdministrador", "Usuario"),
+                "Rector" => RedirectToAction("RolRector", "Rector"),
+                "Docente" => RedirectToAction("docente", "Docente"),
+                "Estudiante" => RedirectToAction("Index", "Alumnos"),
+                "Acudiente" => RedirectToAction("LoginAcudiente", "Usuario"),
+                _ => RedirectToAction("Index", "Home")
+            };
+        }
+
+        public IActionResult OlvideContrasena()
+        {
+            return View();
         }
     }
 }

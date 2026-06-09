@@ -15,6 +15,8 @@
         <source src="/imagenes/video_sesion.mp4" type="video/mp4" />
         Tu navegador no soporta video.
     </video>
+    <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
+    
 
     <div class="login-container">
         <div class="login-box">
@@ -38,18 +40,16 @@
                 </div>
 
                 <button type="submit" class="btn-login">Iniciar sesión</button>
-            <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
-
-                <a asp-controller="Roles" asp-action="fondoRoles" class="btn-login">Iniciar sesión</A>
+            
+                <a asp-controller="Roles" asp-action="fondoRoles" class="btn-login">Iniciar sesión</a>>
                 <a asp-action="
                 <a asp-action="Register">Crear cuenta nueva</a>
-
- master
             </form>
 
             <!-- Botón para login con Google -->
-            <a class="btn-google" asp-controller="Account" asp-action="GoogleLogin">
-                Continuar con Google
+            <<a href="@Url.Action("LoginWithGoogle", "Account")" class="btn-google">
+                <img src="~/IMG_yesid/imgGoogle.png" alt="Google" />
+                Iniciar sesión con Google
             </a>
 
             <div class="extra-options">
