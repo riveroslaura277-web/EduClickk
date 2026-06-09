@@ -58,24 +58,26 @@
 
         let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
-        let datos = {
-            IdUsuario: filaActiva.dataset.id,
-            Nombres: filaActiva.cells[1].innerText.trim(),
-            Apellidos: filaActiva.cells[2].innerText.trim(),
-            Correo: filaActiva.cells[3].innerText.trim(),
-            IdRol: filaActiva.dataset.rol,
-            __RequestVerificationToken: token
-        };
+        let datos = new URLSearchParams();
+
+        datos.append("IdUsuario", filaActiva.dataset.id);
+        datos.append("Nombres", filaActiva.cells[1].innerText.trim());
+        datos.append("Apellidos", filaActiva.cells[2].innerText.trim());
+        datos.append("Correo", filaActiva.cells[3].innerText.trim());
+        datos.append("IdRol", filaActiva.querySelector("select[name='IdRol']").value);
+        datos.append("__RequestVerificationToken", token);
 
         fetch("/Registro/EditarInline", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             },
-            body: new URLSearchParams(datos)
+            body: datos
         })
-        .then(r => {
-            if (r.ok) {
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.success) {
 
                 filaActiva.cells[1].contentEditable = false;
                 filaActiva.cells[2].contentEditable = false;
@@ -85,8 +87,20 @@
                 filaActiva.cells[2].style.background = "";
                 filaActiva.cells[3].style.background = "";
 
-           
+                alert("✔ Usuario actualizado");
+            }
+            else {
+                alert("❌ " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("❌ Error al guardar");
+        });
     }
+
+
+
 
 
     function eliminarSeleccionada() {
@@ -169,7 +183,7 @@
             return;
         }
 
-        if (!confirm("¿Eliminar usuario?"))
+        if (!confirm("¿ Desea eliminar el usuario?"))
             return;
 
         fetch("/Registro/Eliminar", {
@@ -220,11 +234,11 @@
                 <td>@u.Correo</td>
                  <td>
                 <select name="IdRol" class="form-select">
-                    <option value="4" selected="@(u.IdRol == 1)">Administrador</option>
-                    <option value="5" selected="@(u.IdRol == 2)">Rector</option>
-                    <option value="5" selected="@(u.IdRol == 3)">Docente</option>
-                    <option value="5" selected="@(u.IdRol == 4)">Acudiente</option>
-                    <option value="4" selected="@(u.IdRol == 5)">Estudiante</option>
+                        <option value="1" selected="@(u.IdRol == 1)">Administrador</option>
+                        <option value="2" selected="@(u.IdRol == 2)">Rector</option>
+                        <option value="3" selected="@(u.IdRol == 3)">Docente</option>
+                        <option value="4" selected="@(u.IdRol == 4)">Acudiente</option>
+                        <option value="5" selected="@(u.IdRol == 5)">Estudiante</option>
                     </select>
                 </td>
                 
@@ -246,7 +260,7 @@
 
 <div class="acciones">
   
-        <a href="/Registro/Index" class="btn btn-primary"></a>
+        <a href="/Registro/Listar" class="btn btn-primary"></a>
 
     <form asp-action="Registrar" method="post" class="form-inline">
         <input type="text" name="Nombres" placeholder="Nombres" required />
@@ -258,8 +272,8 @@
             <option value="1">Administrador</option>
             <option value="2">Rector</option>
             <option value="3">Docente</option>
-            <option value="5">Acudiente</option>
-            <option value="4">Estudiante</option>
+            <option value="4">Acudiente</option>
+            <option value="5">Estudiante</option>
         </select>
         <button type="submit">➕</button>
     </form>

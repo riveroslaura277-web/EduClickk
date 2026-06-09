@@ -1,63 +1,54 @@
 ﻿@{
-    Layout = null;
+  
     ViewData["Title"] = "admin";
 }
-<link rel="stylesheet" href="~/css/admin.css">
+
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true">
+
 <div class="contenidoss">
 
     <h1>👨‍💼 Panel Administrador</h1>
 
     <div class="cards1">
 
-        <div class="card2">
+        <div class="card">
             <h2>
-                <a asp-controller="Estudiante" asp-action="Index">
-                    👨‍👩‍👧 Estudiantes
+                <a asp-controller="Registro" asp-action="Listar">
+                    👨‍👩‍👧 Total De Usuarios Registrados
                 </a>
             </h2>
         </div>
 
-            <a href="/Registro/Listar">
-                Gestionar
-            </a>
+        <div class="card">
+            <h2>
+                <a asp-controller="Rector" asp-action="Index">
+                    🏫 Rectores
+                </a>
+            </h2>
         </div>
 
-    <div class="card2">
-        <h2>
-            <a asp-controller="Estudiante" asp-action="Index">
-                👨‍👩‍👧 Estudiantes
-            </a>
-        </h2>
-    </div>
-
-            <a href="#">
-                Gestionar
-            </a>
+        <div class="card">
+            <h2>
+                <a asp-controller="Docente" asp-action="Index">
+                    👨‍🏫 Docentes
+                </a>
+            </h2>
         </div>
 
-<div class="card2">
-    <h2>
-        <a asp-controller="Estudiante" asp-action="Index">
-            👨‍👩‍👧 Estudiantes
-        </a>
-    </h2>
-</div>
-            <a href="#">
-                Gestionar
-</a>
+        <div class="card">
+            <h2>
+                <a asp-controller="Estudiante" asp-action="Index">
+                    🎓 Estudiantes
+                </a>
+            </h2>
         </div>
 
-    <div class="card2">
-        <h2>
-            <a asp-controller="Estudiante" asp-action="Index">
-                👨‍👩‍👧 Estudiantes
-            </a>
-        </h2>
-    </div>
-
-                    <a href="#">
-                        Gestionar
-            </a>
+        <div class="card">
+            <h2>
+                <a asp-controller="Acudiente" asp-action="Index">
+                    👨‍👩‍👧‍👦 Acudientes
+                </a>
+            </h2>
         </div>
 
     </div>

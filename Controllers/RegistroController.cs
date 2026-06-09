@@ -83,10 +83,10 @@ namespace EduClick.Controllers
         }
 
 
-     
 
-    // EDITAR
-    [HttpPost]
+
+        // EDITAR
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditarInline(
             int IdUsuario,
@@ -102,11 +102,11 @@ namespace EduClick.Controllers
                     con.Open();
 
                     string query = @"UPDATE Usuarios
-                                     SET Nombres=@Nombres,
-                                         Apellidos=@Apellidos,
-                                         Correo=@Correo,
-                                         IdRol=@IdRol
-                                     WHERE IdUsuario=@IdUsuario";
+                             SET Nombres=@Nombres,
+                                 Apellidos=@Apellidos,
+                                 Correo=@Correo,
+                                 IdRol=@IdRol
+                             WHERE IdUsuario=@IdUsuario";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -116,15 +116,32 @@ namespace EduClick.Controllers
                         cmd.Parameters.AddWithValue("@Correo", Correo);
                         cmd.Parameters.AddWithValue("@IdRol", IdRol);
 
-                        cmd.ExecuteNonQuery();
+                        int filas = cmd.ExecuteNonQuery();
+
+                        if (filas > 0)
+                        {
+                            return Json(new
+                            {
+                                success = true,
+                                message = "Usuario actualizado"
+                            });
+                        }
+
+                        return Json(new
+                        {
+                            success = false,
+                            message = "No se encontró el usuario"
+                        });
                     }
                 }
-
-                return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
             }
         }
         [HttpPost]
