@@ -9,8 +9,7 @@ namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly string _conexion;
-        private readonly EduClickContext _context;
+        private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public RegistroController(EduClickContext context, IConfiguration configuration)
         {
@@ -26,53 +25,20 @@ namespace EduClick.Controllers
 
         // REGISTRAR
         [HttpPost]
-        public IActionResult Registrar(
-            string Nombres,
-            string Apellidos,
-            string Correo,
-            string Contrasena,
-            string ConfirmarContrasena,
-            int IdRol)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
         {
+            // 1. Validaciones básicas
             if (Contrasena != ConfirmarContrasena)
             {
-                ViewBag.Error = "Las contraseñas no coinciden.";
+                ViewBag.Error = "❌ Las contraseñas no coinciden.";
                 return View("Index");
             }
 
-            try
+            if (string.IsNullOrEmpty(Nombres) || string.IsNullOrEmpty(Correo))
             {
-                string hash = HashearContrasena(Contrasena);
-
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    string query = @"INSERT INTO Usuarios
-                                    (Nombres,Apellidos,Correo,Contrasena,IdRol,FechaRegistro)
-                                     VALUES
-                                    (@Nombres,@Apellidos,@Correo,@Contrasena,@IdRol,GETDATE())";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", hash);
-                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
-
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                return RedirectToAction("Listar");
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
+                ViewBag.Error = "Todos los campos son obligatorios.";
                 return View("Index");
             }
-        }
 
         // LISTAR
 
@@ -97,10 +63,15 @@ namespace EduClick.Controllers
         {
             try
             {
+                string hash = HashearContrasena(Contrasena);
+
                 using (SqlConnection con = new SqlConnection(_conexion))
                 {
                     con.Open();
 
+                    // Ajusta el INSERT según los nombres reales de tus columnas en SQL
+                    string query = @"INSERT INTO Usuarios (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro) 
+                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
                     string query = @"UPDATE Usuarios
                              SET Nombres=@Nombres,
                                  Apellidos=@Apellidos,
@@ -110,11 +81,11 @@ namespace EduClick.Controllers
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
-                        cmd.Parameters.AddWithValue("@IdUsuario", IdUsuario);
                         cmd.Parameters.AddWithValue("@Nombres", Nombres);
                         cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
                         cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@IdRol", IdRol);
+                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        cmd.Parameters.AddWithValue("@Rol", Rol);
 
                         int filas = cmd.ExecuteNonQuery();
 
@@ -134,6 +105,22 @@ namespace EduClick.Controllers
                         });
                     }
                 }
+
+                // Éxito
+                TempData["Mensaje"] = "✅ Registro exitoso.";
+                TempData["Tipo"] = "success";
+                return RedirectToAction("Index");
+            }
+            catch (SqlException ex)
+            {
+                // Error 2627 es el código de SQL para violación de llave única (correo duplicado)
+                if (ex.Number == 2627)
+                {
+                    ViewBag.Error = "⚠️ Este correo ya está registrado.";
+                }
+                else
+                {
+                    ViewBag.Error = "❌ Ocurrió un error al registrar: " + ex.Message;
             }
             catch (Exception ex)
             {
@@ -193,8 +180,7 @@ namespace EduClick.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
-
-                return Ok();
+                return View("Index");
             }
             catch (Exception ex)
             {
