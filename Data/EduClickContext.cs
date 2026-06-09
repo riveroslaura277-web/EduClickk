@@ -15,7 +15,5 @@ namespace EduClick.Data
         public DbSet<Docente> Docentes { get; set; }
         public DbSet<Acudiente> Acudientes { get; set; }
         public DbSet<Rector> Rectores { get; set; }
-        public DbSet<EntregaTarea> EntregasTareas{ get; set; }
-
     }
 }

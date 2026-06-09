@@ -1,6 +1,4 @@
-﻿/* =========================
-   RESET
-========================= */
+﻿/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -9,13 +7,6 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-
-/* =========================
-   VIDEO FONDO
-========================= */
 .video-principal {
     position: fixed;
     inset: 0;
@@ -27,15 +18,27 @@ body {
 
 /* =========================
    CONTENEDOR GENERAL
-========================= */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.video-principal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* mantiene nitidez */
+    z-index: -1; /* queda detrás del contenido */
+}
+
 .main-container {
     width: 100%;
     padding: 20px;
 }
 
-/* =========================
-   NAVBAR
-========================= */
 .navbar {
     width: 95%;
     margin: auto;
@@ -50,7 +53,20 @@ body {
 
 /* =========================
    LOGO
-========================= */
+/* NAVBAR */
+.navbar {
+    width: 95%;
+    margin: auto;
+    background: white;
+    border-radius: 30px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* LOGO */
 .logo {
     display: flex;
     align-items: center;
@@ -62,18 +78,16 @@ body {
     }
 
 .logo-text h2 {
-    font-size: 40px;
+    font-size: 50px;
     color: #00b050;
 }
 
 .logo-text p {
     color: #666;
-    font-size: 14px;
+    font-size: 15px;
 }
 
-/* =========================
-   MENÚ
-========================= */
+/* MENU */
 .menu {
     display: flex;
     gap: 30px;
@@ -81,45 +95,42 @@ body {
 
     .menu a {
         text-decoration: none;
-        color: #333;
-        font-weight: 700;
+        color: #222;
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-weight: 700;
         transition: .3s;
     }
 
         .menu a i {
             font-size: 24px;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .menu a:hover {
             transform: translateY(-4px);
         }
 
-        .menu a.active,
-        .active {
-            color: #00b050;
-        }
-
-/* =========================
-   BOTONES
-========================= */
 .actions {
     display: flex;
     align-items: center;
+.active {
+    color: #00b050 !important;
+}
+
+/* BOTONES */
+.actions {
+    display: flex;
     gap: 15px;
 }
 
 .btn {
-    border: none;
-    cursor: pointer;
+    padding: 14px 22px;
+    border-radius: 18px;
     text-decoration: none;
     color: white;
-    font-weight: 600;
-    padding: 13px 22px;
-    border-radius: 18px;
+    font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -138,9 +149,6 @@ body {
     background: #23b14d;
 }
 
-/* =========================
-   DROPDOWN LOGIN
-========================= */
 .menu-login {
     position: relative;
 }
@@ -177,24 +185,82 @@ body {
 
 /* =========================
    HERO
-========================= */
+/* MENÚ LOGIN (DESPLEGABLE) */
+.menu-login {
+    position: relative;
+    display: inline-block;
+}
+
+    /* Botón principal */
+    .menu-login .btn {
+        background-color: #1976D2;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Menú desplegable */
+    .menu-login .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%; /* justo debajo del botón */
+        left: 0;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        margin-top: 5px;
+        z-index: 10;
+    }
+
+        /* Enlaces dentro del menú */
+        .menu-login .dropdown a {
+            color: #1976D2;
+            padding: 10px 16px;
+            text-decoration: none; /* quita el subrayado */
+            display: block;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+            /* Hover */
+            .menu-login .dropdown a:hover {
+                background-color: #E3F2FD;
+            }
+
+    /* Mostrar menú al hacer clic */
+    .menu-login:focus-within .dropdown {
+        display: block;
+    }
+
+/* HERO */
 .hero {
     width: 95%;
     margin: 25px auto;
     border-radius: 35px;
-    padding: 70px;
+    padding: 60px;
     background: rgba(255,255,255,.18);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
 
 .hero-text {
-    max-width: 650px;
+    max-width: 600px;
 }
 
     .hero-text h1 {
@@ -209,8 +275,8 @@ body {
     }
 
     .hero-text p {
-        font-size: 26px;
-        line-height: 38px;
+        font-size: 28px;
+        line-height: 40px;
         margin-bottom: 30px;
     }
 
@@ -218,23 +284,6 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    text-decoration: none;
-    background: #1bb13f;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    padding: 18px 35px;
-    border-radius: 50px;
-    transition: .3s;
-}
-
-    .start-btn:hover {
-        transform: translateY(-3px);
-    }
-
-/* =========================
-   CARDS
-========================= */
 .cards {
     width: 95%;
     margin: -30px auto 30px;
@@ -247,6 +296,34 @@ body {
 .card {
     width: 220px;
     background: rgba(255,255,255,.97);
+    background: #1bb13f;
+    color: white;
+    text-decoration: none;
+    padding: 18px 35px;
+    border-radius: 50px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* IMAGEN HERO */
+.hero-image img {
+    width: 420px;
+}
+
+/* CARDS */
+.cards {
+    width: 95%;
+    margin: -40px auto 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* CARD */
+.card {
+    width: 220px;
+    background: rgba(255,255,255,.96);
     border-radius: 28px;
     padding: 25px 20px;
     text-align: center;
@@ -266,29 +343,28 @@ body {
     }
 
     .card h3 {
-        margin-bottom: 10px;
         font-size: 22px;
+        margin-bottom: 10px;
     }
 
     .card p {
         font-size: 15px;
         line-height: 24px;
-        color: #555;
+        color: #444;
         margin-bottom: 20px;
     }
 
+/* BOTONES CARDS */
 .btn-card {
     display: inline-block;
-    text-decoration: none;
-    color: white;
     padding: 12px 24px;
     border-radius: 50px;
+    color: white;
+    text-decoration: none;
     font-weight: bold;
 }
 
-/* =========================
-   COLORES TARJETAS
-========================= */
+/* COLORES */
 .math h3 {
     color: #11a63a;
 }
@@ -329,24 +405,22 @@ body {
     background: #d4a000;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
 @media (max-width: 1200px) {
 
+/* RESPONSIVE */
+@media(max-width:1200px) {
     .hero-content {
         flex-direction: column;
         text-align: center;
     }
 
-    .hero-text h1 {
-        font-size: 60px;
-        line-height: 70px;
+    .hero-image img {
+        width: 280px;
+        margin-top: 30px;
     }
 }
 
-@media (max-width: 768px) {
-
+@media(max-width:768px) {
     .navbar {
         flex-direction: column;
         gap: 20px;
@@ -357,21 +431,12 @@ body {
         justify-content: center;
     }
 
-    .actions {
-        flex-direction: column;
-    }
-
-    .hero {
-        padding: 40px 25px;
-    }
-
     .hero-text h1 {
-        font-size: 45px;
-        line-height: 55px;
+        font-size: 50px;
+        line-height: 60px;
     }
 
     .hero-text p {
-        font-size: 20px;
-        line-height: 30px;
+        font-size: 22px;
     }
 }
