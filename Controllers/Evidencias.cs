@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EduClick.Data;
+using EduClick.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EduClick.Controllers
 {
     public class EvidenciasController : Controller
     {
+        private readonly EduClickContext _context;
+
+        public EvidenciasController(EduClickContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             ViewBag.Mensaje = TempData["Mensaje"];
@@ -33,6 +42,16 @@ namespace EduClick.Controllers
                 {
                     await archivo.CopyToAsync(stream);
                 }
+
+                var entrega = new EntregaTarea
+                {
+                    NombreArchivo = archivo.FileName,
+                    NombreEstudiante = "Sofía",
+                    FechaEntrega = DateTime.Now
+                };
+
+                _context.EntregasTareas.Add(entrega);
+                _context.SaveChanges();
 
                 TempData["Mensaje"] = "✅ Archivo subido correctamente";
             }
