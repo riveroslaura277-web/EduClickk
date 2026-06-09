@@ -26,7 +26,7 @@ namespace EduClick.Controllers
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
-        public async Task<IActionResult> CallbackGoogle()
+        public async Task<IActionResult> CallbackGoogle(string rolSeleccionado)
         {
             var result = await HttpContext.AuthenticateAsync(
                 GoogleDefaults.AuthenticationScheme);
