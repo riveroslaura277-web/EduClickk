@@ -7,19 +7,54 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: url('/imagenes/FondoP.png');
+    .video-principal
+
+{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* =========================
+   CONTENEDOR GENERAL
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     min-height: 100vh;
 }
 
-/* CONTENEDOR */
+.video-principal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* mantiene nitidez */
+z-index: -1; /* queda detrás del contenido */
+}
+
 .main-container {
     width: 100%;
     padding: 20px;
 }
 
+.navbar {
+    width: 95%;
+    margin: auto;
+    background: #fff;
+    border-radius: 30px;
+    padding: 18px 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* =========================
+   LOGO
 /* NAVBAR */
 .navbar {
     width: 95%;
@@ -61,49 +96,30 @@ body {
 }
 
     .menu a {
-        transition: all 0.3s ease;
+        text-decoration: none;
+        color: #222;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 700;
+        transition: .3s;
     }
 
-        /* Encoger */
+        .menu a i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
         .menu a:hover {
-            transform: scale(0.85);
+            transform: translateY(-4px);
         }
 
-        /* Inicio */
-        .menu a.inicio:hover {
-            color: #00c853;
-            text-shadow: 0 0 15px #00c853;
-        }
+.actions {
+    display: flex;
+    align-items: center;
+    .active
 
-        /* Actividades */
-        .menu a.actividades:hover {
-            color: #ff9800;
-            text-shadow: 0 0 15px #ff9800;
-        }
-
-        /* Recursos */
-        .menu a.recursos:hover {
-            color: #2196f3;
-            text-shadow: 0 0 15px #2196f3;
-        }
-
-        /* Galería */
-        .menu a.galeria:hover {
-            color: #9c27b0;
-            text-shadow: 0 0 15px #9c27b0;
-        }
-
-        /* Contacto */
-        .menu a.contacto:hover {
-            color: #f44336;
-            text-shadow: 0 0 15px #f44336;
-        }
-
-        .menu a:hover i {
-            color: inherit;
-        }
-
-.active {
+{
     color: #00b050 !important;
 }
 
@@ -114,12 +130,15 @@ body {
 }
 
 .btn {
-    height: 55px;
-    padding: 0 25px;
+    padding: 14px 22px;
     border-radius: 18px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    transition: .3s;
 }
 
     .btn:hover {
@@ -127,29 +146,116 @@ body {
     }
 
 .login {
-    background: #00c853;
+    background: #1976d2;
 }
 
 .register {
-    background: #ff9800;
+    background: #23b14d;
 }
+
+.menu-login {
+    position: relative;
+}
+
+    .menu-login .dropdown {
+        position: absolute;
+        top: 110%;
+        left: 0;
+        min-width: 180px;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,.15);
+        display: none;
+        z-index: 100;
+    }
+
+        .menu-login .dropdown a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+            .menu-login .dropdown a:hover {
+                background: #e3f2fd;
+            }
+
+    .menu-login:hover .dropdown {
+        display: block;
+    }
+
+/* =========================
+   HERO
+/* MENÚ LOGIN (DESPLEGABLE) */
+.menu-login {
+    position: relative;
+    display: inline-block;
+}
+
+    /* Botón principal */
+    .menu-login .btn {
+        background-color: #1976D2;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    /* Menú desplegable */
+    .menu-login .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%; /* justo debajo del botón */
+        left: 0;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        margin-top: 5px;
+        z-index: 10;
+    }
+
+        /* Enlaces dentro del menú */
+        .menu-login .dropdown a {
+            color: #1976D2;
+            padding: 10px 16px;
+            text-decoration: none; /* quita el subrayado */
+            display: block;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+            /* Hover */
+            .menu-login .dropdown a:hover {
+                background-color: #E3F2FD;
+            }
+
+    /* Mostrar menú al hacer clic */
+    .menu-login:focus-within .dropdown {
+        display: block;
+    }
 
 /* HERO */
 .hero {
-    width: 95%;
-    margin: 25px auto;
-    border-radius: 35px;
-    padding: 60px;
-    background: rgba(255,255,255,.18);
-    backdrop-filter: blur(6px);
-    position: relative;
-    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
 }
 
 .hero-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
 }
 
 .hero-text {
@@ -157,26 +263,29 @@ body {
 }
 
     .hero-text h1 {
-        font-size: 80px;
-        line-height: 90px;
-        color: #056839;
-        margin-bottom: 20px;
-    }
-
-    .hero-text span {
-        color: #ff7a00;
+        font-size: 70px;
+        font-weight: 800;
+        color: #0f5c2f;
     }
 
     .hero-text p {
-        font-size: 28px;
-        line-height: 40px;
-        margin-bottom: 30px;
+        font-size: 22px;
+        color: #444;
     }
 
 .start-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+    display: inline-block;
+    margin-top: 20px;
+    padding: 16px 30px;
+    background: #2ba84a;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+}
+.card {
+    width: 220px;
+    background: rgba(255,255,255,.97);
     background: #1bb13f;
     color: white;
     text-decoration: none;
@@ -190,6 +299,51 @@ body {
 .hero-image img {
     width: 420px;
 }
+
+/* CARDS */
+.cards {
+    width: 95%;
+    margin: -40px auto 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* CARD */
+.card {
+    width: 220px;
+    background: rgba(255,255,255,.96);
+    border-radius: 28px;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+    transition: .3s;
+}
+
+    .card:hover {
+        transform: translateY(-10px);
+    }
+
+    .card img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+
+    .card h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 15px;
+        line-height: 24px;
+        color: #444;
+        margin-bottom: 20px;
+    }
+
 /* BOTONES CARDS */
 .btn-card {
     display: inline-block;
@@ -241,38 +395,38 @@ body {
     background: #d4a000;
 }
 
-/* RESPONSIVE */
-@media(max-width:1200px) {
+@media (max-width: 1200px) {
 
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
+    /* RESPONSIVE */
+    @media(max-width:1200px) {
+        .hero-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero-image img {
+            width: 280px;
+            margin-top: 30px;
+        }
     }
 
-    .hero-image img {
-        width: 280px;
-        margin-top: 30px;
-    }
-}
+    @media(max-width:768px) {
+        .navbar {
+            flex-direction: column;
+            gap: 20px;
+        }
 
-@media(max-width:768px) {
+        .menu {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
 
-    .navbar {
-        flex-direction: column;
-        gap: 20px;
-    }
+        .hero-text h1 {
+            font-size: 50px;
+            line-height: 60px;
+        }
 
-    .menu {
-        flex-wrap: wrap;
-        justify-content: center;
+        .hero-text p {
+            font-size: 22px;
+        }
     }
-
-    .hero-text h1 {
-        font-size: 50px;
-        line-height: 60px;
-    }
-
-    .hero-text p {
-        font-size: 22px;
-    }
-}

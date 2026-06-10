@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "Mis Materias";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Materias | EduClick</title>
+
+    <link rel="stylesheet" href="~/css/materias.css" />
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body>
+
+    <div class="contenedor">
+
+        <!-- HEADER -->
+
+        <header class="topbar">
+
+            <div class="logo">
+
+                <img src="~/Imagenes_Materias/Logo.png" alt="Logo">
+
+                <div>
+                    <h2>EduClick</h2>
+                    <p>Aprender es la aventura más emocionante</p>
+                </div>
+
+            </div>
+
+            <div class="saludo">
+                <h2>¡Hola, Sofía! 👋</h2>
+                <p>Hoy es un gran día para aprender cosas nuevas.</p>
+            </div>
+
+            <div class="usuario">
+
+                <div class="puntos">
+                    ⭐ 1200
+                    <span>Puntos</span>
+                </div>
+
+                
+
+                <div class="perfil">
+
+                    <img src="~/Imagenes_Materias/avatar.png" alt="Avatar">
+
+                    <div>
+                        <h4>Sofía</h4>
+                        <span>Estudiante</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <a href="#">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+
+            <a href="#" class="activo">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Materias</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-clipboard-list"></i>
+                <span>Actividades</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-box"></i>
+                <span>Recursos</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Logros</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Mi progreso</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-gear"></i>
+                <span>Ajustes</span>
+            </a>
+
+            <a href="#">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Cerrar sesión</span>
+            </a>
+
+        </aside>
+        <main class="contenido">
+
+            <div class="titulo">
+
+                <h1>
+                    <img src="~/Imagenes_Materias/Libro.png" alt="Libro">
+                    Mis materias 🌿
+                </h1>
+
+                <p>
+                    Elige una materia y comienza tu aventura de aprendizaje.
+                </p>
+
+            </div>
+
+            <div class="contenido-principal">
+
+                <!-- TARJETAS -->
+                <div class="materias">
+
+                    <div class="grid">
+
+                        <!-- MATEMÁTICAS -->
+                        <div class="card matematica">
+                            <img src="~/Imagenes_Materias/Matematicas.png" alt="">
+                            <h3>Matemáticas</h3>
+                            <p>Aprende números, sumas, restas y mucho más.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                        <!-- ESPAÑOL -->
+                        <div class="card lenguaje">
+                            <img src="~/Imagenes_Materias/Español.png" alt="">
+                            <h3>Lenguaje</h3>
+                            <p>Mejora tu lectura, escritura y comprensión.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                        <!-- SOCIALES -->
+                        <div class="card sociales">
+                            <img src="~/Imagenes_Materias/Sociales.png" alt="">
+                            <h3>Ciencias Sociales</h3>
+                            <p>Conoce tu historia, tu país y el mundo.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                        <!-- NATURALES -->
+                        <div class="card naturales">
+                            <img src="~/Imagenes_Materias/Naturales.png" alt="">
+                            <h3>Ciencias Naturales</h3>
+                            <p>Descubre los seres vivos y la naturaleza.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                        <!-- TECNOLOGÍA -->
+                        <div class="card tecnologia">
+                            <img src="~/Imagenes_Materias/tecnologia.png" alt="">
+                            <h3>Tecnología</h3>
+                            <p>Explora la tecnología y el mundo digital.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                        <!-- INGLÉS -->
+                        <div class="card ingles">
+                            <img src="~/Imagenes_Materias/Ingles.png" alt="">
+                            <h3>Inglés</h3>
+                            <p>Aprende inglés de forma divertida.</p>
+                            <button>Explorar →</button>
+                        </div>
+
+                    </div>
+
+                </div>       
+
+        </main>
+</body>
+</html>

@@ -1,0 +1,321 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: url('/imagenes/fondoMaterias.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+.contenedor {
+    padding: 15px;
+}
+
+/* =========================
+   CABECERA
+========================= */
+
+.topbar {
+    background: white;
+    border-radius: 22px;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .logo img {
+        width: 60px;
+        height: auto;
+    }
+
+    .logo h2 {
+        color: #0a75d8;
+        font-size: 28px;
+    }
+
+    .logo p {
+        font-size: 14px;
+    }
+
+.saludo {
+    flex: 1;
+    margin-left: 20px;
+}
+
+    .saludo h2 {
+        color: #11a44c;
+        font-size: 24px;
+    }
+
+    .saludo p {
+        font-size: 15px;
+        margin-top: 4px;
+    }
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.perfil {
+    text-align: center;
+}
+
+    .perfil img {
+        width: 55px;
+        border-radius: 50%;
+    }
+
+    .perfil h4 {
+        font-size: 16px;
+    }
+
+    .perfil span {
+        font-size: 13px;
+    }
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    top: 120px;
+    left: 15px;
+    width: 220px;
+    height: calc(100vh - 135px);
+    background: white;
+    border-radius: 25px;
+    padding: 20px 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 9998;
+}
+
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #333;
+        padding: 14px 16px;
+        margin-bottom: 8px;
+        border-radius: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color .3s ease, color .3s ease;
+        transform: none !important;
+    }
+
+        .sidebar a i {
+            width: 22px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .sidebar a:hover {
+            background: #edf9d8;
+            color: #148a34;
+        }
+
+        .sidebar a.activo {
+            background: #dff0c4;
+            color: #148a34;
+        }
+
+    .sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #cfcfcf;
+        border-radius: 10px;
+    }
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.contenido {
+    margin-left: 260px;
+    margin-top: 130px;
+    padding-right: 15px;
+}
+
+.titulo {
+    margin-bottom: 25px;
+}
+
+    .titulo h1 {
+        color: #0b4185;
+        font-size: 40px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .titulo h1 img {
+            width: 45px;
+        }
+
+    .titulo p {
+        font-size: 18px;
+        margin-top: 8px;
+        color: #555;
+    }
+
+/* =========================
+   TARJETAS
+========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 22px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    transition: .3s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card img {
+        width: 180px; /* tamaño más pequeño */
+        height: auto;
+        display: block;
+        margin-left: 0; /* pegada a la izquierda */
+        margin-right: auto;
+    }
+
+    .card h3 {
+        margin-top: 12px;
+        font-size: 24px;
+    }
+
+    .card p {
+        margin-top: 8px;
+        font-size: 15px;
+        color: #666;
+    }
+
+    .card button {
+        margin-top: 16px;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 25px;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+        .card button:hover {
+            transform: scale(1.05);
+        }
+.contenido-principal {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* Materias a la izquierda */
+.materias {
+    flex: 1;
+}
+
+
+
+/* COLORES BOTONES */
+
+.matematica button {
+    background: #21a51c;
+}
+
+.lenguaje button {
+    background: #8a44d4;
+}
+
+.sociales button {
+    background: #ff8a00;
+}
+
+.naturales button {
+    background: #1f8bd1;
+}
+
+.tecnologia button {
+    background: #ff9800;
+}
+
+.ingles button {
+    background: #ff4f8b;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+
+    .sidebar {
+        position: fixed;
+        top: 115px;
+        left: 15px;
+        width: 190px;
+        height: calc(100vh - 130px);
+        background: white;
+        border-radius: 20px;
+        padding: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,.08);
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    .contenido {
+        margin-left: 240px;
+        margin-top: 25px;
+        padding-right: 15px;
+    }
+
+    .topbar {
+        flex-direction: column;
+        gap: 18px;
+        text-align: center;
+    }
+
+    .saludo {
+        margin-left: 0;
+    }
+
+    .usuario {
+        flex-direction: column;
+    }
+
+    .titulo h1 {
+        font-size: 32px;
+    }
+}
+
