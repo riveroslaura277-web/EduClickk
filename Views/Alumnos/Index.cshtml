@@ -1,242 +1,317 @@
 ﻿@{
-    ViewData["Title"] = "Panel Estudiante";
+    ViewData["Title"] = "Dashboard Estudiante";
+    Layout = null;
 }
 
 <link rel="stylesheet" href="~/css/estudiante-dashboard.css" />
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<div class="dashboard">
+<div class="dashboard-container">
 
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
-        <div class="logo">
-            <img src="~/Estudiantes/Logo.png" alt="Logo">
+        <!-- LOGO -->
+        <div class="logo-box">
+
+            <img src="~/ImageNinos/Logo.png" alt="Logo">
+
+            <div>
+                <h2>EduClick</h2>
+                <p>Aprender es la aventura más emocionante</p>
+            </div>
+
         </div>
 
-        <nav>
 
-            <a href="#" class="activo">
-                <i class="fa-solid fa-house"></i>
-                Inicio
+        <!-- MENU -->
+        <nav class="menu">
+
+            <a href="#" class="active">
+                <span>🏠 Inicio</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-book"></i>
-                Mis Materias
+                <span>📋 Mis Materias</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-clipboard-list"></i>
-                Tareas
+                <span>📑 Actividades</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-list-check"></i>
-                Actividades
+                <span>🎮 Juegos</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-chart-column"></i>
-                Evaluaciones
+                <span>▶️ Videos</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-gamepad"></i>
-                Juegos
+                <span>🤖 Chat IA</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-circle-play"></i>
-                Videos
+                <span>🏆 Retos</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-robot"></i>
-                Chat IA
+                <span>🏅 Logros</span>
             </a>
 
             <a href="#">
-                <i class="fa-solid fa-trophy"></i>
-                Retos
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-medal"></i>
-                Logros
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-calendar"></i>
-                Calendario
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-folder"></i>
-                Recursos
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-user"></i>
-                Mi Perfil
+                <span>👤 Mi Perfil</span>
             </a>
 
         </nav>
 
-        <img class="buho"
-             src="~/Estudiantes/buho.png"
-             alt="">
+        <!-- TIGRE -->
+        <div class="tigre-box">
+            <img src="~/ImageNinos/tigre_leyendo.png" class="tigre" />
+        </div>
 
     </aside>
 
+    <!-- MAIN -->
+    <main class="main-content">
 
-    <!-- CENTRO -->
-
-    <main class="contenido">
-
-        <!-- HEADER -->
-
+        <!-- TOPBAR -->
         <header class="topbar">
 
-            <div class="saludo">
+            <div class="welcome">
 
-                <h2>¡Hola, Sofia! 👋</h2>
+                <h1>¡Hola, Sofía! 👋</h1>
 
                 <p>
-                    Cada pequeño paso te acerca a grandes logros.
-                    ¡Sigue aprendiendo!
+                    Qué bueno verte de nuevo.
+                    ¡Sigue aprendiendo y alcanzando tus metas!
                 </p>
 
             </div>
 
+            <div class="top-actions">
 
-            <div class="usuario">
+                <!-- PUNTOS -->
+                <div class="points">
 
-                <div class="puntos">
-
-                    <img src="~/Estudiantes/Puntos.png">
-
+                    <img src="~/ImageNinos/puntos.png" alt="">
                     <span>1200</span>
 
                 </div>
 
+                <!-- NOTIFICACION -->
+                <div class="notification">
 
-                <img class="avatar"
-                     src="~/Estudiantes/icono avatar.png">
+                    🔔
+                    <span>3</span>
+
+                </div>
+
+                <!-- PERFIL -->
+                <div class="profile">
+
+                    <img src="~/ImageNinos/iconoavatar.png" alt="">
+
+                    <div>
+
+                        <h4>Sofía</h4>
+                        <p>Estudiante</p>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </header>
 
+        <!-- HERO -->
+        <section class="hero-section">
 
-        <!-- BANNER -->
+            <!-- BANNER -->
+            <div class="hero-left">
 
-        <section class="banner">
+                <div class="hero-text">
 
-            <div class="texto-banner">
+                    <h2>
+                        Cada día es una nueva oportunidad para
+                        <span>aprender</span>
+                    </h2>
 
-                <h1>
-                    Aprender es descubrir
-                    que puedes lograr
-                    cosas increíbles
-                </h1>
+                    <p>
+                        Explora, juega, descubre y aprende
+                        cosas increíbles.
+                    </p>
 
-                <button>
-                    ¡Comenzar aventura!
-                </button>
+                    <button>
+                        ¡Explorar ahora! →
+                    </button>
+
+                </div>
 
             </div>
 
-            <img src="~/Estudiantes/icono banner.png">
+            <!-- PROGRESO -->
+            <div class="progress-card">
 
-        </section>
-        <section class="materias">
+                <h3>Mi progreso</h3>
 
-            <h3>🌿 Mis materias</h3>
-
-            <div class="materias-grid">
-
-                <div class="materia">
-                    <img src="~/Estudiantes/calculadora.png">
-                    <h4>Matemáticas</h4>
-                    <progress value="75" max="100"></progress>
+                <div class="circle">
+                    <span>65%</span>
                 </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/mundo.png">
-                    <h4>Ciencias</h4>
-                    <progress value="80" max="100"></progress>
-                </div>
+                <p>¡Vas por buen camino!</p>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/libro.png">
-                    <h4>Lengua</h4>
-                    <progress value="65" max="100"></progress>
-                </div>
+                <div class="stats">
 
-                <div class="materia">
-                    <img src="~/Estudiantes/ingles.png">
-                    <h4>Inglés</h4>
-                    <progress value="70" max="100"></progress>
-                </div>
+                    <div>
+                        ⭐
+                        <span>1200</span>
+                        <small>Puntos</small>
+                    </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/sociales.png">
-                    <h4>Sociales</h4>
-                    <progress value="60" max="100"></progress>
-                </div>
+                    <div>
+                        🔥
+                        <span>15</span>
+                        <small>Días</small>
+                    </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/tecnologia.png">
-                    <h4>Tecnología</h4>
-                    <progress value="85" max="100"></progress>
+                    <div>
+                        🏅
+                        <span>7</span>
+                        <small>Nivel</small>
+                    </div>
+
                 </div>
 
             </div>
 
         </section>
 
-       
+        <!-- MATERIAS -->
+        <section class="subjects-section">
 
-        <!-- ABAJO -->
+            <div class="section-header">
 
-        <section class="bottom">
+                <h2>🍃 Mis materias</h2>
 
-            <div class="actividad">
-
-                <h3>Actividad reciente</h3>
-
-                <div class="item">
-                    Quiz completado de matemáticas +20 pts
-                </div>
-
-                <div class="item">
-                    Video de ciencias visto +15 pts
-                </div>
-
-                <div class="item">
-                    Juego completado +25 pts
-                </div>
+                <a href="#">Ver todas →</a>
 
             </div>
 
+            <div class="subjects-grid">
 
-            <div class="sugerencias">
+                <!-- MATEMATICAS -->
+                <div class="subject-card math">
 
-                <h3>Sugerencias para ti</h3>
+                    <img src="~/ImageNinos/icono matematicas.png" alt="">
 
-                <div class="item">
-                    Practica sumas y restas
+                    <h3>Matemáticas</h3>
+
+                    <p>
+                        Números y operaciones.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:75%"></div>
+                    </div>
+
+                    <span>75%</span>
+
                 </div>
 
-                <div class="item">
-                    Lee un cuento corto
+                <!-- LECTURA -->
+                <div class="subject-card reading">
+
+                    <img src="~/ImageNinos/icono lectura.png" alt="">
+
+                    <h3>Lectura</h3>
+
+                    <p>
+                        Mejora tu comprensión.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:60%"></div>
+                    </div>
+
+                    <span>60%</span>
+
                 </div>
 
-                <div class="item">
-                    Explora sistema solar
+                <!-- CIENCIAS -->
+                <div class="subject-card science">
+
+                    <img src="~/ImageNinos/icono ciencias.png" alt="">
+
+                    <h3>Ciencias</h3>
+
+                    <p>
+                        Descubre el mundo.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:80%"></div>
+                    </div>
+
+                    <span>80%</span>
+
+                </div>
+
+                <!-- SOCIALES -->
+                <div class="subject-card social">
+
+                    <img src="~/ImageNinos/icono sociales.png" alt="">
+
+                    <h3>Sociales</h3>
+
+                    <p>
+                        Aprende historia.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:70%"></div>
+                    </div>
+
+                    <span>70%</span>
+
+                </div>
+
+                <!-- INGLES -->
+                <div class="subject-card english">
+
+                    <img src="~/ImageNinos/icono ingles.png" alt="">
+
+                    <h3>Inglés</h3>
+
+                    <p>
+                        Aprende jugando.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:65%"></div>
+                    </div>
+
+                    <span>65%</span>
+
+                </div>
+
+                <!-- TECNOLOGIA -->
+                <div class="subject-card tech">
+
+                    <img src="~/ImageNinos/icono tecnologia.png" alt="">
+
+                    <h3>Tecnología</h3>
+
+                    <p>
+                        Explora creatividad.
+                    </p>
+
+                    <div class="bar">
+                        <div style="width:85%"></div>
+                    </div>
+
+                    <span>85%</span>
+
                 </div>
 
             </div>
@@ -244,53 +319,5 @@
         </section>
 
     </main>
-
-
-    <!-- DERECHA -->
-
-    <aside class="panel-derecho">
-
-
-        <div class="progreso">
-
-            <h3>Mi progreso</h3>
-
-            <div class="porcentaje">
-                72%
-            </div>
-
-        </div>
-
-
-
-        <div class="reto">
-
-            <h3>Reto del día</h3>
-
-            <img src="~/Estudiantes/icono tigre.png">
-
-            <button>
-                Aceptar reto
-            </button>
-
-        </div>
-
-
-
-        <div class="tareas">
-
-            <h3>Próximas tareas</h3>
-
-            <p>Mapa conceptual</p>
-
-            <p>Ejercicios fracciones</p>
-
-            <p>Resumen historia</p>
-
-            <p>Energías renovables</p>
-
-        </div>
-
-    </aside>
 
 </div>

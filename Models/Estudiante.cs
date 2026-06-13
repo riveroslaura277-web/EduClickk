@@ -2,15 +2,14 @@
 {
     public class Estudiante
     {
-   
-            public int Id { get; set; }              // PK
-            public int Edad { get; set; }
-            public string? Grado { get; set; }
 
-            // FK hacia Usuario
-            public int UsuarioId { get; set; }
-            public Usuarios? Usuario { get; set; }     // navegación
-        }
+        public int Id { get; set; }
+        public string Codigo { get; set; } = string.Empty;
+        public string Nombres { get; set; } = string.Empty;
+        public string Apellidos { get; set; } = string.Empty;
+        public int Grado { get; set; }   // 1 al 5
+        public string Estado { get; set; } = string.Empty;
+    }
     }
 
 
