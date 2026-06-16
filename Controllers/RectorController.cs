@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EduClick.Data;
+using EduClick.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EduClick.Controllers
 {
@@ -6,6 +9,7 @@ namespace EduClick.Controllers
     {
         public IActionResult RolRector()
         {
+            ViewBag.NombreUsuario = User.FindFirstValue(ClaimTypes.Name) ?? "Usuario";
             ViewBag.TotalEstudiantes = 850;
             ViewBag.NuevosEstudiantes = 12;
             ViewBag.TotalDocentes = 45;
@@ -42,6 +46,64 @@ namespace EduClick.Controllers
             };
 
             return View();
+        }
+
+        public IActionResult Perfil()
+        {
+            var nombre = User.FindFirstValue(ClaimTypes.Name) ?? "Sin nombre";
+            var correo = User.FindFirstValue(ClaimTypes.Email) ?? "Sin correo";
+
+            var model = new PerfilViewModel
+            {
+                Nombre = nombre,
+                Correo = correo,
+                Telefono = "Sin teléfono",
+                Cargo = "Rector",
+                Institucion = "EduClick"
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Perfil(PerfilViewModel model)
+        {
+            TempData["Mensaje"] = "Perfil actualizado correctamente";
+            return RedirectToAction("RolRector");
+        }
+
+        public IActionResult Roles()
+        {
+            var roles = DatosPrueba.Roles();
+            return View(roles);
+        }
+
+        [HttpPost]
+        public IActionResult EditarRol(RolViewModel rol)
+        {
+            TempData["Mensaje"] = $"Rol '{rol.Nombre}' actualizado correctamente";
+            return RedirectToAction("Roles");
+        }
+
+        public IActionResult Modulos()
+        {
+            var modulos = DatosPrueba.Modulos();
+            return View(modulos);
+        }
+
+        [HttpPost]
+        public IActionResult CambiarEstadoModulo(int id, string estado)
+        {
+            var nombre = DatosPrueba.Modulos().FirstOrDefault(m => m.Id == id)?.Nombre;
+            TempData["Mensaje"] = $"Módulo '{nombre}' {(estado == "Activo" ? "activado" : "desactivado")} correctamente";
+            return RedirectToAction("Modulos");
+        }
+
+        [HttpPost]
+        public IActionResult EditarModulo(ModuloViewModel modulo)
+        {
+            TempData["Mensaje"] = $"Módulo '{modulo.Nombre}' actualizado correctamente";
+            return RedirectToAction("Modulos");
         }
     }
 }

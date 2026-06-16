@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace EduClick.Controllers
+namespace EduClick.Controladores
 {
-    public class Alumnos : Controller
+    public class matematicasController : Controller
     {
         public IActionResult Index()
         {

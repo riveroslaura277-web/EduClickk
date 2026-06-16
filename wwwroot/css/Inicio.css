@@ -3,7 +3,7 @@
     font-family: 'Poppins', sans-serif;
     height: 100vh;
     overflow: hidden;
-    background: url('/imagenes/fondo_roles.jpg') center/* o tu video si lo prefieres */
+    background: url('/imagenes/fondo_roles.jpg') center;
 }
 
 /* Fondo desenfocado */
@@ -109,3 +109,22 @@ input:focus {
         padding: 35px;
     }
 }
+
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    background: #fff;
+    color: #333;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+    .btn-google img {
+        width: 20px;
+        height: 20px;
+    }

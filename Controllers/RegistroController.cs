@@ -22,6 +22,7 @@ namespace P.EDUCLICK.Controllers
             string Correo,
             string Contrasena,
             string ConfirmarContrasena)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena)
         {
             // VALIDAR CONTRASEÑAS
             if (Contrasena != ConfirmarContrasena)
@@ -42,6 +43,7 @@ namespace P.EDUCLICK.Controllers
                                     (Nombres, Apellidos, Correo, Contrasena, FechaRegistro)
                                     VALUES
                                     (@Nombres, @Apellidos, @Correo, @Contrasena, GETDATE())";
+                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, GETDATE())";
 
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
@@ -63,18 +65,23 @@ namespace P.EDUCLICK.Controllers
             catch (SqlException ex)
             {
                 // CORREO DUPLICADO
+               
                 if (ex.Number == 2627)
                 {
                     TempData["Mensaje"] = "⚠️ Este correo ya está registrado.";
                     TempData["Tipo"] = "error";
 
                     return RedirectToAction("Index");
+                    ViewBag.Error = "Este correo ya está registrado por otro usuario.";
+                    return View("Index");
                 }
 
                 TempData["Mensaje"] = "❌ Ocurrió un error al registrar.";
                 TempData["Tipo"] = "error";
 
                 return RedirectToAction("Index");
+                ViewBag.Error = "Ocurrió un error al registrar el usuario.";
+                return View("Index");
             }
         }
     }

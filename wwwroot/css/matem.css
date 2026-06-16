@@ -1,0 +1,245 @@
+﻿/* =========================
+   ESTILOS GENERALES
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-image: url('../JUEGOS/Fondo.png');
+    color: #333;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar {
+    background: #ffffff;
+    padding: 15px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e6eaf2;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+    .logo img {
+        width: 80px;
+    }
+
+    .logo h1 {
+        color: #4F46E5;
+        font-size: 40px;
+    }
+
+    .logo p {
+        color: #777;
+        font-size: 13px;
+    }
+
+.saludo h2 {
+    color: #333;
+    font-size: 30px;
+}
+
+.saludo p {
+    color: #777;
+    font-size: 16px;
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.puntos {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    background: #FFF8E1;
+    padding: 20px 15px;
+    border-radius: 15px;
+}
+
+.notificacion {
+    width: 55px;
+    height: 55px;
+    background: #eef2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .perfil img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+/* =========================
+   BANNER
+========================= */
+
+.banner-mate {
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    padding: 35px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.icono-mate img {
+    width: 100px;
+}
+
+.info-banner h1 {
+    font-size: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.info-banner p {
+    font-size: 17px;
+    opacity: .9;
+}
+
+.ruta {
+    display: flex;
+    gap: 10px;
+    opacity: .8;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+
+.pagina {
+    display: flex;
+    gap: 25px;
+    padding: 25px;
+}
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.contenido {
+    flex: 1;
+}
+
+/* =========================
+   GRID ACTIVIDADES
+========================= */
+
+.grid-actividades {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* =========================
+   TARJETAS
+========================= */
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    transition: .3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,.06);
+}
+
+    .card:hover {
+        transform: translateY(-6px);
+    }
+
+    .card img {
+        width: 160px;
+        height: 160px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+
+    .card h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+.numero {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 35px;
+    height: 35px;
+    background: #4F46E5;
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-explorar {
+    display: inline-block;
+    text-decoration: none;
+    background: #4F46E5;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 10px;
+    transition: .3s;
+}
+
+    .btn-explorar:hover {
+        background: #3730A3;
+    }
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
+
+    .pagina {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+
+    .topbar {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .banner-mate {
+        flex-direction: column;
+        text-align: center;
+    }
+}
