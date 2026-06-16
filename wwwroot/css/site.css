@@ -37,6 +37,20 @@ body::before {
     padding: 20px;
 }
 
+.navbar {
+    width: 95%;
+    margin: auto;
+    background: #fff;
+    border-radius: 30px;
+    padding: 18px 35px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+
+/* =========================
+   LOGO
 /* NAVBAR */
 .navbar {
     width: 95%;
@@ -97,6 +111,9 @@ body::before {
             transform: translateY(-3px);
         }
 
+.actions {
+    display: flex;
+    align-items: center;
 .active {
     color: #00b050 !important;
 }
@@ -131,6 +148,42 @@ body::before {
     background: #23b14d;
 }
 
+.menu-login {
+    position: relative;
+}
+
+    .menu-login .dropdown {
+        position: absolute;
+        top: 110%;
+        left: 0;
+        min-width: 180px;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0,0,0,.15);
+        display: none;
+        z-index: 100;
+    }
+
+        .menu-login .dropdown a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: #1976d2;
+            font-weight: 600;
+            transition: .3s;
+        }
+
+            .menu-login .dropdown a:hover {
+                background: #e3f2fd;
+            }
+
+    .menu-login:hover .dropdown {
+        display: block;
+    }
+
+/* =========================
+   HERO
 /* MENÚ LOGIN (DESPLEGABLE) */
 .menu-login {
     position: relative;
@@ -230,6 +283,18 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+.cards {
+    width: 95%;
+    margin: -30px auto 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    width: 220px;
+    background: rgba(255,255,255,.97);
     background: #1bb13f;
     color: white;
     text-decoration: none;
@@ -338,6 +403,8 @@ body::before {
 .challenge .btn-card {
     background: #d4a000;
 }
+
+@media (max-width: 1200px) {
 
 /* RESPONSIVE */
 @media(max-width:1200px) {

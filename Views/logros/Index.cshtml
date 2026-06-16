@@ -1,0 +1,231 @@
+﻿@{
+    ViewData["Title"] = "Mis Logros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/Logros.css" rel="stylesheet" asp-append-version="true"/>
+
+<div class="logros-page">
+
+    <!-- HEADER -->
+    <div class="header-top">
+
+        <div class="logo-card">
+            <img src="~/LOGROS/Logo.png" alt="Logo">
+        </div>
+
+        <div class="saludo-card">
+            <h2>¡Hola, Sofía! 👋</h2>
+            <p>Sigue aprendiendo y alcanzando nuevas metas.</p>
+        </div>
+
+        <div class="user-card">
+
+            <div class="puntos">
+                <img src="~/LOGROS/primeraestrella.png" alt="">
+                <span>1200</span>
+            </div>
+
+            <div class="avatar">
+                <img src="~/LOGROS/avatar.png" alt="">
+                <div>
+                    <h4>Sofía</h4>
+                    <span>Estudiante</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="contenido-principal">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <a asp-controller="Home" asp-action="Index" class="menu-item">
+                <span>🏠</span>
+                Volver al inicio
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>📁</span>
+                Mis evidencias
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>📖</span>
+                Mis actividades
+            </a>
+
+            <a href="#" class="menu-item active">
+                <span>⭐</span>
+                Mis logros
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>🏆</span>
+                Mis retos
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>📊</span>
+                Mi progreso
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>⚙️</span>
+                Configuración
+            </a>
+
+            <img src="~/LOGROS/tigrelogros.png"
+                 class="tigre-sidebar"
+                 alt="Tigre">
+        </aside>
+
+        <!-- CONTENIDO -->
+        <main class="main-content">
+
+            <div class="titulo-logros">
+                <img src="~/LOGROS/Estrella.png" alt="">
+                <div>
+                    <h1>Mis logros</h1>
+                    <p>Cada logro es un paso más en tu aventura de aprendizaje.</p>
+                </div>
+            </div>
+
+            <!-- RESUMEN -->
+            <div class="resumen-card">
+
+                <div class="progreso">
+
+                    <div class="circulo">
+                        <span>65%</span>
+                    </div>
+
+                    <div>
+                        <h3>Tu progreso general</h3>
+                        <p>¡Vas por un excelente camino!</p>
+                    </div>
+
+                </div>
+
+                <div class="dato">
+                    <h2>18</h2>
+                    <span>de 30 logros</span>
+                </div>
+
+                <div class="dato">
+                    <h2>1200</h2>
+                    <span>puntos</span>
+                </div>
+
+                <div class="trofeo">
+                    <img src="~/LOGROS/trofeo.png" alt="">
+                </div>
+
+            </div>
+
+            <!-- CATEGORIAS -->
+            <h2 class="seccion-titulo">Categorías de logros</h2>
+
+            <div class="categorias">
+
+                <div class="categoria-card">
+                    <img src="~/LOGROS/iconoMate.png" alt="">
+                    <h4>Matemáticas</h4>
+                    <div class="barra">
+                        <div class="fill" style="width:60%"></div>
+                    </div>
+                    <span>6/10</span>
+                </div>
+
+                <div class="categoria-card">
+                    <img src="~/LOGROS/iconoLectura.png" alt="">
+                    <h4>Lectura</h4>
+                    <div class="barra">
+                        <div class="fill" style="width:50%"></div>
+                    </div>
+                    <span>5/8</span>
+                </div>
+
+                <div class="categoria-card">
+                    <img src="~/LOGROS/ciencias.png" alt="">
+                    <h4>Ciencias</h4>
+                    <div class="barra">
+                        <div class="fill" style="width:40%"></div>
+                    </div>
+                    <span>4/6</span>
+                </div>
+
+                <div class="categoria-card">
+                    <img src="~/LOGROS/iconoArte.png" alt="">
+                    <h4>Creatividad</h4>
+                    <div class="barra">
+                        <div class="fill" style="width:50%"></div>
+                    </div>
+                    <span>2/4</span>
+                </div>
+
+                <div class="categoria-card">
+                    <img src="~/LOGROS/iconos retos .png" alt="">
+                    <h4>Retos</h4>
+                    <div class="barra">
+                        <div class="fill" style="width:50%"></div>
+                    </div>
+                    <span>1/2</span>
+                </div>
+
+            </div>
+
+            <!-- LOGROS -->
+            <h2 class="seccion-titulo">Logros recientes</h2>
+
+            <div class="logros-grid">
+
+                <div class="logro-card">
+                    <img src="~/LOGROS/Buencaminoo.png" alt="">
+                    <h4>¡Buen comienzo!</h4>
+                    <p>Completaste tu primera actividad.</p>
+                    <strong>+50 puntos</strong>
+                </div>
+
+                <div class="logro-card">
+                    <img src="~/LOGROS/libro.png" alt="">
+                    <h4>Lector curioso</h4>
+                    <p>Leíste 5 textos diferentes.</p>
+                    <strong>+100 puntos</strong>
+                </div>
+
+                <div class="logro-card">
+                    <img src="~/LOGROS/exploradorr.png" alt="">
+                    <h4>Explorador científico</h4>
+                    <p>Completaste 3 actividades.</p>
+                    <strong>+150 puntos</strong>
+                </div>
+
+                <div class="logro-card">
+                    <img src="~/LOGROS/artisticacreativoo.png" alt="">
+                    <h4>Artista creativo</h4>
+                    <p>Compartiste una creación.</p>
+                    <strong>+100 puntos</strong>
+                </div>
+
+                <div class="logro-card">
+                    <img src="~/LOGROS/retoultimo.png" alt="">
+                    <h4>Reto cumplido</h4>
+                    <p>Superaste tu primer reto.</p>
+                    <strong>+200 puntos</strong>
+                </div>
+
+            </div>
+
+            <div class="mensaje-final">
+                🌿 ¡Sigue así! Cada logro te acerca más a tus sueños.
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
