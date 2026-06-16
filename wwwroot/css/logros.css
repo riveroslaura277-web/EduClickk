@@ -258,7 +258,7 @@ body {
 }
 
     .titulo-logros img {
-        width: 100px;
+        width: 200px;
         animation: floatElement 4s ease-in-out infinite;
     }
 
@@ -450,7 +450,7 @@ body {
 
     .logro-card img {
         width: 100%;
-        max-width: 120px; /* Ajuste adaptativo para evitar deformación por los 300px originales */
+        max-width: 320px; /* Ajuste adaptativo para evitar deformación por los 300px originales */
         margin: 0 auto 30px auto;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }

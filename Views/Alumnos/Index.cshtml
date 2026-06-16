@@ -46,8 +46,9 @@
                 <span>▶️ Videos</span>
             </a>
 
-            <a href="#">
-                <span>🤖 Chat IA</span>
+            <a asp-controller="Chat" asp-action="Index">
+                <i class="fa-solid fa-robot"></i>
+                Chat IA
             </a>
 
             <a href="#">
@@ -159,7 +160,10 @@
                     <span>65%</span>
                 </div>
 
-                <p>¡Vas por buen camino!</p>
+                <!-- Matemáticas -->
+                <a asp-controller="ActiMate"
+                   asp-action="Index"
+                   class="materia">
 
                 <div class="stats">
 
