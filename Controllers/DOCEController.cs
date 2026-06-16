@@ -27,8 +27,8 @@ namespace EduClick.Controllers
             _datos.Add(doc);
             return RedirectToAction("Index");
         }
-
         [HttpPost]
+
         public IActionResult Editar(Docente doc)
         {
             var item = _datos.FirstOrDefault(d => d.Id == doc.Id);

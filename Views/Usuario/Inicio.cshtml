@@ -1,35 +1,38 @@
 ﻿@{
     Layout = null;
-}
-
-@{
     ViewData["Title"] = "Iniciar Sesión";
 }
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"] - EduClick</title>
     <link rel="stylesheet" href="/css/Inicio.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Video de fondo -->
+
     <video class="video-sesion" autoplay muted loop>
         <source src="/imagenes/video_sesion.mp4" type="video/mp4" />
         Tu navegador no soporta video.
     </video>
     <a asp-action="Index" asp-controller="Home" class="btn-volver"> Volver al Inicio</a>
-    
+
 
     <div class="login-container">
         <div class="login-box">
-            <div class="logo">
-                <img src="/IMG_yesid/icono.png" alt="Logo EduClick" />
-            </div>
+            <h2>INICIO DE SESIÓN</h2>
+            <p>Rol: <strong>@ViewBag.RolSeleccionado</strong></p>
 
-            <h2>Bienvenido a tu aventura de Aprendizaje</h2>
-            <p>Explora. Aprende. Descubre.</p>
+            @if (TempData["Error"] != null)
+            {
+                <div style="background:#FFF5F5;color:#c53030;padding:10px;border-radius:8px;margin-bottom:12px;font-size:.85rem;text-align:center">
+                    @TempData["Error"]
+                </div>
+            }
 
-            <form asp-action="Login" method="post">
+            <form asp-action="Inicio" asp-controller="Usuario" method="post">
+                <input type="hidden" name="rol" value="@ViewBag.RolSeleccionado" />
+
                 <div class="campo">
                     <span class="icono">📧</span>
                     <input type="email" id="email" name="Email" placeholder="Correo electrónico" required />
@@ -44,28 +47,33 @@
                     <input type="checkbox" id="remember" />
                     <label for="remember">Recordarme</label>
                 </div>
-
+                
                 <button type="submit" class="btn-login">Iniciar sesión</button>
             
-                <a asp-controller="Roles" asp-action="fondoRoles" class="btn-login">Iniciar sesión</a>>
-                <a asp-action="
-                <a asp-action="Register">Crear cuenta nueva</a>
             </form>
 
-            <!-- Botón para login con Google -->
-            <a class="btn-google" asp-controller="Account" asp-action="GoogleLogin">
-                Continuar con Google
+            <!-- Botón Google -->
+            <a asp-controller="Usuario" asp-action="IniciarConGoogle" asp-route-rol="@ViewBag.RolSeleccionado" class="btn-google">
+                <img src="~/IMG_yesid/imgGoogle.png" alt="Google" />
+                Iniciar sesión con Google
             </a>
 
             <div class="extra-options">
-                <a asp-action="ForgotPassword">¿Olvidaste tu contraseña?</a>
+                <a href="https://accounts.google.com/signin/recovery"
+                   target="_blank"
+                   style="font-size: 0.8rem; opacity: 0.8;">
+                    <i class="fa-solid fa-key"></i>
+                    ¿Olvidaste tu contraseña?
+                </a>
                 <span> | </span>
-                <a asp-action="Register">Crear cuenta nueva</a>
+                <a asp-controller="Registro"
+                   asp-action="Index"
+                   class="btn login">
+                    <i class="fa-solid fa-user"></i>
+                    Crear Cuenta Nueva
+                </a>
             </div>
-
-            <a asp-action="Index" asp-controller="Home" class="btn-volver">>> Volver a Inicio</a>
         </div>
     </div>
 </body>
 </html>
-
