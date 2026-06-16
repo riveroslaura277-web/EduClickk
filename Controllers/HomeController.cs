@@ -6,6 +6,12 @@ namespace EduClick.Controllers;
 
 public class HomeController : Controller
 {
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }
+
+
     private readonly ILogger<HomeController> _logger;
 
     public HomeController(ILogger<HomeController> logger)
@@ -17,6 +23,7 @@ public class HomeController : Controller
     {
         return View();
     }
+   
 
     public IActionResult Privacy()
     {

@@ -2,7 +2,7 @@
 
 namespace EduClick.Controllers
 {
-    public class actividades : Controller
+    public class Actividades : Controller
     {
         public IActionResult Index()
         {

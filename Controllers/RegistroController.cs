@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using EduClick.Data;
+using EduClick.Models;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,12 +9,11 @@ namespace EduClick.Controllers
 {
     public class RegistroController : Controller
     {
-        private readonly string _conexion = "Server=LAPTOP-2IVQ34EB\\SQLEXPRESS;Database=Educlick;Trusted_Connection=True;TrustServerCertificate=True;";
+        private readonly EduClickContext _context;
 
-        public RegistroController(EduClickContext context, IConfiguration configuration)
+        public RegistroController(EduClickContext context)
         {
             _context = context;
-            _conexion = configuration.GetConnectionString("Default")!;
         }
 
         // GET
@@ -25,177 +24,127 @@ namespace EduClick.Controllers
 
         // REGISTRAR
         [HttpPost]
-        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, string Rol)
+        public IActionResult Registrar(string Nombres, string Apellidos, string Correo, string Contrasena, string ConfirmarContrasena, int IdRol)
         {
-            // 1. Validaciones básicas
+            // 1. Validar campos
+            if (string.IsNullOrWhiteSpace(Correo) || string.IsNullOrWhiteSpace(Contrasena))
+            {
+                ViewBag.Error = "Debes llenar todos los campos";
+                return View("Index");
+            }
+
+            // 2. Confirmar contraseña
             if (Contrasena != ConfirmarContrasena)
             {
-                ViewBag.Error = "❌ Las contraseñas no coinciden.";
+                ViewBag.Error = "Las contraseñas no coinciden";
                 return View("Index");
             }
 
-            if (string.IsNullOrEmpty(Nombres) || string.IsNullOrEmpty(Correo))
+            // 3. Verificar duplicado
+            var existe = _context.Usuarios.Any(x => x.Correo == Correo);
+            if (existe)
             {
-                ViewBag.Error = "Todos los campos son obligatorios.";
+                ViewBag.Error = "Este correo ya está registrado";
                 return View("Index");
             }
+
+            // 4. Hash de contraseña
+            string hash = HashearContrasena(Contrasena);
+
+            // 5. Crear usuario
+            var usuario = new Usuarios
+            {
+                Nombres = Nombres,
+                Apellidos = Apellidos,
+                Correo = Correo,
+                Contrasena = hash,
+                IdRol = IdRol,
+                FechaRegistro = DateTime.Now
+            };
+
+            _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
+
+            TempData["Mensaje"] = "Registro exitoso";
+            return RedirectToAction("Login", "Usuario");
+        }
+        [HttpPost]
+        public IActionResult EditarInline(int IdUsuario, string Nombres, string Apellidos, string Correo, int IdRol)
+        {
+            var usuario = _context.Usuarios.Find(IdUsuario);
+
+            if (usuario == null)
+            {
+                return Json(new { success = false, message = "Usuario no encontrado" });
+            }
+
+            // Actualizar campos
+            usuario.Nombres = Nombres;
+            usuario.Apellidos = Apellidos;
+            usuario.Correo = Correo;
+            usuario.IdRol = IdRol;
+
+            try
+            {
+                _context.Update(usuario);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
 
         // LISTAR
-
         public async Task<IActionResult> Listar()
         {
             var usuarios = await _context.Usuarios.ToListAsync();
             return View(usuarios);
         }
 
-
-
-
-        // EDITAR
+        // ELIMINAR UNO
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditarInline(
-            int IdUsuario,
-            string Nombres,
-            string Apellidos,
-            string Correo,
-            int IdRol)
-        {
-            try
-            {
-                string hash = HashearContrasena(Contrasena);
-
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    // Ajusta el INSERT según los nombres reales de tus columnas en SQL
-                    string query = @"INSERT INTO Usuarios (Nombres, Apellidos, Correo, Contrasena, Rol, FechaRegistro) 
-                                     VALUES (@Nombres, @Apellidos, @Correo, @Contrasena, @Rol, GETDATE())";
-                    string query = @"UPDATE Usuarios
-                             SET Nombres=@Nombres,
-                                 Apellidos=@Apellidos,
-                                 Correo=@Correo,
-                                 IdRol=@IdRol
-                             WHERE IdUsuario=@IdUsuario";
-
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Nombres", Nombres);
-                        cmd.Parameters.AddWithValue("@Apellidos", Apellidos);
-                        cmd.Parameters.AddWithValue("@Correo", Correo);
-                        cmd.Parameters.AddWithValue("@Contrasena", Contrasena);
-                        cmd.Parameters.AddWithValue("@Rol", Rol);
-
-                        int filas = cmd.ExecuteNonQuery();
-
-                        if (filas > 0)
-                        {
-                            return Json(new
-                            {
-                                success = true,
-                                message = "Usuario actualizado"
-                            });
-                        }
-
-                        return Json(new
-                        {
-                            success = false,
-                            message = "No se encontró el usuario"
-                        });
-                    }
-                }
-
-                // Éxito
-                TempData["Mensaje"] = "✅ Registro exitoso.";
-                TempData["Tipo"] = "success";
-                return RedirectToAction("Index");
-            }
-            catch (SqlException ex)
-            {
-                // Error 2627 es el código de SQL para violación de llave única (correo duplicado)
-                if (ex.Number == 2627)
-                {
-                    ViewBag.Error = "⚠️ Este correo ya está registrado.";
-                }
-                else
-                {
-                    ViewBag.Error = "❌ Ocurrió un error al registrar: " + ex.Message;
-            }
-            catch (Exception ex)
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
-            }
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EliminarVarios(List<int> ids)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
-
-                    foreach (var id in ids)
-                    {
-                        string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Parameters.AddWithValue("@Id", id);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                }
-
-                return RedirectToAction("Listar");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        // ELIMINAR
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Eliminar(int id)
         {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(_conexion))
-                {
-                    con.Open();
+            var usuario = _context.Usuarios.Find(id);
 
-                    string query = "DELETE FROM Usuarios WHERE IdUsuario = @Id";
+            if (usuario == null)
+                return NotFound();
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
-                    {
-                        cmd.Parameters.AddWithValue("@Id", id);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                return View("Index");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            _context.Usuarios.Remove(usuario);
+            _context.SaveChanges();
+
+            return RedirectToAction("Listar");
         }
 
+        // ELIMINAR VARIOS
+        [HttpPost]
+        public IActionResult EliminarSeleccionados(int[] ids)
+        {
+            var usuarios = _context.Usuarios
+                                   .Where(u => ids.Contains(u.IdUsuario))
+                                   .ToList();
 
-        // HASH
+            if (usuarios.Count == 0)
+                return NotFound();
+
+            _context.Usuarios.RemoveRange(usuarios);
+            _context.SaveChanges();
+
+            return RedirectToAction("Listar");
+        }
+
+        // HASH CONSISTENTE
         private static string HashearContrasena(string contrasena)
         {
-            byte[] bytes = SHA256.HashData(
-                Encoding.UTF8.GetBytes(contrasena));
-
-            return Convert.ToHexString(bytes).ToLower();
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(contrasena);
+                byte[] hash = sha256.ComputeHash(bytes);
+                return Convert.ToBase64String(hash);
+            }
         }
     }
 }

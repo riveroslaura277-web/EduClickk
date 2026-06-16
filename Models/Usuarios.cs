@@ -3,21 +3,29 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduClick.Models
 {
-    public class Usuarios 
-
-        {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public class Usuarios
+    {
         [Key]
-
         public int IdUsuario { get; set; }
-        public string? Correo { get; set; }
-        public string? Nombres { get; set; }
-            public string? Apellidos { get; set; }
-            public string? Contrasena { get; set; }
-            public int?IdRol { get; set; }
-            public DateTime FechaRegistro { get; set; }
-        }
 
+        public int IdRol { get; set; } // 🔥 obligatorio
+
+        [ForeignKey("IdRol")]
+        public Rol? Rol { get; set; }
+
+        [Required]
+        public string Correo { get; set; } = null!;
+
+        [Required]
+        public string Nombres { get; set; } = null!;
+
+        [Required]
+        public string Apellidos { get; set; } = null!;
+
+        [Column("Contraseña")]
+        [Required]
+        public string Contrasena { get; set; } = null!;
+
+        public DateTime FechaRegistro { get; set; }
     }
-
-
+}

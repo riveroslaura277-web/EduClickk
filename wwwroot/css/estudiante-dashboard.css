@@ -7,8 +7,7 @@
 }
 
 body {
-    background: linear-gradient(rgba(255,255,255,.15), rgba(255,255,255,.15)), 
-        url('/ImageNinos/FondoP.png');
+    background: linear-gradient(rgba(255,255,255,.15), rgba(255,255,255,.15)), url('/ImageNinos/FondoP.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -32,7 +31,7 @@ body {
 }
 
 /* ========================= */
-/* SIDEBAR */ 
+/* SIDEBAR */
 /* ========================= */
 
 .sidebar {
@@ -60,9 +59,9 @@ body {
     margin-top: 20px;
     gap: 10px;
 }
-   /* ========================= */
-   /* stats */
-   /* ========================= */
+    /* ========================= */
+    /* stats */
+    /* ========================= */
     .stats div {
         flex: 1;
         background: #f5f5f5;
@@ -308,6 +307,7 @@ body {
         align-items: center;
         font-size: 12px;
     }
+
 @keyframes tigerFloat {
 
     0% {
@@ -382,6 +382,7 @@ body {
     gap: 20px;
     animation: fadeUp 1s ease;
 }
+
 .hero-left {
     background: url('/ImageNinos/banner.png') no-repeat center center;
     /* MUESTRA TODA LA IMAGEN */
@@ -396,6 +397,7 @@ body {
     animation: heroFloat 5s ease-in-out infinite;
     box-shadow: 0 10px 30px rgba(0,0,0,.08);
 }
+
 @keyframes heroFloat {
 
     0% {

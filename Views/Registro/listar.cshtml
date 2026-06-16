@@ -129,8 +129,8 @@
 
             datos.append("__RequestVerificationToken", token);
 
-               fetch("/Registro/EliminarVarios", {
-        method: "POST",
+    fetch("/Registro/EliminarSeleccionados", {
+            method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
@@ -213,6 +213,7 @@
     <thead>
         <tr>
             <th>✔</th>
+            <th>Id</th>
             <th>Nombres</th>
             <th>Apellidos</th>
             <th>Correo</th>
@@ -229,6 +230,7 @@
                 <td>
                     <input type="checkbox" class="chkUsuario" value="@u.IdUsuario" />
                 </td>
+                <td>@u.IdUsuario</td>
                 <td>@u.Nombres</td>
                 <td>@u.Apellidos</td>
                 <td>@u.Correo</td>

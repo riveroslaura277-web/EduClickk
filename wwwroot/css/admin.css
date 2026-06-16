@@ -1,8 +1,4 @@
-﻿body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-}
+﻿
 
 .contenidoss {
     margin-left: 250px;
@@ -59,3 +55,35 @@
             background: #c89f74;
             transform: scale(1.05);
         }
+
+
+/* TARJETA PARA TABLAS */
+.card-tabla {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* TABLA */
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .tabla-usuarios th {
+        background: #ddb892;
+        color: white;
+    }
+
+    .tabla-usuarios tr:hover {
+        background: #f8f8f8;
+    }

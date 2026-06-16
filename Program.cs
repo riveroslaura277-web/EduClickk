@@ -1,22 +1,42 @@
 ﻿using EduClick.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using EduClick.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// =====================
+// SERVICES
+// =====================
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<UsuarioService>();
+
 
 builder.Services.AddDbContext<EduClickContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-// Configuración de Identity con tu modelo Usuarios
 
+// 🔐 AUTENTICACIÓN (CORRECTO AQUÍ)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options =>
+{
+    options.LoginPath = "/Usuario/Login";
+    options.AccessDeniedPath = "/Home/AccessDenied";
+});
+
+// =====================
+// BUILD APP
+// =====================
 
 var app = builder.Build();
+
+// =====================
+// PIPELINE
+// =====================
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -25,7 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 🔥 IMPORTANTE (aunque no uses login todavía, déjalo correcto)
+// 🔐 IMPORTANTE: ORDEN CORRECTO
 app.UseAuthentication();
 app.UseAuthorization();
 

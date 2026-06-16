@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EduClick.Models;
+using System.Threading;
 
 namespace EduClick.Data
 {
@@ -10,10 +11,15 @@ namespace EduClick.Data
         {
         }
 
+        // Tus tablas existentes
         public DbSet<Usuarios> Usuarios { get; set; }
-        public DbSet<Estudiante> Estudiantes { get; set; }
-        public DbSet<Docente> Docentes { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+
+        public DbSet<Estudiantes> Estudiantes { get; set; }
         public DbSet<Acudiente> Acudientes { get; set; }
         public DbSet<Rector> Rectores { get; set; }
+
     }
 }
+
+ 

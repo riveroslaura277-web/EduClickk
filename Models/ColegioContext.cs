@@ -6,6 +6,5 @@ namespace EduClick.Models
     {
         public ColegioContext(DbContextOptions<ColegioContext> options) : base(options) { }
 
-        public DbSet<Nota> Notas { get; set; }
     }
 }

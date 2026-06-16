@@ -1,41 +1,63 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using EduClick.Services;
 
 namespace EduClick.Controllers
 {
     public class UsuarioController : Controller
     {
-        [HttpGet]
-        public IActionResult Inicio()
+        private readonly UsuarioService _usuarioService;
+
+        public UsuarioController(UsuarioService usuarioService)
         {
-            var properties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action("GoogleCallback", "Account")
-            };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+            _usuarioService = usuarioService;
         }
 
-        [HttpPost]
-        public IActionResult Login(string Email, string Password)
+        // 🔵 GET: Login
+        [HttpGet]
+        public IActionResult Login()
         {
-            // Validación básica: campos vacíos
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            return View("Inicio");
+        }
+
+        // 🔴 POST: Login
+        [HttpPost]
+        public IActionResult Login(string email, string password)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 ModelState.AddModelError("", "Debes llenar todos los campos.");
-                return View("Inicio"); // vuelve a la vista de login
+                return View("Inicio");
             }
 
-            // Validación de credenciales (ejemplo)
-            if (Email == "admin@correo.com" && Password == "1234")
+            var usuario = _usuarioService.ValidarUsuario(email, password);
+
+            if (usuario == null)
             {
-                // ✅ Si son correctos → redirige a Roles
-                return RedirectToAction("FondoRoles", "Roles");
+                ModelState.AddModelError("", "Usuario o contraseña incorrectos.");
+                return View("Inicio");
             }
 
-            // ❌ Si no coinciden → error
-            ModelState.AddModelError("", "Correo o contraseña incorrectos.");
-            return View("Inicio");
+            // 🔥 MEJOR USAR IdRol (NO TEXTO)
+            switch (usuario.IdRol)
+            {
+                case 1:
+                    return RedirectToAction("Dashboard", "Admin");
+
+                case 2:
+                    return RedirectToAction("Index", "Rector");
+
+                case 3:
+                    return RedirectToAction("Index", "Docente");
+
+                case 4:
+                    return RedirectToAction("Padres", "Acudiente");
+
+                case 5:
+                    return RedirectToAction("Dashboard", "Estudiante");
+
+                default:
+                    return RedirectToAction("Inicio", "Home");
+            }
         }
     }
 }
