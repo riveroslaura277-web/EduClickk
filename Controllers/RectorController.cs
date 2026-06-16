@@ -3,10 +3,38 @@ using EduClick.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
+
 namespace EduClick.Controllers
 {
     public class RectorController : Controller
     {
+        private readonly EduClickContext _context;
+
+        public RectorController(EduClickContext context)
+        {
+            _context = context;
+        }
+
+        // Acción que recibe el login desde el modal
+        [HttpPost]
+        public IActionResult LoginRector(string Correo, string Contraseña)
+        {
+            var rector = _context.Usuarios
+                .FirstOrDefault(u => u.Correo == Correo && u.Contraseña == Contraseña && u.Rol == "Rector");
+
+            if (rector != null)
+            {
+                // Redirige al dashboard del rector
+                return RedirectToAction("RolRector");
+            }
+            else
+            {
+                TempData["Error"] = "Credenciales incorrectas";
+                return RedirectToAction("Index", "Roles");
+            }
+        }
+
+        // Acción que muestra el panel del rector
         public IActionResult RolRector()
         {
             ViewBag.NombreUsuario = User.FindFirstValue(ClaimTypes.Name) ?? "Usuario";
