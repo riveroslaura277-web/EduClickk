@@ -6,11 +6,14 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
+<video class="video-principal" autoplay muted loop>
+    <source src="@Url.Content("~/imagenes/video_principal.mp4")" type="video/mp4">
+    Tu navegador no soporta video.
+</video>
+
 <section class="main-container">
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+
     <header class="navbar">
 
         <!-- LOGO -->
@@ -19,12 +22,12 @@
             <img src="~/imagenes/icono.png" alt="EduClick Logo" />
 
             <div class="logo-text">
-                <h2>EduClick</h2>
-                <p>Aprender es la aventura más emocionante</p>
+        <h2>EduClick</h2>
+        <p>Aprender es la aventura más emocionante</p>
             </div>
 
         </div>
-
+       
         <!-- MENU -->
         <nav class="menu">
 
@@ -58,23 +61,52 @@
         <!-- BOTONES -->
         <div class="actions">
 
-            <a href="#" class="btn login">
-                <i class="fa-solid fa-user"></i>
-                Iniciar sesión
-            </a>
+            <div class="menu-login">
+                <button class="btn login">
+                    <i class="fa-solid fa-user"></i> Iniciar sesión <i class="fa-solid fa-caret-down"></i>
+                </button>
 
-            <a href="#" class="btn register">
-                <i class="fa-solid fa-user-plus"></i>
-                Registro
+
+                <div class="dropdown">
+                    <a asp-controller="Usuario" asp-action="IniciarConGoogle"
+                       asp-route-rol="Docente">Docente</a>
+                    <a asp-controller="Usuario" asp-action="IniciarConGoogle"
+                       asp-route-rol="Estudiante">Estudiante</a>
+                    <a asp-controller="Usuario" asp-action="IniciarConGoogle"
+                       asp-route-rol="Acudiente">Acudiente</a>
+                    <a asp-controller="Usuario" asp-action="IniciarConGoogle"
+                       asp-route-rol="Rector">Rector</a>
+                    <a asp-controller="Usuario" asp-action="IniciarConGoogle"
+                       asp-route-rol="Administrador">Administrador</a>
+
+                    <hr style="border-color: rgba(255,255,255,0.2); margin: 4px 0;">
+
+                    <a href="https://accounts.google.com/signin/recovery"
+                       target="_blank"
+                       style="font-size: 0.8rem; opacity: 0.8;">
+                        <i class="fa-solid fa-key"></i>
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- BOTÓN REGISTRO -->
+            <a asp-controller="Registro"
+               asp-action="Index"
+               class="btn login">
+                <i class="fa-solid fa-user"></i>
+                Registrarse
             </a>
 
         </div>
 
     </header>
 
-    <!-- =========================
-         HERO
-    ========================== -->
+  
+         
+    
     <section class="hero">
 
         <div class="hero-content">
@@ -104,27 +136,17 @@
 
     </section>
 
-    <!-- =========================
-         CARDS
-    ========================== -->
-    <section class="cards">
 
-        <!-- MATEMÁTICAS -->
+         
+  
+    <section class="cards">
         <div class="card math">
 
             <img src="~/imagenes/iconoMate.png" alt="Matemáticas">
 
             <h3>Matemáticas</h3>
-
-            <p>
-                Aprende números, operaciones
-                y resuelve problemas jugando.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Aprende números, operaciones y resuelve problemas jugando.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
         <!-- LECTURA -->
@@ -133,16 +155,8 @@
             <img src="~/imagenes/iconoLectura.png" alt="Lectura">
 
             <h3>Lectura</h3>
-
-            <p>
-                Mejora tu comprensión
-                leyendo cuentos y textos.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Mejora tu comprensión leyendo cuentos y textos.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
         <!-- CIENCIAS -->
@@ -151,16 +165,8 @@
             <img src="~/imagenes/iconoSociales.png" alt="Ciencias">
 
             <h3>Ciencias</h3>
-
-            <p>
-                Descubre el mundo
-                que te rodea.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Descubre el mundo que te rodea.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
         <!-- CREATIVIDAD -->
@@ -169,16 +175,8 @@
             <img src="~/imagenes/iconoArte.png" alt="Creatividad">
 
             <h3>Creatividad</h3>
-
-            <p>
-                Dibuja, pinta y crea
-                cosas increíbles.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Dibuja, pinta y crea cosas increíbles.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
         <!-- RETOS -->
@@ -187,16 +185,8 @@
             <img src="~/imagenes/iconoreto.png" alt="Retos">
 
             <h3>Retos</h3>
-
-            <p>
-                Pon a prueba lo que sabes
-                y gana medallas.
-            </p>
-
-            <a href="#" class="btn-card">
-                Explorar →
-            </a>
-
+            <p>Pon a prueba lo que sabes y gana medallas.</p>
+            <a href="#" class="btn-card">Explorar →</a>
         </div>
 
     </section>

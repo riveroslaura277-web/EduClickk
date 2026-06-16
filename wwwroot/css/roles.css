@@ -4,7 +4,7 @@
     height: 100%;
     overflow-y: auto; /* scroll vertical normal */
 }
-
+ 
 .fondo {
     position: absolute;
     top: 0;
@@ -17,6 +17,7 @@
     z-index: -1;
 }
 
+/* CONTENEDOR */
 .contenedor-roles {
     position: relative;
     width: 100%;
@@ -75,6 +76,8 @@
     animation: combo 2s infinite ease-in-out;
 }
 
+
+
 /* Animación única para todos */
 @keyframes combo {
     0% {
@@ -101,6 +104,7 @@
     z-index: 1000;
     animation: balanceo 2s infinite ease-in-out;
 }
+
 
 @keyframes balanceo {
     0% {
@@ -157,6 +161,9 @@
     }
 }
 
+
+
+/* BOTÓN VOLVER */
 .btn-volver {
     display: inline-block;
     padding: 10px 20px;
@@ -171,7 +178,7 @@
 
     .btn-volver:hover {
         background-color: #45a049;
-    }
+}
 
 .docente {
 }
