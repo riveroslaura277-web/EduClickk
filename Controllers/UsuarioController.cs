@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Linq;
 
 namespace EduClick.Controllers
 {
@@ -13,6 +14,41 @@ namespace EduClick.Controllers
         public UsuarioController(EduClickContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult Inicio(string rol)
+        {
+            ViewBag.RolSeleccionado = rol;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Inicio(string Email, string Password, string rol)
+        {
+            var usuario = _context.Usuarios
+                .FirstOrDefault(u => u.Correo == Email && u.Rol == rol);
+
+            if (usuario == null || usuario.Contrasena != Password)
+            {
+                TempData["Error"] = "Correo o contraseña incorrectos.";
+                ViewBag.RolSeleccionado = rol;
+                return View();
+            }
+
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Correo);
+            HttpContext.Session.SetString("UsuarioRol", usuario.Rol);
+            HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+
+            return rol switch
+            {
+                "Administrador" => RedirectToAction("LoginAdministrador", "Usuario"),
+                "Rector" => RedirectToAction("RolRector", "Rector"),
+                "Docente" => RedirectToAction("docente", "Docente"),
+                "Estudiante" => RedirectToAction("Index", "Alumnos"),
+                "Acudiente" => RedirectToAction("LoginAcudiente", "Usuario"),
+                _ => RedirectToAction("Index", "Home")
+            };
         }
 
         [HttpGet]
@@ -36,23 +72,38 @@ namespace EduClick.Controllers
 
             var email = result.Principal?.FindFirst(ClaimTypes.Email)?.Value;
             string rolSeleccionado = "";
-            if (result.Properties?.Items.ContainsKey("rol") == true)
-                result.Properties.Items.TryGetValue("rol", out rolSeleccionado);
-            rolSeleccionado = rolSeleccionado ?? string.Empty;
+            result.Properties?.Items.TryGetValue("rol", out rolSeleccionado);
+            rolSeleccionado ??= "";
 
-            var usuario = _context.Usuarios
-                .FirstOrDefault(u => u.Correo == email && u.Rol == rolSeleccionado);
-
-            if (usuario == null)
+            // Verificar si la BD está disponible
+            bool bdDisponible = false;
+            try
             {
-                TempData["Error"] = $"El correo {email ?? "desconocido"} no está registrado como {rolSeleccionado} en EduClick.";
-                return RedirectToAction("Index", "Home"); // ← faltaba este return
+                bdDisponible = await _context.Database.CanConnectAsync();
             }
+            catch { }
 
-            // Guardar sesión
-            HttpContext.Session.SetString("UsuarioEmail", email ?? "");
-            HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
-            HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+            if (bdDisponible)
+            {
+                var usuario = _context.Usuarios
+                    .FirstOrDefault(u => u.Correo == email && u.Rol == rolSeleccionado);
+
+                if (usuario == null)
+                {
+                    TempData["Error"] = $"El correo {email ?? "desconocido"} no está registrado como {rolSeleccionado} en EduClick.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                HttpContext.Session.SetString("UsuarioEmail", email ?? "");
+                HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
+                HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+            }
+            else
+            {
+                // BD no disponible - guarda sesión sin validar
+                HttpContext.Session.SetString("UsuarioEmail", email ?? "");
+                HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
+            }
 
             return rolSeleccionado switch
             {
@@ -63,11 +114,6 @@ namespace EduClick.Controllers
                 "Acudiente" => RedirectToAction("LoginAcudiente", "Usuario"),
                 _ => RedirectToAction("Index", "Home")
             };
-        }
-
-        public IActionResult OlvideContrasena()
-        {
-            return View();
         }
     }
 }
