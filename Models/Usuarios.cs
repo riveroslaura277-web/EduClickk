@@ -10,13 +10,14 @@ namespace EduClick.Models
         [Key]
 
         public int Id { get; set; }
-        public string? Correo { get; set; }
-        public string? Nombres { get; set; }
-            public string? Apellidos { get; set; }
-            public string? Contrasena { get; set; }
-            public string? Rol { get; set; }
-            public DateTime FechaRegistro { get; set; }
-        }
+        public string Nombres { get; set; } = string.Empty;
+        public string Apellidos { get; set; } = string.Empty;
+        public string Correo { get; set; } = string.Empty;
+        public string Contrasena { get; set; } = string.Empty;
+        public string Rol { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
+        public DateTime FechaRegistro { get; set; }
+    }
     }
 
 

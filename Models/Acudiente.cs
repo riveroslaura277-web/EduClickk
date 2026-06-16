@@ -3,16 +3,14 @@
 
     public class Acudiente
         {
-            public int Id { get; set; }
-            public string? Telefono { get; set; }
-            public string? Direccion { get; set; }
-
-            // Clave foránea hacia Usuarios
-            public int UsuarioId { get; set; }
-
-            // Propiedad de navegación (puede ser nula)
-            public Usuarios? Usuario { get; set; }
-        }
+        public int Id { get; set; }
+        public string Nombres { get; set; } = string.Empty;
+        public string Apellidos { get; set; } = string.Empty;
+        public string Direccion { get; set; } = string.Empty;
+        public string Telefono { get; set; } = string.Empty;
+        public string NombreEstudiante { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
+    }
     }
 
 
