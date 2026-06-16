@@ -18,29 +18,31 @@
         <h2>EduClick</h2>
         <p>Aprender es la aventura más emocionante</p>
 
-       
+
         <nav class="menu">
-            <a href="#" class="active">
+
+            <a asp-controller="Home" asp-action="Index">
                 <i class="fa-solid fa-house"></i>
                 <span>Inicio</span>
             </a>
-            <a href="#">
+
+            <a asp-controller="Beneficios" asp-action="Index">
+                <i class="fa-solid fa-star"></i>
+                <span>Beneficios</span>
+            </a>
+
+            <a asp-controller="SobreNosotros" asp-action="Index">
                 <i class="fa-solid fa-book-open"></i>
-                <span>Actividades</span>
+                <span>Nosotros</span>
             </a>
-            <a href="#">
-                <i class="fa-solid fa-box"></i>
-                <span>Recursos</span>
-            </a>
-            <a href="#">
-                <i class="fa-solid fa-image"></i>
-                <span>Galería</span>
-            </a>
-            <a href="#">
-                <i class="fa-solid fa-envelope"></i>
+
+            <a asp-controller="Contactanos" asp-action="Index">
+                <i class="fa-solid fa-phone"></i>
                 <span>Contacto</span>
             </a>
+
         </nav>
+     
 
         <!-- BOTONES -->
         <div class="actions">
@@ -53,7 +55,7 @@
 
                 <div class="dropdown">
                     <a asp-controller="Usuario" asp-action="Inicio" asp-route-rol="Docente">Docente</a>
-                    <a asp-controller="Usuario" asp-action="Inicio" asp-route-rol="Estudiante">Estudiante</a>
+                    <a asp-controller="Alumnos" asp-action="Index" asp-route-rol="Estudiante">Estudiante</a>
                     <a asp-controller="Usuario" asp-action="Inicio" asp-route-rol="Acudiente">Acudiente</a>
                     <a asp-controller="Usuario" asp-action="Inicio" asp-route-rol="Rector">Rector</a>
                     <a asp-controller="Usuario" asp-action="Inicio" asp-route-rol="Administrador">Administrador</a>
@@ -78,9 +80,9 @@
 
     </header>
 
-  
-         
-    
+
+
+
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
@@ -102,8 +104,8 @@
     </section>
 
 
-         
-  
+
+
     <section class="cards">
         <div class="card math">
             <img src="~/imagenes/iconoMate.png" alt="Matemáticas">
