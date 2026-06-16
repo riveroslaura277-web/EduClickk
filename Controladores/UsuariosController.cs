@@ -2,7 +2,7 @@
 
 namespace EduClick.Controllers
 {
-    public class UsuarioController : Controller
+    public class UsuariossController : Controller
     {
         [HttpGet]
         public IActionResult Inicio()
