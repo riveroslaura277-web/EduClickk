@@ -11,9 +11,12 @@ namespace EduClick.Data
         }
 
         public DbSet<Usuarios> Usuarios { get; set; }
-        public DbSet<Estudiante> Estudiantes { get; set; }
-        public DbSet<Docente> Docentes { get; set; }
-        public DbSet<Acudiente> Acudientes { get; set; }
+        public DbSet<Estudiantes> Estudiantes { get; set; }
+        public DbSet<Docentes> Docentes { get; set; }
+        public DbSet<Acudientes> Acudientes { get; set; }
         public DbSet<Rector> Rectores { get; set; }
+        public DbSet<Evidencia> Evidencias { get; set; }
+    public DbSet<Estudiantes> Estudiante { get; set; } // si existe el modelo
+        public DbSet<DetalleEstudiante> DetalleEstudiantes { get; set; }
     }
-}
+    }

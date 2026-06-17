@@ -20,30 +20,26 @@ namespace EduClick.Controllers
         public IActionResult Index()
         {
             var evidencias = _context.Evidencias
-                         .Include(e => e.Estudiante)
-                         .Where(e => e.IdEstudiante == 27)
-                         .ToList();
+                .Include(e => e.DetalleEstudiante)
+                .Where(e => e.IdDetalle == 27) // ejemplo: filtra estudiante detalle 27
+                .ToList();
 
-
-
-
-            // ✅ Paso 1: enviar lista de estudiantes a la vista
-            ViewBag.Estudiantes = _context.Estudiantes.ToList();
+            // enviar lista de estudiantes a la vista
+            ViewBag.Estudiantes = _context.DetalleEstudiantes.ToList();
 
             return View(evidencias);
         }
-
 
         // Acción para subir archivo
         [HttpPost]
         public IActionResult SubirArchivo(IFormFile archivo)
         {
-            int IdEstudiante = 2; // 👈 fijo en código (ejemplo Sofía)
+            int idDetalle = 2; // ejemplo fijo
 
-            var estudiante = _context.Estudiantes.Find(IdEstudiante);
-            if (estudiante == null)
+            var detalle = _context.DetalleEstudiantes.Find(idDetalle);
+            if (detalle == null)
             {
-                TempData["Mensaje"] = "⚠️ El estudiante no existe en la base de datos.";
+                TempData["Mensaje"] = "⚠️ El detalle de estudiante no existe en la base de datos.";
                 return RedirectToAction("Index");
             }
 
@@ -61,9 +57,8 @@ namespace EduClick.Controllers
                 {
                     FechaEntrega = DateTime.Now,
                     Estado = "Pendiente",
-                    IdEstudiante = IdEstudiante,
-                    NombreArchivo = nombreArchivo,
-                    NombreEstudiante = estudiante.Nombres + " " + estudiante.Apellidos
+                    IdDetalle = idDetalle,
+                    NombreArchivo = nombreArchivo
                 };
 
                 _context.Evidencias.Add(evidencia);
@@ -74,11 +69,12 @@ namespace EduClick.Controllers
             return RedirectToAction("Index");
         }
 
-
         // Vista para calificar evidencia
         public IActionResult Calificar(int id)
         {
-            var evidencia = _context.Evidencias.Find(id);
+            var evidencia = _context.Evidencias
+                .Include(e => e.DetalleEstudiante)
+                .FirstOrDefault(e => e.Id == id);
 
             if (evidencia == null)
             {
@@ -92,7 +88,9 @@ namespace EduClick.Controllers
         [HttpPost]
         public IActionResult GuardarCalificacion(int id, decimal nota, string? observacion)
         {
-            var evidencia = _context.Evidencias.Find(id);
+            var evidencia = _context.Evidencias
+                .Include(e => e.DetalleEstudiante)
+                .FirstOrDefault(e => e.Id == id);
 
             if (evidencia != null)
             {
@@ -101,19 +99,19 @@ namespace EduClick.Controllers
                 evidencia.Estado = "Calificado";
                 _context.SaveChanges();
 
-                // ✅ Regla: Trabajo destacado
+                // Regla: Trabajo destacado
                 if (nota == 5.0m)
                 {
-                    CrearLogro("Trabajo destacado", "Obtuvo la nota máxima en una evidencia", "fa-medal", evidencia.IdEstudiante);
+                    CrearLogro("Trabajo destacado", "Obtuvo la nota máxima en una evidencia", "fa-medal", evidencia.IdDetalle);
                 }
 
-                // ✅ Regla: Constancia (3 evidencias aprobadas)
+                // Regla: Constancia (3 evidencias aprobadas)
                 var aprobadas = _context.Evidencias
-                    .Count(e => e.IdEstudiante == evidencia.IdEstudiante && e.Nota >= 3.0m);
+                    .Count(e => e.IdDetalle == evidencia.IdDetalle && e.Nota >= 3.0m);
 
                 if (aprobadas >= 3)
                 {
-                    CrearLogro("Constancia", "Ha entregado varias evidencias aprobadas seguidas", "fa-trophy", evidencia.IdEstudiante);
+                    CrearLogro("Constancia", "Ha entregado varias evidencias aprobadas seguidas", "fa-trophy", evidencia.IdDetalle);
                 }
             }
 
@@ -121,25 +119,22 @@ namespace EduClick.Controllers
         }
 
         // Método auxiliar para crear logros
-        private void CrearLogro(string nombre, string descripcion, string icono, int idEstudiante)
+        private void CrearLogro(string nombre, string descripcion, string icono, int idDetalle)
         {
-            bool existe = _context.Logros
-                .Any(l => l.IdEstudiante == idEstudiante && l.NombreLogro == nombre);
-
-            if (!existe)
+            // Aquí defines cómo guardar el logro en tu base de datos
+            // Ejemplo:
+            /*
+            var logro = new Logro
             {
-                var logro = new Logro
-                {
-                    NombreLogro = nombre,
-                    Descripcion = descripcion,
-                    Icono = icono,
-                    FechaObtencion = DateTime.Now,
-                    IdEstudiante = idEstudiante
-                };
-
-                _context.Logros.Add(logro);
-                _context.SaveChanges();
-            }
+                Nombre = nombre,
+                Descripcion = descripcion,
+                Icono = icono,
+                IdDetalle = idDetalle,
+                Fecha = DateTime.Now
+            };
+            _context.Logros.Add(logro);
+            _context.SaveChanges();
+            */
         }
     }
 }

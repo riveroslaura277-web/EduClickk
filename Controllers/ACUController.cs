@@ -8,7 +8,7 @@ namespace EduClick.Controllers
 {
     public class ACUController : Controller
     {
-        private static List<Acudiente> _datos = DatosPrueba.Acudientes();
+        private static List<Acudientes> _datos = DatosPrueba.Acudientes();
 
         public IActionResult Index(string estado = "")
         {
@@ -21,7 +21,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Agregar(Acudiente acu)
+        public IActionResult Agregar(Acudientes acu)
         {
             acu.Id = _datos.Any() ? _datos.Max(a => a.Id) + 1 : 1;
             _datos.Add(acu);
@@ -29,7 +29,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(Acudiente acu)
+        public IActionResult Editar(Acudientes acu)
         {
             var item = _datos.FirstOrDefault(a => a.Id == acu.Id);
             if (item != null)

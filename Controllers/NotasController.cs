@@ -6,7 +6,7 @@ namespace EduClick.Controllers
 {
     public class NotasController : Controller
     {
-        private static List<NOTARectorViewModel> _datos = DatosPrueba.Notas();
+        private static List<NOTARectorViewModels> _datos = DatosPrueba.Notas();
 
         public IActionResult Index(int grado = 1, string curso = "", string estado = "")
         {

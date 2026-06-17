@@ -9,7 +9,7 @@ namespace EduClick.Controllers
     public class ESTUController : Controller
     {
         // Lista en memoria (reemplazar por BD cuando esté lista)
-        private static List<Estudiante> _datos = DatosPrueba.Estudiantes();
+        private static List<Estudiantes> _datos = DatosPrueba.Estudiantes();
 
         public IActionResult Index(int grado = 1, string estado = "")
         {
@@ -25,7 +25,7 @@ namespace EduClick.Controllers
 
         // Agregar
         [HttpPost]
-        public IActionResult Agregar(Estudiante est)
+        public IActionResult Agregar(Estudiantes est)
         {
             est.Id = _datos.Any() ? _datos.Max(e => e.Id) + 1 : 1;
             est.Codigo = $"EST{est.Id:D3}";
@@ -35,7 +35,7 @@ namespace EduClick.Controllers
 
         // Editar
         [HttpPost]
-        public IActionResult Editar(Estudiante est)
+        public IActionResult Editar(Estudiantes est)
         {
             var item = _datos.FirstOrDefault(e => e.Id == est.Id);
             if (item != null)

@@ -8,7 +8,7 @@ namespace EduClick.Controllers
 {
     public class DOCEController : Controller
     {
-        private static List<Docente> _datos = DatosPrueba.Docentes();
+        private static List<Docentes> _datos = DatosPrueba.Docentes();
 
         public IActionResult Index(string estado = "")
         {
@@ -21,7 +21,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Agregar(Docente doc)
+        public IActionResult Agregar(Docentes doc)
         {
             doc.Id = _datos.Any() ? _datos.Max(d => d.Id) + 1 : 1;
             _datos.Add(doc);
@@ -29,7 +29,7 @@ namespace EduClick.Controllers
         }
         [HttpPost]
 
-        public IActionResult Editar(Docente doc)
+        public IActionResult Editar(Docentes doc)
         {
             var item = _datos.FirstOrDefault(d => d.Id == doc.Id);
             if (item != null)

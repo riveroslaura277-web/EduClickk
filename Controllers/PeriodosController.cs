@@ -6,7 +6,7 @@ namespace EduClick.Controllers
 {
     public class PeriodosController : Controller
     {
-        private static List<PeriodoViewModel> _datos = DatosPrueba.Periodos();
+        private static List<PeriodoViewModels> _datos = DatosPrueba.Periodos();
 
         public IActionResult Index()
         {
@@ -14,7 +14,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Agregar(PeriodoViewModel periodo)
+        public IActionResult Agregar(PeriodoViewModels periodo)
         {
             periodo.Id = _datos.Any() ? _datos.Max(p => p.Id) + 1 : 1;
             periodo.Estado = "Próximo";
@@ -24,7 +24,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(PeriodoViewModel periodo)
+        public IActionResult Editar(PeriodoViewModels periodo)
         {
             var item = _datos.FirstOrDefault(p => p.Id == periodo.Id);
             if (item != null)

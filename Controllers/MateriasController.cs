@@ -6,7 +6,7 @@ namespace EduClick.Controllers
 {
     public class MateriasController : Controller
     {
-        private static List<MateriaViewModel> _datos = DatosPrueba.Materias();
+        private static List<MateriaViewModels> _datos = DatosPrueba.Materias();
 
         public IActionResult Index(int grado = 1, string estado = "")
         {
@@ -21,7 +21,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Agregar(MateriaViewModel materia)
+        public IActionResult Agregar(MateriaViewModels materia)
         {
             materia.Id = _datos.Any() ? _datos.Max(m => m.Id) + 1 : 1;
             _datos.Add(materia);
@@ -30,7 +30,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(MateriaViewModel materia)
+        public IActionResult Editar(MateriaViewModels materia)
         {
             var item = _datos.FirstOrDefault(m => m.Id == materia.Id);
             if (item != null)

@@ -79,7 +79,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditarRol(RolViewModel rol)
+        public IActionResult EditarRol(RolViewModels rol)
         {
             TempData["Mensaje"] = $"Rol '{rol.Nombre}' actualizado correctamente";
             return RedirectToAction("Roles");
@@ -100,7 +100,7 @@ namespace EduClick.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditarModulo(ModuloViewModel modulo)
+        public IActionResult EditarModulo(ModuloViewModels modulo)
         {
             TempData["Mensaje"] = $"Módulo '{modulo.Nombre}' actualizado correctamente";
             return RedirectToAction("Modulos");

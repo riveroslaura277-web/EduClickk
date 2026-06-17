@@ -20,7 +20,8 @@ public class EstudiantesController : Controller
     public IActionResult Registrar() => View();
 
     [HttpPost]
-    public IActionResult Registrar(DetalleEstudiante estudiante)
+    [HttpPost]
+    public IActionResult Registrar(Estudiantes estudiante)
     {
         if (ModelState.IsValid)
         {
@@ -32,3 +33,4 @@ public class EstudiantesController : Controller
         return View(estudiante);
     }
 }
+
