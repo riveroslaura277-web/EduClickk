@@ -72,8 +72,10 @@ namespace EduClick.Controllers
 
             var email = result.Principal?.FindFirst(ClaimTypes.Email)?.Value;
             string rolSeleccionado = "";
-            result.Properties?.Items.TryGetValue("rol", out rolSeleccionado);
-            rolSeleccionado ??= "";
+            if (result.Properties?.Items.TryGetValue("rol", out var rol) == true)
+            {
+                rolSeleccionado = rol ?? "";
+            }
 
             // Verificar si la BD está disponible
             bool bdDisponible = false;

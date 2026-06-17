@@ -6,20 +6,8 @@
 }
 
 body {
-    background-image: url('/imagenes/fondo.jpg');
+    background-image: url('/imagenes/fondo.png');
     min-height: 100vh;
-}
-
-/* VIDEO */
-
-.video-principal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
 }
 
 body::before {

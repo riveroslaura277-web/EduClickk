@@ -8,7 +8,7 @@
 }
 
 body {
-    background-image: url('../JUEGOS/Fondo.png');
+    background-image: url('../JUEGOS/fondo2.png');
     min-height: 100vh;
     padding: 25px;
 }
@@ -135,15 +135,27 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 25px 35px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.3);
 }
 
     .games-header h2 {
         font-size: 42px;
         color: #5b21b6;
+        font-weight: 800;
+        text-shadow: 0 2px 4px rgba(255,255,255,0.8), 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .games-header p {
-        color: #555;
+        color: #2d3748;
+        font-size: 20px;
+        font-weight: 500;
+        text-shadow: 0 1px 3px rgba(255,255,255,0.7);
+    }
     }
 
 .filter-btn {

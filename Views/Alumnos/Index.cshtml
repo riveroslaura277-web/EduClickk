@@ -21,12 +21,7 @@
             <a asp-controller="Home" asp-action="Index" class="activo">
                 <i class="fa-solid fa-house"></i>
                 Inicio
-            </a>
-
-            <a asp-controller="Logros" asp-action="Index">
-                <i class="fa-solid fa-clipboard-list"></i>
-                Logros
-            </a>
+            </a>         
 
             <a asp-controller="Evidencias" asp-action="Index">
                 <i class="fa-solid fa-list-check"></i>
@@ -48,27 +43,11 @@
                 Chat IA
             </a>
 
-            <a asp-controller="Retos" asp-action="Index">
-                <i class="fa-solid fa-trophy"></i>
-                Retos
-            </a>
-
             <a asp-controller="Calendario" asp-action="Index">
                 <i class="fa-solid fa-calendar"></i>
                 Calendario
             </a>
-
-            <a asp-controller="Recursos" asp-action="Index">
-                <i class="fa-solid fa-folder"></i>
-                Recursos
-            </a>
-
-            <a asp-controller="Perfil" asp-action="Index">
-                <i class="fa-solid fa-user"></i>
-                Mi Perfil
-            </a>
         </nav>
-
         <img class="buho"
              src="~/Estudiantes/buhuo.png"
              alt="Búho">
@@ -223,49 +202,161 @@
 
         </section>
 
-
-
         <!-- SECCIÓN INFERIOR -->
         <section class="bottom">
 
-            <div class="actividad">
+            <!-- ACTIVIDAD RECIENTE -->
+            <div class="actividad-box">
 
-                <h3>Actividad reciente</h3>
-
-                <div class="item">
-                    Quiz completado de matemáticas +20 pts
+                <div class="box-header">
+                    <h2><i class="fas fa-leaf"></i> Actividad reciente</h2>
+                    <a href="#">Ver todas <i class="fas fa-arrow-right"></i></a>
                 </div>
 
-                <div class="item">
-                    Video de ciencias visto +15 pts
+                <div class="actividad-item">
+                    <div class="item-icon morado">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Completaste el quiz "División de fracciones"</h4>
+                        <p>Matemáticas</p>
+                    </div>
+
+                    <div class="item-right">
+                        <span>Hace 30 min</span>
+                        <strong>+20 pts</strong>
+                    </div>
                 </div>
 
-                <div class="item">
-                    Juego completado +25 pts
+                <div class="actividad-item">
+                    <div class="item-icon rojo">
+                        <i class="fas fa-play"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Viste el video "El ciclo del agua"</h4>
+                        <p>Ciencias Naturales</p>
+                    </div>
+
+                    <div class="item-right">
+                        <span>Hace 2 horas</span>
+                        <strong>+15 pts</strong>
+                    </div>
+                </div>
+
+                <div class="actividad-item">
+                    <div class="item-icon verde">
+                        <i class="fas fa-comments"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Participaste en el foro "Cuidado del planeta"</h4>
+                        <p>Ciencias Naturales</p>
+                    </div>
+
+                    <div class="item-right">
+                        <span>Ayer</span>
+                        <strong>+10 pts</strong>
+                    </div>
+                </div>
+
+                <div class="actividad-item">
+                    <div class="item-icon oscuro">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Ganaste en "Aventuras de Historia"</h4>
+                        <p>Sociales</p>
+                    </div>
+
+                    <div class="item-right">
+                        <span>Ayer</span>
+                        <strong>+25 pts</strong>
+                    </div>
                 </div>
 
             </div>
 
-            <div class="sugerencias">
+            <!-- SUGERENCIAS -->
+            <div class="sugerencias-box">
 
-                <h3>Sugerencias para ti</h3>
-
-                <div class="item">
-                    Practica sumas y restas
+                <div class="box-header">
+                    <h2><i class="fas fa-lightbulb"></i> Sugerencias para ti</h2>
                 </div>
 
-                <div class="item">
-                    Lee un cuento corto
+                <div class="sugerencia-item">
+
+                    <div class="item-icon azul">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Practica sumas y restas</h4>
+                        <p>Refuerza tus habilidades matemáticas.</p>
+                    </div>
+
+                    <a href="#" class="btn-ir">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
                 </div>
 
-                <div class="item">
-                    Explora el sistema solar
+                <div class="sugerencia-item">
+
+                    <div class="item-icon naranja">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Lee "El Principito"</h4>
+                        <p>Una historia que te encantará.</p>
+                    </div>
+
+                    <a href="#" class="btn-ir">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+                <div class="sugerencia-item">
+
+                    <div class="item-icon verde">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Explora el sistema solar</h4>
+                        <p>Aprende sobre los planetas.</p>
+                    </div>
+
+                    <a href="#" class="btn-ir">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+                <div class="sugerencia-item">
+
+                    <div class="item-icon oscuro">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+
+                    <div class="item-info">
+                        <h4>Juega "Trivia de animales"</h4>
+                        <p>Pon a prueba tus conocimientos.</p>
+                    </div>
+
+                    <a href="#" class="btn-ir">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
                 </div>
 
             </div>
 
         </section>
-
     </main>
 
     <!-- PANEL DERECHO -->
