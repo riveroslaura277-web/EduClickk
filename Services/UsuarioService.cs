@@ -31,10 +31,13 @@ namespace EduClick.Services
         public Usuarios? ValidarUsuario(string email, string password)
         {
             var hash = HashearContrasena(password);
+
+            Console.WriteLine("EMAIL: " + email);
+            Console.WriteLine("HASH: " + hash);
+
             return _context.Usuarios
-                .Include(x => x.Rol) // 👈 carga el rol asociado
+                .Include(x => x.Rol)
                 .FirstOrDefault(x => x.Correo == email && x.Contrasena == hash);
         }
-
     }
 }

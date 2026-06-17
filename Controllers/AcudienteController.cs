@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace EduClick.Controllers
 {
-    [Authorize(Roles = "Acudiente")]
+   
     public class AcudienteController : Controller
     {
         public IActionResult Padres()
