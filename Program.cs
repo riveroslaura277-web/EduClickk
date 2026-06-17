@@ -17,6 +17,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
+
 // Autenticación con Google
 builder.Services.AddAuthentication(options =>
 {
