@@ -9,7 +9,7 @@ namespace EduClick.Controllers
     public class ESTUController : Controller
     {
         // Lista en memoria (reemplazar por BD cuando esté lista)
-        private static List<DetalleEstudiante> _datos = DatosPrueba.Estudiantes();
+        private static List<Estudiante> _datos = DatosPrueba.Estudiantes();
 
         public IActionResult Index(int grado = 1, string estado = "")
         {
@@ -25,19 +25,19 @@ namespace EduClick.Controllers
 
         // Agregar
         [HttpPost]
-        public IActionResult Agregar(DetalleEstudiante est)
+        public IActionResult Agregar(Estudiante est)
         {
-            est.IdEstudiante = _datos.Any() ? _datos.Max(e => e.IdEstudiante) + 1 : 1;
-            est.Codigo = $"EST{est.IdEstudiante:D3}";
+            est.Id = _datos.Any() ? _datos.Max(e => e.Id) + 1 : 1;
+            est.Codigo = $"EST{est.Id:D3}";
             _datos.Add(est);
             return RedirectToAction("Index", new { grado = est.Grado });
         }
 
         // Editar
         [HttpPost]
-        public IActionResult Editar(DetalleEstudiante est)
+        public IActionResult Editar(Estudiante est)
         {
-            var item = _datos.FirstOrDefault(e => e.IdEstudiante == est.IdEstudiante);
+            var item = _datos.FirstOrDefault(e => e.Id == est.Id);
             if (item != null)
             {
                 item.Nombres = est.Nombres;
@@ -51,7 +51,7 @@ namespace EduClick.Controllers
         [HttpPost]
         public IActionResult Eliminar(int id, int grado)
         {
-            var item = _datos.FirstOrDefault(e => e.IdEstudiante == id);
+            var item = _datos.FirstOrDefault(e => e.Id == id);
             if (item != null) _datos.Remove(item);
             return RedirectToAction("Index", new { grado });
         }

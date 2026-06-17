@@ -10,11 +10,7 @@
         public string Telefono { get; set; } = string.Empty;
         public string Especialidad { get; set; } = string.Empty;
         public string Estado { get; set; } = string.Empty;
-        public string Observacion { get; set; }
-
-
-
     }
-}
+    }
 
 

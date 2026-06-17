@@ -4,6 +4,7 @@ using EduClick.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduClick.Migrations
 {
     [DbContext(typeof(EduClickContext))]
-    partial class EduClickContextModelSnapshot : ModelSnapshot
+    [Migration("20260520190841_FixUsuarios")]
+    partial class FixUsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,12 +39,16 @@ namespace EduClick.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioCorreo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCorreo");
 
                     b.ToTable("Acudientes");
                 });
@@ -60,12 +67,16 @@ namespace EduClick.Migrations
                     b.Property<string>("Materia")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioCorreo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCorreo");
 
                     b.ToTable("Docentes");
                 });
@@ -84,12 +95,16 @@ namespace EduClick.Migrations
                     b.Property<string>("Grado")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioCorreo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCorreo");
 
                     b.ToTable("Estudiantes");
                 });
@@ -105,31 +120,29 @@ namespace EduClick.Migrations
                     b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioCorreo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UsuarioCorreo");
 
                     b.ToTable("Rectores");
                 });
 
             modelBuilder.Entity("EduClick.Models.Usuarios", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Correo")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Apellidos")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Contrasena")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Correo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FechaRegistro")
@@ -141,7 +154,7 @@ namespace EduClick.Migrations
                     b.Property<string>("Rol")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Correo");
 
                     b.ToTable("Usuarios");
                 });
@@ -150,7 +163,7 @@ namespace EduClick.Migrations
                 {
                     b.HasOne("EduClick.Models.Usuarios", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCorreo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -161,7 +174,7 @@ namespace EduClick.Migrations
                 {
                     b.HasOne("EduClick.Models.Usuarios", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCorreo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -172,7 +185,7 @@ namespace EduClick.Migrations
                 {
                     b.HasOne("EduClick.Models.Usuarios", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCorreo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -183,7 +196,7 @@ namespace EduClick.Migrations
                 {
                     b.HasOne("EduClick.Models.Usuarios", "Usuario")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UsuarioCorreo")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
