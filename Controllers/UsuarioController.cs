@@ -1,56 +1,119 @@
-﻿using Microsoft.AspNetCore.Authentication.Google;
+﻿using EduClick.Data;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Linq;
 
 namespace EduClick.Controllers
 {
     public class UsuarioController : Controller
     {
-        // Eliminamos el _context temporalmente para que no busque la base de datos
+        private readonly EduClickContext _context;
+
+        public UsuarioController(EduClickContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
-        public IActionResult Login(string rol)
+        public IActionResult Inicio(string rol)
         {
             ViewBag.RolSeleccionado = rol;
-            return View("Inicio");
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password, string rol)
+        public IActionResult Inicio(string Email, string Password, string rol)
         {
-            // Validamos que los campos no estén vacíos
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            var usuario = _context.Usuarios
+                .FirstOrDefault(u => u.Correo == Email && u.Rol == rol);
+
+            if (usuario == null || usuario.Contrasena != Password)
             {
-                ModelState.AddModelError("", "Debes llenar todos los campos.");
+                TempData["Error"] = "Correo o contraseña incorrectos.";
                 ViewBag.RolSeleccionado = rol;
-                return View("Inicio");
+                return View();
             }
 
-            // SIMULACIÓN: Aquí saltamos la BD. 
-            // Si el correo contiene algo, consideramos que es un usuario válido.
-            bool usuarioValido = true;
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Correo);
+            HttpContext.Session.SetString("UsuarioRol", usuario.Rol);
+            HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
 
-            if (usuarioValido)
+            return rol switch
             {
-                // Redirigimos directamente según el rol
-                switch (rol)
+                "Administrador" => RedirectToAction("LoginAdministrador", "Usuario"),
+                "Rector" => RedirectToAction("RolRector", "Rector"),
+                "Docente" => RedirectToAction("docente", "Docente"),
+                "Estudiante" => RedirectToAction("Index", "Alumnos"),
+                "Acudiente" => RedirectToAction("LoginAcudiente", "Usuario"),
+                _ => RedirectToAction("Index", "Home")
+            };
+        }
+
+        [HttpGet]
+        public IActionResult IniciarConGoogle(string rol)
+        {
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action("CallbackGoogle", "Usuario"),
+                Items = { { "rol", rol } }
+            };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> CallbackGoogle()
+        {
+            var result = await HttpContext.AuthenticateAsync(
+                GoogleDefaults.AuthenticationScheme);
+
+            if (!result.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            var email = result.Principal?.FindFirst(ClaimTypes.Email)?.Value;
+            string rolSeleccionado = "";
+            result.Properties?.Items.TryGetValue("rol", out rolSeleccionado);
+            rolSeleccionado ??= "";
+
+            // Verificar si la BD está disponible
+            bool bdDisponible = false;
+            try
+            {
+                bdDisponible = await _context.Database.CanConnectAsync();
+            }
+            catch { }
+
+            if (bdDisponible)
+            {
+                var usuario = _context.Usuarios
+                    .FirstOrDefault(u => u.Correo == email && u.Rol == rolSeleccionado);
+
+                if (usuario == null)
                 {
-                    case "Docente":
-                        return RedirectToAction("Index", "Docente");
-                    case "Estudiante":
-                        return RedirectToAction("Index", "Estudiante");
-                    case "Rector":
-                        return RedirectToAction("Index", "Rector");
-                    case "Acudiente":
-                        return RedirectToAction("Index", "Acudiente");
-                    case "Administrador":
-                        return RedirectToAction("Index", "Administrador");
-                    default:
-                        return RedirectToAction("Index", "Home");
+                    TempData["Error"] = $"El correo {email ?? "desconocido"} no está registrado como {rolSeleccionado} en EduClick.";
+                    return RedirectToAction("Index", "Home");
                 }
+
+                HttpContext.Session.SetString("UsuarioEmail", email ?? "");
+                HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
+                HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+            }
+            else
+            {
+                // BD no disponible - guarda sesión sin validar
+                HttpContext.Session.SetString("UsuarioEmail", email ?? "");
+                HttpContext.Session.SetString("UsuarioRol", rolSeleccionado);
             }
 
-            return View("Inicio");
+            return rolSeleccionado switch
+            {
+                "Administrador" => RedirectToAction("LoginAdministrador", "Usuario"),
+                "Rector" => RedirectToAction("RolRector", "Rector"),
+                "Docente" => RedirectToAction("docente", "Docente"),
+                "Estudiante" => RedirectToAction("Index", "Alumnos"),
+                "Acudiente" => RedirectToAction("LoginAcudiente", "Usuario"),
+                _ => RedirectToAction("Index", "Home")
+            };
         }
     }
 }

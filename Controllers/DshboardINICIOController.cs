@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EduClick.Controllers
 {
-    public class Logros : Controller
+    public class DshboardINICIOController : Controller
     {
         public IActionResult Index()
         {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
             return View();
         }
     }

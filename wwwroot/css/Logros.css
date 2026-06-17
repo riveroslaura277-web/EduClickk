@@ -18,7 +18,6 @@ body {
 
 .logros-page {
     padding: 10px;
-    
 }
 
 /* =======================
@@ -95,7 +94,6 @@ body {
     background: white;
     border-radius: 30px;
     box-shadow: 0 5px 20px rgba(0,0,0,.08);
-    
 }
 
 /* Retrasos escalonados para la entrada del Header */
@@ -106,7 +104,6 @@ body {
     justify-content: center;
     align-items: center;
     padding: 10px;
-   
 }
 
     .logo-card:hover {
@@ -117,7 +114,6 @@ body {
     .logo-card img {
         max-width: 50px;
         transform: rotate(8deg) scale(1.15);
-        
     }
 
     .logo-card:hover img {
@@ -157,7 +153,6 @@ body {
     gap: 20px;
     font-size: 30px;
     font-weight: 700;
-    
 }
 
 .user-card:hover .puntos {
@@ -166,7 +161,6 @@ body {
 
 .puntos img {
     width: 55px;
-    
 }
 
 .avatar {
@@ -179,16 +173,15 @@ body {
         width: 80px;
         height: 80px;
         border-radius: 50%;
-       
     }
 
-.avatar h4 {
-    font-size: 24px;
-}
+    .avatar h4 {
+        font-size: 24px;
+    }
 
-.avatar span {
-    color: #666;
-}
+    .avatar span {
+        color: #666;
+    }
 
 /* =======================
    CONTENIDO PRINCIPAL
@@ -265,7 +258,7 @@ body {
 }
 
     .titulo-logros img {
-        width: 100px;
+        width: 200px;
         animation: floatElement 4s ease-in-out infinite;
     }
 
@@ -457,7 +450,7 @@ body {
 
     .logro-card img {
         width: 100%;
-        max-width: 120px; /* Ajuste adaptativo para evitar deformación por los 300px originales */
+        max-width: 320px; /* Ajuste adaptativo para evitar deformación por los 300px originales */
         margin: 0 auto 30px auto;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -566,3 +559,4 @@ body {
         font-size: 18px;
     }
 }
+

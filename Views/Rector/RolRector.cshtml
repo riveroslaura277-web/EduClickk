@@ -14,10 +14,16 @@
             <div class="ico"><i class="ti ti-school"></i></div>
             <span>EduClick</span>
         </div>
+        @{
+            string nombre = ViewBag.NombreUsuario ?? "Usuario";
+            string iniciales = nombre.Length >= 2
+            ? nombre.Substring(0, 1).ToUpper() + nombre.Split(' ').Last().Substring(0, 1).ToUpper()
+            : nombre.Substring(0, 1).ToUpper();
+        }
         <div class="sb-profile">
-            <div class="sb-avatar">CM</div>
+            <div class="sb-avatar">@iniciales</div>
             <div>
-                <div class="sb-name">Dr. Carlos Martínez</div>
+                <div class="sb-name">@nombre</div>
                 <div class="sb-role">Rector</div>
             </div>
         </div>
@@ -25,19 +31,19 @@
         <div class="sb-section">
             <div class="sb-label">Principal</div>
             <a href="@Url.Action("Dashboard","Rector")" class="nav-btn active"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-            <a href="@Url.Action("Perfil","Cuenta")" class="nav-btn"><i class="ti ti-user"></i> Perfil</a>
+            <a href="@Url.Action("Perfil","Rector")" class="nav-btn"><i class="ti ti-user"></i> Perfil</a>
         </div>
 
         <div class="sb-section">
             <div class="sb-label">Gestión</div>
-            <a href="@Url.Action("Index","Usuarios")" class="nav-btn"><i class="ti ti-users"></i> Usuarios <span class="nav-badge">3</span></a>
-            <a href="@Url.Action("Index","Roles")" class="nav-btn"><i class="ti ti-key"></i> Roles</a>
-            <a href="@Url.Action("Index","Modulos")" class="nav-btn"><i class="ti ti-puzzle"></i> Módulos</a>
+            <a href="@Url.Action("Index","USUA")" class="nav-btn"><i class="ti ti-users"></i> Usuarios <span class="nav-badge">3</span></a>
+            <a href="@Url.Action("Roles","Rector")" class="nav-btn"><i class="ti ti-key"></i> Roles</a>
+            <a href="@Url.Action("Modulos","Rector")" class="nav-btn"><i class="ti ti-puzzle"></i> Módulos</a>
         </div>
 
         <div class="sb-section">
             <div class="sb-label">Académico</div>
-            <a href="@Url.Action("Index","Estudiantes")" class="nav-btn"><i class="ti ti-backpack"></i> Estudiantes</a>
+            <a href="@Url.Action("Index","ESTU")" class="nav-btn"><i class="ti ti-backpack"></i> Estudiantes</a>
             <a href="@Url.Action("Index","Cursos")" class="nav-btn"><i class="ti ti-books"></i> Cursos</a>
             <a href="@Url.Action("Index","Materias")" class="nav-btn"><i class="ti ti-book"></i> Materias</a>
             <a href="@Url.Action("Index","Notas")" class="nav-btn"><i class="ti ti-pencil"></i> Notas</a>
@@ -45,9 +51,9 @@
             <a href="@Url.Action("Index","Boletines")" class="nav-btn"><i class="ti ti-file-description"></i> Boletines</a>
         </div>
 
-        <div class="sb-footer">
-            <a href="@Url.Action("Logout","Account")" class="logout-btn"><i class="ti ti-logout"></i> Cerrar sesión</a>
-        </div>
+        <button onclick="document.getElementById('modalLogout').style.display='grid'" class="logout-btn" style="width:100%;text-align:left;border:none;background:transparent;cursor:pointer;font-family:inherit">
+            <i class="ti ti-logout"></i> Cerrar sesión
+        </button>
     </nav>
 
     <!-- MAIN -->
@@ -63,29 +69,36 @@
                 <button class="tb-btn" title="Notificaciones"><i class="ti ti-bell"></i></button>
                 <button class="tb-btn" title="Configuración"><i class="ti ti-settings"></i></button>
             </div>
-        </header>
+        </header>       
 
         <!-- CONTENT -->
         <div class="content">
 
-            <!-- STAT CARDS -->
+            @if (TempData["Mensaje"] != null)
+            {
+                <div style="background:#E1F5EE;border:1px solid #1D9E75;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:.85rem;color:#085041;font-weight:600">
+                    ✓ @TempData["Mensaje"]
+                </div>
+            }
+
+            <!-- STAT CARDS --> 
             <div class="stats-grid">
-                <a href="@Url.Action("Index","Estudiantes")" class="stat-card">
+                <a href="@Url.Action("Index","ESTU")" class="stat-card">
                     <div class="stat-top"><div class="stat-icon g"><i class="ti ti-backpack"></i></div><div class="stat-label">Estudiantes</div></div>
                     <div class="stat-value">@ViewBag.TotalEstudiantes</div>
                     <div class="stat-change">↑ @ViewBag.NuevosEstudiantes este mes</div>
                 </a>
-                <a href="@Url.Action("Index","Docentes")" class="stat-card">
+                <a href="@Url.Action("Index","DOCE")" class="stat-card">
                     <div class="stat-top"><div class="stat-icon b"><i class="ti ti-chalkboard"></i></div><div class="stat-label">Docentes</div></div>
                     <div class="stat-value">@ViewBag.TotalDocentes</div>
                     <div class="stat-change">↑ @ViewBag.NuevosDocentes este mes</div>
                 </a>
-                <a href="@Url.Action("Index","Acudientes")" class="stat-card">
+                <a href="@Url.Action("Index","ACU")" class="stat-card">
                     <div class="stat-top"><div class="stat-icon o"><i class="ti ti-users-group"></i></div><div class="stat-label">Acudientes</div></div>
                     <div class="stat-value">@ViewBag.TotalAcudientes</div>
                     <div class="stat-change">Activos</div>
                 </a>
-                <a href="@Url.Action("Index","Usuarios")" class="stat-card">
+                <a href="@Url.Action("Index","USUA")" class="stat-card">
                     <div class="stat-top"><div class="stat-icon p"><i class="ti ti-lock"></i></div><div class="stat-label">Usuarios</div></div>
                     <div class="stat-value">@ViewBag.TotalUsuarios</div>
                     <div class="stat-change pend">@ViewBag.UsuariosPendientes pendientes</div>
@@ -143,7 +156,7 @@
                     <!-- NOTICIAS -->
                     <div class="panel">
                         <div class="ph">
-                            <span class="pt">Noticias del colegio</span>
+                            <span class="pt">Noticias del colegio</span>    
                             <a href="@Url.Action("Crear","Noticias")" class="pa">+ Nueva</a>
                         </div>
                         @foreach (var noticia in ViewBag.Noticias)
@@ -174,6 +187,34 @@
 
         </div><!-- /content -->
     </div><!-- /main -->
+    <!-- MODAL CERRAR SESIÓN -->
+    <div id="modalLogout" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);place-items:center;z-index:1000">
+        <div style="background:#fff;border-radius:14px;padding:32px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center">
+
+            <div style="width:60px;height:60px;border-radius:50%;background:#FFF5F5;display:grid;place-items:center;margin:0 auto 16px;font-size:28px;color:#c53030">
+                <i class="ti ti-logout"></i>
+            </div>
+
+            <h3 style="font-size:1.05rem;font-weight:700;color:#1a202c;margin-bottom:8px">
+                ¿Cerrar sesión?
+            </h3>
+            <p style="font-size:.85rem;color:#718096;margin-bottom:24px">
+                Tu sesión actual se cerrará y tendrás que iniciar sesión de nuevo con Google para acceder.
+            </p>
+
+            <div style="display:flex;gap:10px">
+                <button onclick="document.getElementById('modalLogout').style.display='none'"
+                        style="flex:1;padding:10px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:600;color:#4a5568">
+                    Cancelar
+                </button>
+                <a href="@Url.Action("Logout","Account")"
+                   style="flex:1;padding:10px;background:#c53030;color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center">
+                    Sí, salir
+                </a>
+            </div>
+
+        </div>
+    </div>
 </div><!-- /dash -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="~/js/rector-dashboard.js"></script>

@@ -1,59 +1,78 @@
-﻿body {
-    background: linear-gradient(to right, #7B2FF7, #F79D00, #FFD200); /* Morado → Naranja → Amarillo */
-    background-attachment: fixed;
-    color: white;
-    font-family: 'Poppins', sans-serif;
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-y: auto; /* scroll vertical normal */
 }
  
+.fondo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%; /*  se adapta al contenido */
+    background: url('~/imagenes/fondoRoles.png') no-repeat center top;
+    background-size: cover;
+    background-attachment: scroll; /*  el fondo sube y baja contigo */
+    z-index: -1;
+}
 
 /* CONTENEDOR */
 .contenedor-roles {
     position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 100vh; /* ocupa toda la ventana */
+    margin: 0;
 }
 
-/* IMÁGENES GENERALES */
+
 .rol {
-    position: absolute;
-    height: auto;
+    width: 20%;
     cursor: pointer;
-    transition: 0.3s;
+    object-fit: contain;
+    border-radius: 15px;
 }
 
     .rol:hover {
         transform: scale(1.05);
+        filter: brightness(1.1);
     }
 
-/* RECTOR */
-.rector {
-    top: 40px;
-    left: 20px;
-    width: 600px;
+.contenedor-roles .rector {
+    position: absolute;
+    top: 0;
+    left: -120PX;
+    margin: 0;
+    width: 700px;
+    height: auto;
     animation: combo 2s infinite ease-in-out;
 }
 
-/* DOCENTE */
-.docente {
-    top: 80px;
-    left: 400px;
-    width: 470px;
-    animation: combo 2s infinite ease-in-out;
-}
 
-/* ESTUDIANTE */
-.estudiante {
-    top:350px;
-    left: 20px;
-    width: 450px;
-    animation: combo 2s infinite ease-in-out;
-}
-
-/* ACUDIENTE */
-.acudiente {
-    top:300px;
-    left: 300px;
+.contenedor-roles .docente {
+    position: absolute;
+    top: 25%;
+    left: 20%;
     width: 500px;
+    height: auto;
+    animation: combo 2s infinite ease-in-out;
+}
+
+.contenedor-roles .estudiante {
+    position: absolute;
+    top: 55%;
+    left: -90PX;
+    width: 500px;
+    height: auto;
+    animation: combo 2s infinite ease-in-out;
+}
+
+.contenedor-roles .acudiente {
+    position: absolute;
+    top: 65%;
+    left: 10%;
+    width: 650px;
+    height: auto;
     animation: combo 2s infinite ease-in-out;
 }
 
@@ -78,10 +97,10 @@
 
 .titulo {
     position: absolute;
-    top: -50px;
-    left: 80%;
+    top: 0; /*  pegado al borde superior visible */
+    left: 80%; /*  lo mantienes hacia la derecha */
     transform: translateX(-50%);
-    width: 800px;
+    width: 900px;
     z-index: 1000;
     animation: balanceo 2s infinite ease-in-out;
 }
@@ -105,10 +124,10 @@
 .nino {
     position: absolute;
     bottom: 10px;
-    right: 10px;
-    width: 370px;
-    top: 25%;
-    height: 470px;
+    right: 0;
+    width: 650px;
+    top: 40%;
+    height: 600px;
     animation: emocion 1s infinite;
 }
 
@@ -127,7 +146,7 @@
     top: 5%;
     left: 85%;
     transform: translateX(-50%);
-    width: 180px;
+    width: 330px;
     animation: tigreAnimado 2s infinite;
 }
 
@@ -146,17 +165,21 @@
 
 /* BOTÓN VOLVER */
 .btn-volver {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
+    display: inline-block;
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
     text-decoration: none;
     border-radius: 10px;
     font-size: 18px;
+    top: 10px;
+    right: 20px
 }
+
+    .btn-volver:hover {
+        background-color: #45a049;
+}
+
 .docente {
 }
 
