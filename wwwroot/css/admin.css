@@ -1,5 +1,4 @@
-﻿body {
-}
+﻿
 
 .contenidoss {
     margin-left: 250px;
@@ -11,23 +10,36 @@
         margin-bottom: 40px;
     }
 
+/* CONTENEDOR DE TARJETAS */
 .cards1 {
     display: flex;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
-.card2 {
+/* TARJETAS */
+.card {
     background: white;
     width: 250px;
-    padding: 20px;
+    height: 150px;
     border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    transition: transform 0.2s ease;
 }
 
-    .card2 a {
+    /* EFECTO HOVER */
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* LINK */
+    .card a {
         text-decoration: none;
         background: #ddb892;
         color: white;
@@ -35,4 +47,43 @@
         border-radius: 10px;
         display: inline-block;
         margin-top: 10px;
+        transition: 0.3s ease;
+    }
+
+        /* HOVER DEL BOTÓN */
+        .card a:hover {
+            background: #c89f74;
+            transform: scale(1.05);
+        }
+
+
+/* TARJETA PARA TABLAS */
+.card-tabla {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* TABLA */
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+    .tabla-usuarios th,
+    .tabla-usuarios td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .tabla-usuarios th {
+        background: #ddb892;
+        color: white;
+    }
+
+    .tabla-usuarios tr:hover {
+        background: #f8f8f8;
     }

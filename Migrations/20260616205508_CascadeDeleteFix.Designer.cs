@@ -4,16 +4,19 @@ using EduClick.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EduClick.Migrations
+namespace EduClick.Migrations.EduClick
 {
     [DbContext(typeof(EduClickContext))]
-    partial class EduClickContextModelSnapshot : ModelSnapshot
+    [Migration("20260616205508_CascadeDeleteFix")]
+    partial class CascadeDeleteFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

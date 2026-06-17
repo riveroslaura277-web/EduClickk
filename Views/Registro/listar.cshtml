@@ -1,0 +1,283 @@
+﻿@model IEnumerable<EduClick.Models.Usuarios>
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/listar.css" />
+
+@Html.AntiForgeryToken()
+
+
+
+
+
+<script>
+    let filaActiva = null;
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.querySelectorAll("tr[data-id]").forEach(fila => {
+
+            fila.addEventListener("click", function () {
+
+                document.querySelectorAll("tr[data-id]").forEach(f => {
+                    f.style.background = "";
+                });
+
+                filaActiva = fila;
+                fila.style.background = "#fff9c4";
+            });
+
+        });
+
+    });
+
+    function editarSeleccionada() {
+
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
+
+        filaActiva.cells[1].contentEditable = true;
+        filaActiva.cells[2].contentEditable = true;
+        filaActiva.cells[3].contentEditable = true;
+
+        filaActiva.cells[1].style.background = "#fffde7";
+        filaActiva.cells[2].style.background = "#fffde7";
+        filaActiva.cells[3].style.background = "#fffde7";
+    }
+
+    function guardarSeleccionada() {
+
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
+
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        let datos = new URLSearchParams();
+
+        datos.append("IdUsuario", filaActiva.dataset.id);
+        datos.append("Nombres", filaActiva.cells[1].innerText.trim());
+        datos.append("Apellidos", filaActiva.cells[2].innerText.trim());
+        datos.append("Correo", filaActiva.cells[3].innerText.trim());
+        datos.append("IdRol", filaActiva.querySelector("select[name='IdRol']").value);
+        datos.append("__RequestVerificationToken", token);
+
+        fetch("/Registro/EditarInline", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: datos
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.success) {
+
+                filaActiva.cells[1].contentEditable = false;
+                filaActiva.cells[2].contentEditable = false;
+                filaActiva.cells[3].contentEditable = false;
+
+                filaActiva.cells[1].style.background = "";
+                filaActiva.cells[2].style.background = "";
+                filaActiva.cells[3].style.background = "";
+
+                alert("✔ Usuario actualizado");
+            }
+            else {
+                alert("❌ " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("❌ Error al guardar");
+        });
+    }
+
+
+
+
+
+    function eliminarSeleccionada() {
+
+        let seleccionados = [];
+
+        document.querySelectorAll(".chkUsuario:checked").forEach(chk => {
+            seleccionados.push(chk.value);
+        });
+
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        // =========================
+        // 🔥 ELIMINAR VARIOS
+        // =========================
+        if (seleccionados.length > 1) {
+
+            if (!confirm("¿Eliminar usuarios seleccionados?"))
+                return;
+
+            let datos = new URLSearchParams();
+
+            seleccionados.forEach(id => {
+                datos.append("ids", id);
+            });
+
+            datos.append("__RequestVerificationToken", token);
+
+    fetch("/Registro/EliminarSeleccionados", {
+            method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: datos
+    })
+    .then(async r => {
+        if (r.ok) {
+            location.reload();
+        } else {
+            const error = await r.text();
+            console.log(error);
+            alert("❌ Error: " + error);
+        }
+    });
+
+            return;
+        }
+
+        // =========================
+        // 🔥 ELIMINAR 1 POR CHECKBOX
+        // =========================
+        if (seleccionados.length == 1) {
+
+            if (!confirm("¿Eliminar usuario?"))
+                return;
+
+            fetch("/Registro/Eliminar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    id: seleccionados[0],
+                    __RequestVerificationToken: token
+                })
+            })
+            .then(r => {
+                if (r.ok) location.reload();
+                else alert("❌ Error al eliminar");
+            });
+
+            return;
+        }
+
+        // =========================
+        // 🔥 ELIMINAR POR FILA
+        // =========================
+        if (!filaActiva) {
+            alert("Selecciona una fila primero");
+            return;
+        }
+
+        if (!confirm("¿ Desea eliminar el usuario?"))
+            return;
+
+        fetch("/Registro/Eliminar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                id: filaActiva.dataset.id,
+                __RequestVerificationToken: token
+            })
+        })
+        .then(r => {
+            if (r.ok) {
+                filaActiva.remove();
+                filaActiva = null;
+                alert("✔ Usuario eliminado");
+            }
+            else {
+                alert("❌ Error al eliminar");
+            }
+        });
+    }
+</script>
+
+<table>
+    <thead>
+        <tr>
+            <th>✔</th>
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Fecha Registro </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var u in Model)
+        {
+            <tr data-id="@u.IdUsuario">
+                <td>
+                    <input type="checkbox" class="chkUsuario" value="@u.IdUsuario" />
+                </td>
+                <td>@u.IdUsuario</td>
+                <td>@u.Nombres</td>
+                <td>@u.Apellidos</td>
+                <td>@u.Correo</td>
+                 <td>
+                <select name="IdRol" class="form-select">
+                        <option value="1" selected="@(u.IdRol == 1)">Administrador</option>
+                        <option value="2" selected="@(u.IdRol == 2)">Rector</option>
+                        <option value="3" selected="@(u.IdRol == 3)">Docente</option>
+                        <option value="4" selected="@(u.IdRol == 4)">Acudiente</option>
+                        <option value="5" selected="@(u.IdRol == 5)">Estudiante</option>
+                    </select>
+                </td>
+                
+                <td>@u.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                         
+            
+
+                <td>
+                <button type="button" class="btn-editar" onclick="editarSeleccionada()">✏️ </button>
+                <button type="button" class="btn-guardar" onclick="guardarSeleccionada()">💾 </button>
+                <button type="button" class="btn-eliminar" onclick="eliminarSeleccionada()">🗑️ </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div class="acciones">
+  
+        <a href="/Registro/Listar" class="btn btn-primary"></a>
+
+    <form asp-action="Registrar" method="post" class="form-inline">
+        <input type="text" name="Nombres" placeholder="Nombres" required />
+        <input type="text" name="Apellidos" placeholder="Apellidos" required />
+        <input type="email" name="Correo" placeholder="Correo" required />
+        <input type="password" name="Contrasena" placeholder="Contraseña" required />
+        <input type="password" name="ConfirmarContrasena" placeholder="Confirmar" required />
+        <select name="IdRol">
+            <option value="1">Administrador</option>
+            <option value="2">Rector</option>
+            <option value="3">Docente</option>
+            <option value="4">Acudiente</option>
+            <option value="5">Estudiante</option>
+        </select>
+        <button type="submit">➕</button>
+    </form>
+  
+</div>

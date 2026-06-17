@@ -1,84 +1,107 @@
 ﻿body {
     margin: 0;
-    font-family: Arial;
-    background: #fdf6ec;
+    font-family: Arial, sans-serif;
+    background-image: url('../imagenes/fondo-educlick.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* MENU IZQUIERDO */
+/* MENU LATERAL */
 .sidebar {
     position: fixed;
     left: 0;
     top: 0;
     width: 250px;
     height: 100vh;
-    background: #cb997e;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
     padding-top: 20px;
     z-index: 100;
 }
 
     .sidebar h2 {
-        color: white;
+        color: #1B4965;
         text-align: center;
+        margin-bottom: 40px;
+        font-size: 28px;
+        font-weight: 800;
     }
 
     .sidebar a {
         display: block;
-        color: purple;
+        color: #2E5EAA;
         text-decoration: none;
         padding: 20px;
-        font-size: 20px;
+        font-size: 22px; /* más grande */
+        font-weight: bold; /* más gruesa */
+        transition: 0.3s;
     }
 
         .sidebar a:hover {
-            background: #4e78d6;
+            background: rgba(78, 120, 214, 0.8);
+            color: white;
         }
 
-/* TÍTULO */
+/* CONTENIDO */
 .contenido {
     margin-left: 250px;
+    padding: 30px;
     text-align: center;
-    font-size: 28px;
-    font-weight: 550;
-    padding: 20px 0 0 0;
-    font-family: 'Pacifico', cursive;
 }
 
-/* VIDEO FIJO */
-.video-player {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 10;
-}
+    .contenido h1 {
+        font-family: 'Pacifico', cursive;
+        font-size: 40px;
+        color: #333;
+        margin-bottom: 40px;
+    }
 
-/* GRID DE CARDS */
+/* TARJETAS */
 .cards {
+    margin-left: 250px;
     display: grid;
     grid-template-columns: repeat(2, 320px);
     gap: 30px;
-    margin-left: 280px; /* sidebar + pequeño margen */
-    margin-top: 40px;
-    padding-right: 300px; /* espacio para el video fijo */
+    justify-content: center;
+    padding: 20px;
 }
 
 .card {
-    background: white;
+    width: 320px;
     height: 180px;
+    background: rgba(255,255,255,0.9);
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
+    font-size: 28px;
+    font-weight: bold;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: 0.3s;
 }
 
     .card:hover {
         transform: scale(1.05);
     }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 200px;
+    }
+
+    .contenido,
+    .cards {
+        margin-left: 200px;
+    }
+
+    .card {
+        width: 280px;
+    }
+}
