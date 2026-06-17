@@ -1,59 +1,226 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using EduClick.Data;
 using EduClick.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EduClick.Controllers
 {
     public class DocenteController : Controller
     {
-        private static List<Nota> notas = new List<Nota>
-        {
-            new Nota { Id = 1, Nombre = "María López", Asistencias = 20, Faltas = 2 },
-            new Nota { Id = 2, Nombre = "Julian Paredes", Asistencias = 15, Faltas = 4 },
-            new Nota { Id = 3, Nombre = "Lorena Cristancho", Asistencias = 25, Faltas = 0 }
-        };
+        private readonly EduClickContext _context;
 
-        public IActionResult Index()
+        public DocenteController(EduClickContext context)
         {
-            return View("Docente", notas);
+            _context = context;
         }
 
-        [HttpPost]
-        public IActionResult Editar(Nota nota)
+        // Panel principal del docente (menú)
+        public IActionResult PanelDocente()
         {
-            var existente = notas.FirstOrDefault(n => n.Id == nota.Id);
-            if (existente != null)
+            var modelo = new DocenteViewModel
             {
-                existente.Nombre = nota.Nombre;
-                existente.Asistencias = nota.Asistencias;
-                existente.Faltas = nota.Faltas;
-            }
-            return RedirectToAction("Index");
+                Nombre = "Profesor Juan"
+            };
+            return View(modelo);
         }
 
-        [HttpPost]
-        public IActionResult Eliminar(int id)
+        // Acción para listar todas las evidencias subidas
+        public IActionResult Tareas()
         {
-            var nota = notas.FirstOrDefault(n => n.Id == id);
-            if (nota != null)
+            var evidencias = _context.Evidencias.ToList();
+            return View(evidencias);
+        }
+
+        // Acción para calificar una evidencia
+        public IActionResult Calificar(int id)
+        {
+            var evidencia = _context.Evidencias.Find(id);
+            if (evidencia != null)
             {
-                notas.Remove(nota);
+                evidencia.Estado = "Calificado";
+                evidencia.MensajeConfirmacion = "Tu evidencia ha sido revisada y calificada ✅";
+                _context.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Tareas");
         }
 
-        public IActionResult Crear()
+        // Acción para ver estudiantes
+        public IActionResult Estudiantes()
         {
-            return View();
+            var estudiantes = _context.Estudiantes.ToList();
+            return View(estudiantes);
+        }
+
+        // Acción para ver asistencia
+        public IActionResult Asistencia()
+        {
+            var asistencia = _context.Asistencias.ToList();
+            return View(asistencia);
         }
 
         [HttpPost]
-        public IActionResult Crear(Nota nota)
+        public IActionResult GuardarCalificacion(int id, decimal nota, string? observacion)
         {
-            nota.Id = notas.Count > 0 ? notas.Max(n => n.Id) + 1 : 1;
-            notas.Add(nota);
-            return RedirectToAction("Index");
+            var evidencia = _context.Evidencias.Find(id);
+
+            if (evidencia != null)
+            {
+                evidencia.Nota = nota;
+                evidencia.Observacion = observacion;
+                evidencia.Estado = "Calificado";
+                evidencia.MensajeConfirmacion = "✅ Calificación guardada correctamente";
+
+                _context.SaveChanges();
+            }
+            TempData["Mensaje"] = "✅ Calificación guardada correctamente";
+            return RedirectToAction("Tareas");
+        }
+
+        public IActionResult Logros()
+        {
+            var logros = _context.Logros.Include(l => l.Estudiante).ToList();
+            return View(logros);
+        }
+
+        [HttpPost]
+        public IActionResult EditarEstudiante(int IdEstudiante, string Nombre, string Correo, string Curso)
+        {
+            var estudiante = _context.Estudiantes.Find(IdEstudiante);
+            if (estudiante != null)
+            {
+                estudiante.Nombres = Nombre;
+                estudiante.Correo = Correo;
+                estudiante.Curso = Curso;
+
+                _context.Update(estudiante);
+                _context.SaveChanges();
+                TempData["Mensaje"] = "✅ Estudiante actualizado correctamente";
+            }
+            else
+            {
+                TempData["Mensaje"] = "⚠️ No se encontró el estudiante";
+            }
+
+            return RedirectToAction("Estudiantes");
+        }
+
+        [HttpPost]
+        public IActionResult EliminarEstudiante(int IdEstudiante)
+        {
+            var estudiante = _context.Estudiantes.Find(IdEstudiante);
+            if (estudiante != null)
+            {
+                _context.Estudiantes.Remove(estudiante);
+                _context.SaveChanges();
+                TempData["Mensaje"] = "🗑️ Estudiante eliminado correctamente";
+            }
+            else
+            {
+                TempData["Mensaje"] = "⚠️ No se encontró el estudiante";
+            }
+
+            return RedirectToAction("Estudiantes");
+        }
+
+        [HttpPost]
+        public IActionResult EditarAsistencia(int Id, string Estado, DateTime Fecha)
+        {
+            var registro = _context.Asistencias.Find(Id);
+            if (registro != null)
+            {
+                registro.Estado = Estado;
+                registro.Fecha = Fecha;
+
+                _context.Update(registro);
+                _context.SaveChanges();
+                TempData["Mensaje"] = "✅ Asistencia actualizada correctamente";
+            }
+            else
+            {
+                TempData["Mensaje"] = "⚠️ No se encontró el registro de asistencia";
+            }
+
+            return RedirectToAction("Asistencia");
+        }
+
+        [HttpPost]
+        public IActionResult EliminarAsistencia(int Id)
+        {
+            var registro = _context.Asistencias.Find(Id);
+            if (registro != null)
+            {
+                _context.Asistencias.Remove(registro);
+                _context.SaveChanges();
+                TempData["Mensaje"] = "🗑️ Registro de asistencia eliminado correctamente";
+            }
+            else
+            {
+                TempData["Mensaje"] = "⚠️ No se encontró el registro de asistencia";
+            }
+
+            return RedirectToAction("Asistencia");
+        }
+
+        public IActionResult Observaciones()
+        {
+            var todasLasNotas = _context.Observaciones
+                                        .Include(o => o.Estudiante)
+                                        .OrderByDescending(o => o.Fecha)
+                                        .ToList();
+
+            return View(todasLasNotas);
+        }
+
+        // GET: Perfil
+        public IActionResult Perfil()
+        {
+
+            var correoUsuario = User.Identity?.Name;
+            var profesor = _context.Profesores.FirstOrDefault(p => p.Correo == correoUsuario);
+
+            if (profesor == null)
+            {
+                profesor = new Profesor { Nombre = "Nuevo Profesor", Correo = correoUsuario ?? "correo@ejemplo.com" };
+                _context.Profesores.Add(profesor);
+                _context.SaveChanges();
+            }
+
+            // SIEMPRE envía un objeto, aunque sea nuevo.
+            return View(profesor);
+        }
+
+
+
+        // POST: Editar Perfil
+        [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> EditarPerfil(Profesor perfil, IFormFile? foto)
+        {
+            var profesorExistente = _context.Profesores.Find(perfil.Id);
+
+            if (profesorExistente != null)
+            {
+                profesorExistente.Nombre = perfil.Nombre;
+                profesorExistente.Correo = perfil.Correo;
+                profesorExistente.Especialidad = perfil.Especialidad;
+
+                if (foto != null && foto.Length > 0)
+                {
+                    var nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(foto.FileName);
+                    var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagenes", nombreArchivo);
+                    using (var stream = new FileStream(ruta, FileMode.Create))
+                    {
+                        await foto.CopyToAsync(stream);
+                    }
+                    profesorExistente.FotoRuta = "/imagenes/" + nombreArchivo;
+                }
+
+                _context.SaveChanges();
+            }
+
+            // En lugar de redirigir, regresamos a la vista actual
+            return View("Perfil", _context.Profesores.Find(perfil.Id));
         }
     }
 }

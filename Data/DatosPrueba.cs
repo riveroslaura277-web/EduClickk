@@ -4,28 +4,29 @@ namespace EduClick.Data
 {
     public static class DatosPrueba
     {
-        public static List<Estudiante> Estudiantes() => new()
+        public static List<DetalleEstudiante> Estudiantes() => new()
         {
-            new Estudiante { Id=1,  Codigo="EST001", Nombres="Ana",       Apellidos="García",   Grado=1, Estado="Activo"   },
-            new Estudiante { Id=2,  Codigo="EST002", Nombres="Luis",      Apellidos="Martínez", Grado=1, Estado="Activo"   },
-            new Estudiante { Id=3,  Codigo="EST003", Nombres="María",     Apellidos="López",    Grado=1, Estado="Inactivo" },
-            new Estudiante { Id=4,  Codigo="EST004", Nombres="Pedro",     Apellidos="Ramírez",  Grado=1, Estado="Activo"   },
-            new Estudiante { Id=5,  Codigo="EST005", Nombres="Laura",     Apellidos="Torres",   Grado=2, Estado="Activo"   },
-            new Estudiante { Id=6,  Codigo="EST006", Nombres="Carlos",    Apellidos="Herrera",  Grado=2, Estado="Activo"   },
-            new Estudiante { Id=7,  Codigo="EST007", Nombres="Sofía",     Apellidos="Vargas",   Grado=2, Estado="Inactivo" },
-            new Estudiante { Id=8,  Codigo="EST008", Nombres="Diego",     Apellidos="Castro",   Grado=2, Estado="Activo"   },
-            new Estudiante { Id=9,  Codigo="EST009", Nombres="Valentina", Apellidos="Morales",  Grado=3, Estado="Activo"   },
-            new Estudiante { Id=10, Codigo="EST010", Nombres="Andrés",    Apellidos="Jiménez",  Grado=3, Estado="Activo"   },
-            new Estudiante { Id=11, Codigo="EST011", Nombres="Isabella",  Apellidos="Rojas",    Grado=3, Estado="Activo"   },
-            new Estudiante { Id=12, Codigo="EST012", Nombres="Sebastián", Apellidos="Mendoza",  Grado=3, Estado="Inactivo" },
-            new Estudiante { Id=13, Codigo="EST013", Nombres="Camila",    Apellidos="Ríos",     Grado=4, Estado="Activo"   },
-            new Estudiante { Id=14, Codigo="EST014", Nombres="Felipe",    Apellidos="Peña",     Grado=4, Estado="Activo"   },
-            new Estudiante { Id=15, Codigo="EST015", Nombres="Natalia",   Apellidos="Salinas",  Grado=4, Estado="Activo"   },
-            new Estudiante { Id=16, Codigo="EST016", Nombres="Mateo",     Apellidos="Cruz",     Grado=4, Estado="Inactivo" },
-            new Estudiante { Id=17, Codigo="EST017", Nombres="Daniela",   Apellidos="Flores",   Grado=5, Estado="Activo"   },
-            new Estudiante { Id=18, Codigo="EST018", Nombres="Santiago",  Apellidos="Reyes",    Grado=5, Estado="Activo"   },
-            new Estudiante { Id=19, Codigo="EST019", Nombres="Gabriela",  Apellidos="Soto",     Grado=5, Estado="Activo"   },
-            new Estudiante { Id=20, Codigo="EST020", Nombres="Nicolás",   Apellidos="Medina",   Grado=5, Estado="Inactivo" },
+
+            new DetalleEstudiante { IdEstudiante=1,  Codigo="EST001", Nombres="Ana",       Apellidos="García",   Grado=1, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=2,  Codigo="EST002", Nombres="Luis",      Apellidos="Martínez", Grado=1, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=3,  Codigo="EST003", Nombres="María",     Apellidos="López",    Grado=1, Estado="Inactivo" },
+            new DetalleEstudiante { IdEstudiante=4,  Codigo="EST004", Nombres="Pedro",     Apellidos="Ramírez",  Grado=1, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=5,  Codigo="EST005", Nombres="Laura",     Apellidos="Torres",   Grado=2, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=6,  Codigo="EST006", Nombres="Carlos",    Apellidos="Herrera",  Grado=2, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=7,  Codigo="EST007", Nombres="Sofía",     Apellidos="Vargas",   Grado=2, Estado="Inactivo" },
+            new DetalleEstudiante { IdEstudiante=8,  Codigo="EST008", Nombres="Diego",     Apellidos="Castro",   Grado=2, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=9,  Codigo="EST009", Nombres="Valentina", Apellidos="Morales",  Grado=3, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=10, Codigo="EST010", Nombres="Andrés",    Apellidos="Jiménez",  Grado=3, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=11, Codigo="EST011", Nombres="Isabella",  Apellidos="Rojas",    Grado=3, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=12, Codigo="EST012", Nombres="Sebastián", Apellidos="Mendoza",  Grado=3, Estado="Inactivo" },
+            new DetalleEstudiante { IdEstudiante=13, Codigo="EST013", Nombres="Camila",    Apellidos="Ríos",     Grado=4, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=14, Codigo="EST014", Nombres="Felipe",    Apellidos="Peña",     Grado=4, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=15, Codigo="EST015", Nombres="Natalia",   Apellidos="Salinas",  Grado=4, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=16, Codigo="EST016", Nombres="Mateo",     Apellidos="Cruz",     Grado=4, Estado="Inactivo" },
+            new DetalleEstudiante { IdEstudiante=17, Codigo="EST017", Nombres="Daniela",   Apellidos="Flores",   Grado=5, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=18, Codigo="EST018", Nombres="Santiago",  Apellidos="Reyes",    Grado=5, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=19, Codigo="EST019", Nombres="Gabriela",  Apellidos="Soto",     Grado=5, Estado="Activo"   },
+            new DetalleEstudiante { IdEstudiante=20, Codigo="EST020", Nombres="Nicolás",   Apellidos="Medina",   Grado=5, Estado="Inactivo" },
         };
 
         public static List<Docente> Docentes() => new()

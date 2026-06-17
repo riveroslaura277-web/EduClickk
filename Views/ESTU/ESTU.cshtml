@@ -1,4 +1,4 @@
-﻿@model List<EduClick.Models.Estudiante>
+﻿@model List<EduClick.Models.DetalleEstudiante>
 @{
     Layout = null;
     int grado = ViewBag.Grado;
@@ -97,13 +97,13 @@
                         </td>
                         <td style="padding:10px 14px">
                             <div style="display:flex;gap:6px">
-                                <button onclick="abrirEditar(@e.Id,'@e.Nombres','@e.Apellidos','@e.Estado',@e.Grado)"
+                                <button onclick="abrirEditar(@e.IdEstudiante,'@e.Nombres','@e.Apellidos','@e.Estado',@e.Grado)"
                                         style="padding:4px 10px;background:#EBF4FF;color:#2b6cb0;border:1px solid #bee3f8;border-radius:5px;cursor:pointer;font-size:.72rem;font-weight:600;font-family:inherit">
                                     <i class="ti ti-edit"></i> Editar
                                 </button>
                                 <form method="post" action="@Url.Action("Eliminar","ESTU")" style="display:inline"
                                       onsubmit="return confirm('¿Eliminar a @e.Nombres @e.Apellidos?')">
-                                    <input type="hidden" name="id" value="@e.Id" />
+                                    <input type="hidden" name="id" value="@e.IdEstudiante" />
                                     <input type="hidden" name="grado" value="@e.Grado" />
                                     @Html.AntiForgeryToken()
                                     <button type="submit" style="padding:4px 10px;background:#FFF5F5;color:#c53030;border:1px solid #feb2b2;border-radius:5px;cursor:pointer;font-size:.72rem;font-weight:600;font-family:inherit">
