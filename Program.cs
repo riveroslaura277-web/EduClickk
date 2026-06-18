@@ -17,7 +17,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Autenticación con Google
+// Autenticaci�n con Google
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -47,6 +47,7 @@ app.UseRouting();
 
 app.UseSession();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseAuthorization();
 
 app.MapControllerRoute(

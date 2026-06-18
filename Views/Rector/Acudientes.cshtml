@@ -1,0 +1,20 @@
+﻿@model IEnumerable<EduClick.Models.Usuario>
+
+<h2>Lista de Acudientes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var acudiente in Model)
+        {
+            <tr>
+                <td>@acudiente.Nombre</td>
+                <td>@acudiente.Correo</td>
+            </tr>
+        }
+    </tbody>
+</table>

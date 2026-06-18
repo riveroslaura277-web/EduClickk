@@ -6,6 +6,7 @@ using System.Security.Claims;
 
 namespace EduClick.Controllers
 {
+    [Authorize(Roles = "Rector")]
     public class RectorController : Controller
     {
         // Acción que muestra el panel del rector

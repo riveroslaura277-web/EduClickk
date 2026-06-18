@@ -1,0 +1,18 @@
+﻿@model EduClick.Models.Usuario
+
+<h2>Crear Usuario</h2>
+<form asp-action="Crear" method="post">
+    <div>
+        <label>Nombre</label>
+        <input asp-for="Nombre" />
+    </div>
+    <div>
+        <label>Correo</label>
+        <input asp-for="Correo" />
+    </div>
+    <div>
+        <label>Contraseña</label>
+        <input asp-for="Contraseña" type="password" />
+    </div>
+    <button type="submit">Guardar</button>
+</form>

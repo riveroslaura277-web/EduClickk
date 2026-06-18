@@ -1,0 +1,30 @@
+﻿@model EduClick.Models.Usuario
+
+<h2>Editar Usuario</h2>
+<form asp-action="Editar" method="post">
+    <input type="hidden" asp-for="IdUsuario" />
+
+    <div>
+        <label>Nombre</label>
+        <input asp-for="Nombre" />
+    </div>
+    <div>
+        <label>Correo</label>
+        <input asp-for="Correo" />
+    </div>
+    <div>
+        <label>Contraseña</label>
+        <input asp-for="Contraseña" type="password" />
+    </div>
+    <div>
+        <label>Curso</label>
+        <input asp-for="Curso.NombreCurso" />
+    </div>
+    <div>
+        <label>Rol</label>
+        <input asp-for="Rol.NombreRol" />
+    </div>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+<a asp-action="Index">Volver a la lista</a>
