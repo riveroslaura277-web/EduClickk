@@ -5,15 +5,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-<video class="video-principal" autoplay muted loop>
-    <source src="@Url.Content("~/imagenes/video_principal.mp4")" type="video/mp4">
-    Tu navegador no soporta video.
-</video>
-
 <section class="main-container">
 
     <!-- NAVBAR -->
-    <header> class="navbar">
+    <header class="navbar">
 
         <div class="logo">
             <img src="~/imagenes/icono.png" alt="EduClick Logo" />
@@ -23,41 +18,32 @@
                 <p>Aprender es la aventura más emocionante</p>
             </div>
         </div>
-    </header>
-        </section>
-       
-       
 
         <nav class="menu">
-
             <a asp-controller="Home" asp-action="Index" class="active">
                 <i class="fa-solid fa-house"></i>
                 <span>Inicio</span>
             </a>
 
-            <a asp-controller="Materias" asp-action="Index">
+            <a asp-controller="Beneficios" asp-action="Index">
+                <i class="fa-solid fa-star"></i>
+                <span>Beneficios</span>
+            </a>
+
+            <a asp-controller="SobreNosotros" asp-action="Index">
                 <i class="fa-solid fa-book-open"></i>
-                <span>Materias</span>
+                <span>Nosotros</span>
             </a>
 
-            <a asp-controller="Evidencias" asp-action="Index">
-                <i class="fa-solid fa-folder-open"></i>
-                <span>Evidencias</span>
+            <a asp-controller="Contactanos" asp-action="Index">
+                <i class="fa-solid fa-phone"></i>
+                <span>Contacto</span>
             </a>
-
-            <a asp-controller="Logros" asp-action="Index">
-                <i class="fa-solid fa-trophy"></i>
-                <span>Logros</span>
+            <a asp-controller="Alumnos" asp-action="Index">
+                <i class="fa-solid fa-phone"></i>
+                <span>Alumnos</span>
             </a>
-    <a asp-controller="Alumnos" asp-action="Index">
-        <i class="fa-solid fa-trophy"></i>
-        <span>Alumnos</span>
-    </a>
         </nav>
-        
-
-      
-
 
         <div class="actions">
 
@@ -70,6 +56,7 @@
                 </button>
 
                 <div class="dropdown">
+
                     <a asp-controller="Usuario" asp-action="Login" asp-route-rol="Docente">
                         Docente
                     </a>
@@ -89,6 +76,7 @@
                     <a asp-controller="Administrador" asp-action="Admin">
                         Administrador
                     </a>
+
                 </div>
 
             </div>
@@ -105,23 +93,25 @@
     <!-- HERO -->
     <section class="hero">
 
-        <div class="hero-content">
+        <div class="hero-text">
 
-            <div class="hero-text">
+            <h1>
+                Explora, aprende <br />
+                y <span>diviértete</span>
+            </h1>
 
-                <h1>
-                    Explora, aprende <br />
-                    y <span>diviértete</span>
-                </h1>
+            <p>
+                Descubre actividades interactivas,
+                recursos educativos y juegos para aprender cada día.
+            </p>
 
-                <p>
-                    Descubre actividades interactivas,
-                    recursos educativos y juegos para aprender cada día.
-                </p>
+            <a href="#" class="start-btn">
+                ¡Comenzar aventura!
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
 
-                <a href="#" class="start-btn">
-                    ¡Comenzar aventura!
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
+        </div>
+
+    </section>
 
 </section>
