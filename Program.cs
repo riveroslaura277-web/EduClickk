@@ -10,18 +10,22 @@ var builder = WebApplication.CreateBuilder(args);
 // =====================
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<UsuarioService>();
 
+builder.Services.AddScoped<UsuarioService>();
 
 builder.Services.AddDbContext<EduClickContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
-// 🔐 AUTENTICACIÓN (CORRECTO AQUÍ)
+// SESIONES
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
+// AUTENTICACIÓN
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 .AddCookie(options =>
 {
     options.LoginPath = "/Usuario/Login";
-    options.AccessDeniedPath = "/Home/AccessDenied";
+    options.AccessDeniedPath = "/Home/AccesoDenegado";
 });
 
 // =====================
@@ -45,7 +49,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 🔐 IMPORTANTE: ORDEN CORRECTO
+// SESIONES (ANTES DE AUTHORIZATION)
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

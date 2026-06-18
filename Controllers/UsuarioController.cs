@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using EduClick.Services;
 
 namespace EduClick.Controllers
@@ -12,14 +13,14 @@ namespace EduClick.Controllers
             _usuarioService = usuarioService;
         }
 
-        // 🔵 GET: Login
+        // GET: Login
         [HttpGet]
         public IActionResult Login()
         {
             return View("Inicio");
         }
 
-        // 🔴 POST: Login
+        // POST: Login
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
@@ -33,11 +34,17 @@ namespace EduClick.Controllers
 
             if (usuario == null)
             {
-                ModelState.AddModelError("", "Usuario o contraseña incorrectos.");
+                ViewBag.Error = "Usuario o contraseña incorrectos";
                 return View("Inicio");
             }
 
-            // 🔥 MEJOR USAR IdRol (NO TEXTO)
+            ViewBag.Error = $"Usuario encontrado. Rol: {usuario.IdRol}";
+
+            // Guardar datos en sesión
+            HttpContext.Session.SetInt32("IdUsuario", usuario.IdUsuario);
+            HttpContext.Session.SetInt32("IdRol", usuario.IdRol);
+
+            // Redirigir según el rol
             switch (usuario.IdRol)
             {
                 case 1:
@@ -58,6 +65,13 @@ namespace EduClick.Controllers
                 default:
                     return RedirectToAction("Inicio", "Home");
             }
+        }
+
+        // Cerrar sesión
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
     }
 }
