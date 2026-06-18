@@ -13,7 +13,7 @@
 <section class="main-container">
 
     <!-- NAVBAR -->
-    <header class="navbar">
+    <header> class="navbar">
 
         <div class="logo">
             <img src="~/imagenes/icono.png" alt="EduClick Logo" />
@@ -23,6 +23,10 @@
                 <p>Aprender es la aventura más emocionante</p>
             </div>
         </div>
+    </header>
+        </section>
+       
+       
 
         <nav class="menu">
 
@@ -45,8 +49,15 @@
                 <i class="fa-solid fa-trophy"></i>
                 <span>Logros</span>
             </a>
-
+    <a asp-controller="Alumnos" asp-action="Index">
+        <i class="fa-solid fa-trophy"></i>
+        <span>Alumnos</span>
+    </a>
         </nav>
+        
+
+      
+
 
         <div class="actions">
 
