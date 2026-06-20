@@ -1,4 +1,5 @@
-﻿* {
+﻿/* RESET */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -6,8 +7,7 @@
 }
 
 body {
-    background: #f4f7fb;
-    min-height: 100vh;
+    background: #f3f3f3;
     padding: 20px;
 }
 
@@ -18,20 +18,17 @@ body {
 }
 
 /* NAVBAR */
-
 .navbar {
     width: 95%;
     margin: auto;
-    background: #fff;
-    border-radius: 25px;
-    padding: 20px 35px;
+    background: white;
+    border-radius: 30px;
+    padding: 25px 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 8px 25px rgba(0,0,0,.08);
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
 }
-
-/* LOGO */
 
 .logo {
     display: flex;
@@ -43,203 +40,90 @@ body {
         width: 70px;
     }
 
-.logo-text h2 {
-    color: #18b649;
-    font-size: 32px;
-    font-weight: 800;
-}
+    .logo h1 {
+        font-size: 55px;
+        color: #13b54a;
+        font-weight: 800;
+    }
 
-.logo-text p {
-    color: #777;
-    font-size: 13px;
-}
-
-/* MENU */
+    .logo p {
+        color: #666;
+        font-size: 14px;
+    }
 
 .menu {
     display: flex;
-    gap: 35px;
+    gap: 40px;
     align-items: center;
 }
 
     .menu a {
         text-decoration: none;
-        color: #222;
-        font-size: 16px;
+        color: #111;
+        font-size: 18px;
         font-weight: 600;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 8px;
-        transition: .3s;
     }
 
         .menu a i {
-            font-size: 22px;
+            font-size: 24px;
         }
 
-        .menu a:hover,
-        .menu a.active {
-            color: #18b649;
-        }
-
-/* BOTONES */
-
-.actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.btn {
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: .3s;
-}
+/* LOGIN */
 
 .login {
-    background: #18b649;
-    color: white;
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
-.register {
-    background: #1e63ff;
-    color: white;
-}
-
-    .login:hover,
-    .register:hover {
-        transform: translateY(-2px);
+    .login select {
+        padding: 8px 12px;
+        border-radius: 6px;
     }
 
-/* DROPDOWN */
-
-.menu-login {
-    position: relative;
-}
-
-.dropdown {
-    position: absolute;
-    top: 55px;
-    left: 0;
-    min-width: 180px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.1);
-    display: none;
-    overflow: hidden;
-    z-index: 999;
-}
-
-    .dropdown a {
-        display: block;
-        padding: 12px 15px;
-        text-decoration: none;
-        color: #333;
-        transition: .3s;
-    }
-
-        .dropdown a:hover {
-            background: #f4f7fb;
-            color: #18b649;
-        }
-
-.menu-login:hover .dropdown {
-    display: block;
+.registro {
+    color: #1b5cff;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 /* HERO */
 
-.hero {
+/* CARDS */
+.cards {
     width: 95%;
-    margin: 50px auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 50px;
+    margin: 40px auto;
 }
 
-.hero-text {
-    flex: 1;
-}
-
-    .hero-text h1 {
-        font-size: 70px;
+    .hero h2 {
+        font-size: 60px;
+        line-height: 70px;
         font-weight: 800;
-        color: #222;
-        line-height: 1.1;
+        margin-bottom: 15px;
+    }
+
+    .hero p {
+        font-size: 28px;
+        color: #333;
         margin-bottom: 20px;
     }
 
-    .hero-text span {
-        color: #18b649;
-    }
-
-    .hero-text p {
-        font-size: 22px;
-        color: #666;
-        margin-bottom: 30px;
-        max-width: 600px;
-    }
-
-.start-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
+.boton-aventura {
+    display: inline-block;
     text-decoration: none;
-    background: #18b649;
+    background: #1fb03c;
     color: white;
-    padding: 16px 30px;
+    padding: 15px 35px;
     border-radius: 40px;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
     transition: .3s;
 }
 
-    .start-btn:hover {
-        background: #12913a;
-        transform: translateY(-3px);
+    .boton-aventura:hover {
+        background: #179432;
     }
-
-/* IMAGEN HERO */
-
-.hero-image {
-    flex: 1;
-    text-align: center;
-}
-
-    .hero-image img {
-        width: 100%;
-        max-width: 550px;
-    }
-
-/* RESPONSIVE */
-
-@media(max-width: 1100px) {
-
-    .navbar {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .hero {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-text p {
-        max-width: 100%;
-    }
-
-    .menu {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}

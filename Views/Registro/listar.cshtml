@@ -1,0 +1,45 @@
+﻿@model IEnumerable<EduClick.Models.Usuarios>
+@{
+    Layout = null;
+}
+
+<div style="display:flex; align-items:flex-start;">
+    <!-- 🔹 Tabla encerrada -->
+    <table border="1" style="width:100%; border-collapse:collapse;">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Contraseña</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.Id</td>
+                    <td>@u.Nombres</td>
+                    <td>@u.Apellidos</td>
+                    <td>@u.Correo</td>
+                    <td>@u.Rol</td>
+                    <td>********</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- 🔹 Botones fuera del borde -->
+    <div style="margin-left:15px;">
+        @foreach (var u in Model)
+        {
+            <div style="margin-bottom:8px;">
+                <a asp-action="Editar" asp-route-correo="@u.Correo" class="btn-crear">Editar</a>
+                <a asp-action="Eliminar" asp-route-correo="@u.Correo" class="btn-crear">Eliminar</a>
+            </div>
+        }
+    </div>
+</div>
+
