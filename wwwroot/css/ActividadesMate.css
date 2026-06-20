@@ -34,12 +34,12 @@ body {
 }
 
     .logo img {
-        width: 60px;
+        width: 70px;
     }
 
     .logo h1 {
         color: #4F46E5;
-        font-size: 28px;
+        font-size: 30px;
     }
 
     .logo p {
@@ -48,7 +48,7 @@ body {
     }
 
 .saludo h2 {
-    font-size: 24px;
+    font-size: 34px;
 }
 
 .saludo p {
