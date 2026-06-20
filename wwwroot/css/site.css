@@ -2,12 +2,19 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI',sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-    background: #f3f3f3;
+    background: #f4f7fb;
+    min-height: 100vh;
     padding: 20px;
+}
+
+/* CONTENEDOR */
+
+.main-container {
+    width: 100%;
 }
 
 /* NAVBAR */
@@ -15,14 +22,16 @@ body {
 .navbar {
     width: 95%;
     margin: auto;
-    background: white;
-    border-radius: 30px;
-    padding: 25px 35px;
+    background: #fff;
+    border-radius: 25px;
+    padding: 20px 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
 }
+
+/* LOGO */
 
 .logo {
     display: flex;
@@ -34,89 +43,203 @@ body {
         width: 70px;
     }
 
-    .logo h1 {
-        font-size: 55px;
-        color: #13b54a;
-        font-weight: 800;
-    }
+.logo-text h2 {
+    color: #18b649;
+    font-size: 32px;
+    font-weight: 800;
+}
 
-    .logo p {
-        color: #666;
-        font-size: 14px;
-    }
+.logo-text p {
+    color: #777;
+    font-size: 13px;
+}
+
+/* MENU */
 
 .menu {
     display: flex;
-    gap: 40px;
+    gap: 35px;
     align-items: center;
 }
 
     .menu a {
         text-decoration: none;
-        color: #111;
-        font-size: 18px;
+        color: #222;
+        font-size: 16px;
         font-weight: 600;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 8px;
+        transition: .3s;
     }
 
         .menu a i {
-            font-size: 24px;
+            font-size: 22px;
         }
 
-/* LOGIN */
+        .menu a:hover,
+        .menu a.active {
+            color: #18b649;
+        }
 
-.login {
+/* BOTONES */
+
+.actions {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 15px;
 }
 
-    .login select {
-        padding: 8px 12px;
-        border-radius: 6px;
+.btn {
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: .3s;
+}
+
+.login {
+    background: #18b649;
+    color: white;
+}
+
+.register {
+    background: #1e63ff;
+    color: white;
+}
+
+    .login:hover,
+    .register:hover {
+        transform: translateY(-2px);
     }
 
-.registro {
-    color: #1b5cff;
-    text-decoration: none;
-    font-weight: bold;
+/* DROPDOWN */
+
+.menu-login {
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    min-width: 180px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    display: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+    .dropdown a {
+        display: block;
+        padding: 12px 15px;
+        text-decoration: none;
+        color: #333;
+        transition: .3s;
+    }
+
+        .dropdown a:hover {
+            background: #f4f7fb;
+            color: #18b649;
+        }
+
+.menu-login:hover .dropdown {
+    display: block;
 }
 
 /* HERO */
 
 .hero {
     width: 95%;
-    margin: 40px auto;
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
 }
 
-    .hero h2 {
-        font-size: 60px;
-        line-height: 70px;
-        font-weight: 800;
-        margin-bottom: 15px;
-    }
+.hero-text {
+    flex: 1;
+}
 
-    .hero p {
-        font-size: 28px;
-        color: #333;
+    .hero-text h1 {
+        font-size: 70px;
+        font-weight: 800;
+        color: #222;
+        line-height: 1.1;
         margin-bottom: 20px;
     }
 
-.boton-aventura {
-    display: inline-block;
+    .hero-text span {
+        color: #18b649;
+    }
+
+    .hero-text p {
+        font-size: 22px;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 600px;
+    }
+
+.start-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    background: #1fb03c;
+    background: #18b649;
     color: white;
-    padding: 15px 35px;
+    padding: 16px 30px;
     border-radius: 40px;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     transition: .3s;
 }
 
-    .boton-aventura:hover {
-        background: #179432;
+    .start-btn:hover {
+        background: #12913a;
+        transform: translateY(-3px);
     }
+
+/* IMAGEN HERO */
+
+.hero-image {
+    flex: 1;
+    text-align: center;
+}
+
+    .hero-image img {
+        width: 100%;
+        max-width: 550px;
+    }
+
+/* RESPONSIVE */
+
+@media(max-width: 1100px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text p {
+        max-width: 100%;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

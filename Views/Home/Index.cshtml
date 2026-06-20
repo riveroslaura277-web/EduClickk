@@ -20,6 +20,7 @@
         </div>
 
         <nav class="menu">
+
             <a asp-controller="Home" asp-action="Index" class="active">
                 <i class="fa-solid fa-house"></i>
                 <span>Inicio</span>
@@ -39,17 +40,19 @@
                 <i class="fa-solid fa-phone"></i>
                 <span>Contacto</span>
             </a>
+
             <a asp-controller="Alumnos" asp-action="Index">
-                <i class="fa-solid fa-phone"></i>
+                <i class="fa-solid fa-graduation-cap"></i>
                 <span>Alumnos</span>
             </a>
+
         </nav>
 
         <div class="actions">
 
             <div class="menu-login">
 
-                <button class="btn login">
+                <button class="btn login" type="button">
                     <i class="fa-solid fa-user"></i>
                     Iniciar sesión
                     <i class="fa-solid fa-caret-down"></i>
@@ -81,7 +84,7 @@
 
             </div>
 
-            <a asp-controller="Registro" asp-action="Index" class="btn login">
+            <a asp-controller="Registro" asp-action="Index" class="btn register">
                 <i class="fa-solid fa-user-plus"></i>
                 Registrarse
             </a>
@@ -101,8 +104,8 @@
             </h1>
 
             <p>
-                Descubre actividades interactivas,
-                recursos educativos y juegos para aprender cada día.
+                Descubre actividades interactivas, recursos educativos y juegos
+                diseñados para que aprender sea una experiencia divertida.
             </p>
 
             <a href="#" class="start-btn">
@@ -110,6 +113,11 @@
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
 
+        </div>
+
+        <div class="hero-image">
+            <img src="~/imagenes/tigre-principal.png"
+                 alt="Mascota EduClick" />
         </div>
 
     </section>
