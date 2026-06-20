@@ -4,7 +4,8 @@
 }
 
 <link rel="stylesheet" href="~/css/estudiante-dashboard.css" />
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <div class="dashboard-container">
 
@@ -17,134 +18,105 @@
 
         <nav>
 
-            <a href="#" class="activo">
+            <a asp-controller="Home" asp-action="Index" class="activo">
                 <i class="fa-solid fa-house"></i>
                 Inicio
-            </a>
+            </a>          
 
-            <a href="#">
-                <i class="fa-solid fa-book"></i>
-                Mis Materias
-            </a>
-
-            <a href="#">
+            <a asp-controller="Logros" asp-action="Index">
                 <i class="fa-solid fa-clipboard-list"></i>
-                Tareas
+                Logros
             </a>
 
-            <a href="#">
+            <a asp-controller="Evidencias" asp-action="Index">
                 <i class="fa-solid fa-list-check"></i>
-                Actividades
+                Evidencias
             </a>
 
-            <a href="#">
+            <a asp-controller="Juegos" asp-action="Index">
                 <i class="fa-solid fa-chart-column"></i>
-                Evaluaciones
-            </a>
-
-            <a href="#">
-                <i class="fa-solid fa-gamepad"></i>
                 Juegos
             </a>
 
-            <a href="#">
-                <i class="fa-solid fa-circle-play"></i>
+            <a asp-controller="Videos" asp-action="Index">
+                <i class="fa-solid fa-gamepad"></i>
                 Videos
-            </a>
+            </a>            
 
-            <a href="#">
+            <a asp-controller="ChatIA" asp-action="Index">
                 <i class="fa-solid fa-robot"></i>
                 Chat IA
             </a>
 
-            <a href="#">
+            <a asp-controller="Retos" asp-action="Index">
                 <i class="fa-solid fa-trophy"></i>
                 Retos
-            </a>
+            </a>          
 
-            <a href="#">
-                <i class="fa-solid fa-medal"></i>
-                Logros
-            </a>
-
-            <a href="#">
+            <a asp-controller="Calendario" asp-action="Index">
                 <i class="fa-solid fa-calendar"></i>
                 Calendario
             </a>
 
-            <a href="#">
+            <a asp-controller="Recursos" asp-action="Index">
                 <i class="fa-solid fa-folder"></i>
                 Recursos
             </a>
 
-            <a href="#">
+            <a asp-controller="Perfil" asp-action="Index">
                 <i class="fa-solid fa-user"></i>
                 Mi Perfil
-            </a>
-
+            </a>          
         </nav>
 
         <img class="buho"
              src="~/Estudiantes/buhuo.png"
-             alt="">
+             alt="Búho">
 
     </aside>
 
-
-    <!-- CENTRO -->
-
+    <!-- CONTENIDO CENTRAL -->
     <main class="contenido">
 
-        <!-- HEADER -->
-
+        <!-- TOPBAR -->
         <header class="topbar">
 
             <div class="saludo">
 
-                <h2>¡Hola, Sofia! 👋</h2>
+                <h2>¡Hola, Sofía! 👋</h2>
 
                 <p>
                     Cada pequeño paso te acerca a grandes logros.
                     ¡Sigue aprendiendo!
                 </p>
 
-                <div class="points">
-                    ⭐ 1200
-                    <small>Puntos</small>
+            </div>
+
+            <div class="usuario">
+
+                <div class="puntos">
+                    <img src="~/Estudiantes/Puntos.png" alt="">
+                    <span>1200</span>
                 </div>
 
+                <img class="avatar"
+                     src="~/Estudiantes/icono avatar.png"
+                     alt="Avatar">
 
-                <div class="usuario">
-
-                    <div class="puntos">
-
-                        <img src="~/Estudiantes/Puntos.png">
-
-                        <span>1200</span>
-
-                    </div>
-
-
-                    <img class="avatar"
-                         src="~/Estudiantes/icono avatar.png">
-
-                    <div>
-
-                        <h4>Sofía</h4>
-                        <p>Estudiante</p>
-
-                    </div>
-
+                <div>
+                    <h4>Sofía</h4>
+                    <p>Estudiante</p>
                 </div>
 
             </div>
 
         </header>
 
-
         <!-- BANNER -->
-
         <section class="banner">
+
+            <!-- Imagen de fondo -->
+            <img src="~/Estudiantes/icono banner.png" alt="Banner">
 
             <div class="texto-banner">
 
@@ -160,156 +132,241 @@
 
             </div>
 
-            <img src="~/Estudiantes/icono banner.png">
-
         </section>
 
+        <!-- MATERIAS -->
         <section class="materias">
 
-            <h3>🌿 Mis materias</h3>
+            <h3>📚 Mis Materias</h3>
 
             <div class="materias-grid">
 
-                <div class="materia">
-                    <img src="~/Estudiantes/calculadora.png">
+                <!-- Matemáticas -->
+                <a asp-controller="ActiMate"
+                   asp-action="Index"
+                   class="materia">
+
+                    <img src="~/Estudiantes/calculadora.png" alt="Matemáticas">
+
                     <h4>Matemáticas</h4>
-                    <progress value="75" max="100"></progress>
-                </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/mundo.png">
+                    <p>Aprende números, operaciones y problemas.</p>
+
+                </a>
+
+                <!-- Lectura -->
+                <a asp-controller="Materias"
+                   asp-action="Lectura"
+                   class="materia">
+
+                    <img src="~/Estudiantes/libro .png" alt="Lectura">
+
+                    <h4>Lectura</h4>
+
+                    <p>Mejora tu comprensión leyendo cuentos y textos.</p>
+
+                </a>
+
+                <!-- Ciencias -->
+                <a asp-controller="Materias"
+                   asp-action="Ciencias"
+                   class="materia">
+
+                    <img src="~/Estudiantes/mundo .png" alt="Ciencias">
+
                     <h4>Ciencias</h4>
-                    <progress value="80" max="100"></progress>
-                </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/libro.png">
-                    <h4>Lengua</h4>
-                    <progress value="65" max="100"></progress>
-                </div>
+                    <p>Descubre el mundo que te rodea.</p>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/ingles.png">
+                </a>
+
+                <!-- Inglés -->
+                <a asp-controller="Materias"
+                   asp-action="Ingles"
+                   class="materia">
+
+                    <img src="~/Estudiantes/ingles.png" alt="Inglés">
+
                     <h4>Inglés</h4>
-                    <progress value="70" max="100"></progress>
-                </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/sociales.png">
+                    <p>Aprende nuevas palabras y expresiones.</p>
+
+                </a>
+
+                <!-- Sociales -->
+                <a asp-controller="Materias"
+                   asp-action="Sociales"
+                   class="materia">
+
+                    <img src="~/Estudiantes/sociales.png" alt="Sociales">
+
                     <h4>Sociales</h4>
-                    <progress value="60" max="100"></progress>
-                </div>
 
-                <div class="materia">
-                    <img src="~/Estudiantes/tecnologia.png">
+                    <p>Conoce la historia y la cultura de nuestro mundo.</p>
+
+                </a>
+
+                <!-- Tecnología -->
+                <a asp-controller="Materias"
+                   asp-action="Tecnologia"
+                   class="materia">
+
+                    <img src="~/Estudiantes/tecnologia.png" alt="Tecnología">
+
                     <h4>Tecnología</h4>
-                    <progress value="85" max="100"></progress>
+
+                    <p>Explora, crea e innova con la tecnología.</p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        
+
+        <!-- SECCIÓN INFERIOR -->
+        <section class="bottom">
+
+            <div class="actividad">
+
+                <h3>Actividad reciente</h3>
+
+                <div class="item">
+                    Quiz completado de matemáticas +20 pts
                 </div>
 
-                <h4>Tecnología</h4>
-
-                <p>Explora, crea e innova con la tecnología.</p>
-
-                <div class="btn-subject">
-                    Explorar →
+                <div class="item">
+                    Video de ciencias visto +15 pts
                 </div>
+
+                <div class="item">
+                    Juego completado +25 pts
                 </div>
-                </section>
 
+            </div>
 
+            <div class="sugerencias">
 
-                <!-- ABAJO -->
+                <h3>Sugerencias para ti</h3>
 
-                <section class="bottom">
+                <div class="item">
+                    Practica sumas y restas
+                </div>
 
-                    <div class="actividad">
+                <div class="item">
+                    Lee un cuento corto
+                </div>
 
-                        <h3>Actividad reciente</h3>
+                <div class="item">
+                    Explora el sistema solar
+                </div>
 
-                        <div class="item">
-                            Quiz completado de matemáticas +20 pts
-                        </div>
+            </div>
 
-                        <div class="item">
-                            Video de ciencias visto +15 pts
-                        </div>
-
-                        <div class="item">
-                            Juego completado +25 pts
-                        </div>
-
-                    </div>
-
-
-                    <div class="sugerencias">
-
-                        <h3>Sugerencias para ti</h3>
-
-                        <div class="item">
-                            Practica sumas y restas
-                        </div>
-
-                        <div class="item">
-                            Lee un cuento corto
-                        </div>
-
-                        <div class="item">
-                            Explora sistema solar
-                        </div>
-
-                    </div>
-
-                </section>
+        </section>
 
     </main>
 
-
-    <!-- DERECHA -->
-
+    <!-- PANEL DERECHO -->
     <aside class="panel-derecho">
 
+        <div class="progreso-card">
 
-        <div class="progreso">
-
-            <h3>Mi progreso</h3>
-
-            <div class="porcentaje">
-                72%
+            <div class="titulo-progreso">
+                <h3>Mi progreso</h3>
             </div>
 
-        </div>
+            <div class="contenido-progreso">
+
+                <div class="circulo">
+                    <div class="porcentaje">72%</div>
+                </div>
+
+                <p class="mensaje">¡Vas excelente!</p>
+
+                <div class="estadisticas">
+
+                    <div class="dato">
+                        <span>⭐ 1200</span>
+                        <p>Puntos</p>
+                    </div>
+
+                    <div class="dato">
+                        <span>🔥 18</span>
+                        <p>Días racha</p>
+                    </div>
+
+                    <div class="dato">
+                        <span>🏅 7</span>
+                        <p>Nivel</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>           
+            <div class="tareas-card">
+
+                <div class="header-tareas">
+                    <h3>Próximas tareas</h3>
+                    <a href="#">Ver todas →</a>
+                </div>
+
+                <div class="lista-tareas">
+
+                    <div class="tarea">
+                        <div class="icono">🍃</div>
+
+                        <div class="info">
+                            <h4>Mapa conceptual: Los ecosistemas</h4>
+                            <p>Ciencias Naturales</p>
+                        </div>
+
+                        <span class="estado verde">Mañana</span>
+                    </div>
 
 
+                    <div class="tarea">
+                        <div class="icono">🧮</div>
 
-        <div class="reto">
+                        <div class="info">
+                            <h4>Ejercicios de fracciones</h4>
+                            <p>Matemáticas</p>
+                        </div>
 
-            <h3>Reto del día</h3>
-
-            <img src="~/Estudiantes/icono tigre.png">
-
-            <button>
-                Aceptar reto
-            </button>
-
-        </div>
+                        <span class="estado azul">2 días</span>
+                    </div>
 
 
+                    <div class="tarea">
+                        <div class="icono">🏛️</div>
 
-        <div class="tareas">
+                        <div class="info">
+                            <h4>Resumen: La Revolución Francesa</h4>
+                            <p>Sociales</p>
+                        </div>
 
-            <h3>Próximas tareas</h3>
+                        <span class="estado rojo">3 días</span>
+                    </div>
 
-            <p>Mapa conceptual</p>
 
-            <p>Ejercicios fracciones</p>
+                    <div class="tarea">
+                        <div class="icono">🖥️</div>
 
-            <p>Resumen historia</p>
+                        <div class="info">
+                            <h4>Presentación: Energías renovables</h4>
+                            <p>Tecnología</p>
+                        </div>
 
-            <p>Energías renovables</p>
+                        <span class="estado amarillo">5 días</span>
+                    </div>
 
-        </div>
+                </div>
+
+            </div>
 
     </aside>
 
 </div>
-
