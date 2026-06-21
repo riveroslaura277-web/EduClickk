@@ -10,7 +10,7 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #f5f7fb;
+    background-image: url('../JUEGOS/Fondo.png');
     color: #333;
 }
 
@@ -40,7 +40,7 @@ body {
 
     .logo h1 {
         color: #4F46E5;
-        font-size: 28px;
+        font-size: 40px;
     }
 
     .logo p {
@@ -50,32 +50,32 @@ body {
 
 .saludo h2 {
     color: #333;
-    font-size: 24px;
+    font-size: 30px;
 }
 
 .saludo p {
     color: #777;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .usuario {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
 }
 
 .puntos {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
     background: #FFF8E1;
-    padding: 10px 15px;
+    padding: 20px 15px;
     border-radius: 15px;
 }
 
 .notificacion {
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     background: #eef2ff;
     border-radius: 50%;
     display: flex;
@@ -90,8 +90,8 @@ body {
 }
 
     .perfil img {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
         object-fit: cover;
     }
@@ -141,71 +141,6 @@ body {
 }
 
 /* =========================
-   SIDEBAR
-========================= */
-
-.sidebar {
-    width: 260px;
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    height: fit-content;
-    box-shadow: 0 5px 15px rgba(0,0,0,.05);
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-    .menu a {
-        text-decoration: none;
-        color: #555;
-        padding: 14px;
-        border-radius: 12px;
-        transition: .3s;
-        font-weight: 500;
-    }
-
-        .menu a:hover {
-            background: #eef2ff;
-            color: #4F46E5;
-        }
-
-        .menu a.active {
-            background: #4F46E5;
-            color: white;
-        }
-
-    .menu i {
-        margin-right: 10px;
-    }
-
-.mascota {
-    margin-top: 25px;
-    background: #FFF7ED;
-    padding: 15px;
-    border-radius: 15px;
-    text-align: center;
-}
-
-    .mascota img {
-        width: 120px;
-        margin-bottom: 10px;
-    }
-
-.mensaje h3 {
-    color: #EA580C;
-    margin-bottom: 5px;
-}
-
-.mensaje p {
-    font-size: 14px;
-    color: #666;
-}
-
-/* =========================
    CONTENIDO
 ========================= */
 
@@ -242,8 +177,8 @@ body {
     }
 
     .card img {
-        width: 120px;
-        height: 120px;
+        width: 160px;
+        height: 160px;
         object-fit: contain;
         margin-bottom: 15px;
     }

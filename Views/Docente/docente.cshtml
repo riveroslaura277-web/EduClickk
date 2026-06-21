@@ -1,0 +1,115 @@
+﻿@model IEnumerable<EduClick.Models.Nota>
+@{
+    ViewData["Title"] = "Panel Docente";
+}
+
+<div class="panel-docente">
+    <link rel="stylesheet" href="/css/docentes.css" asp-append-version="true" />
+
+    <div class="menu-lateral">
+        <button class="btn-menu activo">Inicio</button>
+        <button class="btn-menu">Mis Clases</button>
+        <button class="btn-menu">Estudiantes</button>
+        <button class="btn-menu">Tareas</button>
+        <button class="btn-menu">Calificaciones</button>
+        <button class="btn-menu">Asistencia</button>
+        <button class="btn-menu">Juegos</button>
+        <button class="btn-menu">Boletines</button>
+        <button class="btn-menu">Mensajes</button>
+        <button class="btn-menu">Alertas</button>
+    </div>
+
+    <div class="contenido">
+        <div class="bloque">
+            <i class="fas fa-users icono"></i>
+            <h3>120 Estudiantes Activos</h3>
+        </div>
+        <div class="bloque">
+            <i class="fas fa-chart-line icono"></i>
+            <h3>92% Asistencia</h3>
+        </div>
+
+        <!-- Bloque de notas CRUD -->
+        <section class="bloque-notas">
+            <h2>📝 Bloque de Notas </h2>
+
+            <div class="acciones-superior">
+                <a asp-action="Crear" class="btn-agregar" title="Agregar nueva nota">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
+
+            <table class="tabla-notas">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Asistencias</th>
+                        <th>Faltas</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var nota in Model)
+                    {
+                        <tr>
+                            <form asp-action="Editar" method="post">
+                            <td>
+                                <input type="hidden" name="Id" value="@nota.Id" />
+                                <input type="text" name="Nombre" value="@nota.Nombre" />
+                            </td>
+                            <td>
+                                <input type="number" name="Asistencias" value="@nota.Asistencias" />
+                            </td>
+                            <td>
+                                <input type="number" name="Faltas" value="@nota.Faltas" />
+                            </td>
+                            <td class="acciones">
+                                <button type="submit" title="Guardar cambios">
+                                    <i class="fas fa-save"></i>
+                                </button>
+                            </td>
+                            </form>
+                            <td class="acciones">
+                                <form asp-action="Eliminar" method="post">
+                                    <input type="hidden" name="Id" value="@nota.Id" />
+                                    <button type="submit" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Bloque de rendimiento -->
+        <section class="rendimiento">
+            <h2>Rendimiento Por Materias</h2>
+            <div class="materia">
+                <span>Matemáticas</span>
+                <div class="barra"><div class="progreso" data-nota="4.3">4.3</div></div>
+            </div>
+            <div class="materia">
+                <span>Ciencias</span>
+                <div class="barra"><div class="progreso" data-nota="3.5">3.5</div></div>
+            </div>
+            <div class="materia">
+                <span>Lengua</span>
+                <div class="barra"><div class="progreso" data-nota="2.8">2.8</div></div>
+            </div>
+        </section>
+
+        <!-- Bloque de mensajes -->
+        <section class="mensajes-recientes">
+            <h2>💬 Mensajes Recientes</h2>
+            <ul>
+                <li><strong>Martha Pérez - Mamá de Sofía:</strong> <span>Buenos días profesora, Sofía faltará mañana por cita médica.</span> <em>(Hace 11 horas)</em></li>
+                <li><strong>Jorge Ramírez - Papá de Luis:</strong> <span>¿Cuándo sale el boletín del segundo?</span> <em>(Hace 9 horas)</em></li>
+                <li><strong>Diana Gómez - Coordinadora:</strong> <span>Reunión docentes, la nota del quiz del mes.</span> <em>(Hace 5 horas)</em></li>
+            </ul>
+        </section>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
