@@ -14,7 +14,7 @@ body {
 /* CONTENEDOR GENERAL */
 
 .contenedor {
-    width: 100%;
+    width: 50%;
     margin: auto;
 }
 
@@ -34,7 +34,7 @@ body {
 
 .logo h2 {
     font-size: 42px;
-    font-weight: 800;
+    font-weight: 50;
 }
 
 .logo p {
@@ -58,7 +58,7 @@ nav {
     nav a {
         text-decoration: none;
         color: #222;
-        font-weight: 600;
+        font-weight: 100;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -110,7 +110,7 @@ nav {
 }
 
 .hero-imagen img {
-    width: 800px;
+    width: 80px;
 }
 
 
@@ -142,15 +142,15 @@ nav {
     }
 
     .card img {
-        width: 150px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
         object-fit: contain;
     }
 
     .card h3 {
         font-size: 32px;
         margin-bottom: 10px;
-        font-weight: 700;
+        font-weight: 100;
     }
 
     .card p {
@@ -200,7 +200,7 @@ nav {
 }
 
 .footer-left img {
-    width: 250px;
+    width: 100px;
 }
 
 .footer-center {
@@ -210,7 +210,7 @@ nav {
 
     .footer-center h2 {
         font-size: 32px;
-        font-weight: 700;
+        font-weight: 100;
         color: #222;
     }
 
@@ -259,7 +259,7 @@ nav {
     }
 
     .hero-imagen img {
-        width: 350px;
+        width: 150px;
     }
 }
 

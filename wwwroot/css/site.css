@@ -12,26 +12,6 @@ body {
     overflow-x: hidden;
 }
 
-/* VIDEO */
-
-.video-principal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.25);
-    z-index: -1;
-}
-
 /* CONTENEDOR */
 
 .main-container {
@@ -105,7 +85,7 @@ body::before {
         }
 
         .menu a:hover {
-            color: #19b24d;
+            color: #19b24d;          
             transform: translateY(-3px);
         }
 
