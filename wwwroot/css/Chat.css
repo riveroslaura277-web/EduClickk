@@ -110,7 +110,7 @@ body {
 }
 
     .notification i {
-        font-size: 20px;
+        font-size: 15px;
         color: #6f42c1;
     }
 
@@ -136,8 +136,8 @@ body {
 }
 
     .profile img {
-        width: 55px;
-        height: 55px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
     }
 
@@ -163,7 +163,7 @@ body {
         align-items: center;
         gap: 15px;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 10px;
         font-weight: 600;
     }
 
@@ -177,7 +177,7 @@ body {
     }
 
     .sidebar li i {
-        width: 25px;
+        width: 20px;
         text-align: center;
     }
 
@@ -190,7 +190,7 @@ body {
 }
 
     .tiger-box img {
-        width: 100px;
+        width: 70px;
     }
 
     .tiger-box h3 {
@@ -224,7 +224,7 @@ body {
 }
 
     .bot-info img {
-        width: 50px;
+        width: 30px;
     }
 
     .bot-info h2 {
@@ -272,7 +272,7 @@ body {
 
 .chat-image {
     width: 100%;
-    max-width: 100px;
+    max-width: 60px;
     border-radius: 18px;
 }
 
@@ -380,7 +380,7 @@ body {
 }
 
     .didyouknow img {
-        width: 180px;
+        width: 120px;
         margin-top: 15px;
     }
 
